@@ -6,7 +6,7 @@
 
 <nav class="navbar navbar-expand-sm bg-light navbar-light fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="index.php">
       <img src="images/NCB.jpg" alt="" width="50"  class="d-inline-block align-text-middle">
       NSCBA
     </a>

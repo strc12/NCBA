@@ -16,7 +16,12 @@
 
 </div>
 <h1>Clubs</h1>
+<div class="container">
+  <?php
 
+
+
+</div>
 
 
 </body>

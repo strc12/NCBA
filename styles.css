@@ -1,3 +1,20 @@
 body{
     padding: 75px 0 0 0 ;
 }
+.titleh1{
+    padding-top: 50px;
+    padding-bottom: 50px;
+    font-family: Verdana, sans-serif;
+}
+.titleh2{
+    padding-top: 30px;
+    padding-bottom: 30px;
+    font-family: Verdana, sans-serif;
+}
+.bg1{
+    background-color: #eeeee4;
+}
+.imgsm{
+   
+    height:80%;
+}

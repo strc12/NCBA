@@ -18,6 +18,7 @@
 </div>
 <h1>Gallery</h1>
 <!-- Carousel wrapper -->
+<div class="container-fluid">
 <div class="row">
 	<a href="https://unsplash.it/1200/768.jpg?image=251" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4">
 		<img src="images/1.jpg" class="img-fluid">
@@ -30,16 +31,17 @@
 	</a>
 </div>
 <div class="row">
-	<a href="https://unsplash.it/1200/768.jpg?image=254" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4">
+	<a href="https://unsplash.it/1200/768.jpg?image=254" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-8">
 		<img src="images/4.jpg" class="img-fluid">
 	</a>
-	<a href="https://unsplash.it/1200/768.jpg?image=255" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4">
-		<img src="images/5.jpg" class="img-fluid">
-	</a>
+
 	<a href="https://unsplash.it/1200/768.jpg?image=256" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4">
 		<img src="images/6.jpg" class="img-fluid">
 	</a>
 </div>
+</div>
+
+
 <p><a href="https://instagram.com/p/BRCYe_wD9pV/" data-toggle="lightbox" data-title="Plug for our new service">Instagram</a></p>
 <p>This also works with photos: <a href="https://instagram.com/p/BRCdyxnjBsA/" data-toggle="lightbox">Instagram</a></p>
 </body>
