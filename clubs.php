@@ -17,7 +17,16 @@
 </div>
 <h1>Clubs</h1>
 <div class="container">
-  <?php
+<?php
+    include_once('connection.php');
+	$stmt = $conn->prepare("SELECT * FROM TblClub");
+	$stmt->execute();
+	while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+		{
+			echo($row["Clubname"].' '.$row["Location"].' '.$row["Clubnight"]."<br>");
+     
+		}
+?>   
 
 
 
