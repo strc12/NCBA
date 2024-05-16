@@ -17,7 +17,7 @@
 </div>
 <h1>Events</h1>
 
-!-- Page Content -->
+
 <div class="container">
 
   <h1 class="fw-light text-center text-lg-start mt-4 mb-0">Thumbnail Gallery</h1>
