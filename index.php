@@ -21,7 +21,7 @@
 <div class="container mt-3">
   <div class="row">
     <div class="col-sm-4 mt-4">
-    <img src="images/shuttlepile1.png" class="rounded">
+    <img src="images/shuttlepile1.png" class="rounded responsive">
     </div>
     <div class="col-sm-8">
         <div class="mt-4 p-5 bg-light text-dark rounded">
