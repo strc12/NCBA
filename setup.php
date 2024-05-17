@@ -34,7 +34,15 @@ try {
     ");
     $stmt5->execute();
     $stmt5->closeCursor();
-
+    $stmt1 = $conn->prepare("DROP TABLE IF EXISTS Tblmedia;
+    CREATE TABLE TblMedia 
+    (MediaID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    embedcode LONGTEXT NOT NULL,
+    dateadded DATE DEFAULT (current_timestamp()),
+    type VARCHAR(200))");
+    
+    $stmt1->execute();
+    $stmt1->closeCursor();
 } 
     catch(PDOException $e)
 
