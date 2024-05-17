@@ -17,6 +17,7 @@
 </div>
 <h1>Events</h1>
 
+What info here?? example of possible gallery below..
 
 <div class="container">
 

@@ -17,6 +17,9 @@
 
 </div>
 <h1>Gallery</h1>
+? easy if images all the same orientation/size...<br>
+could make an interface for Admin to upload more photos and just keep x most current visible?<br>
+could 
 <!-- Carousel wrapper -->
 <div class="container-fluid">
 <div class="row">
@@ -42,7 +45,6 @@
 </div>
 
 
-<p><a href="https://instagram.com/p/BRCYe_wD9pV/" data-toggle="lightbox" data-title="Plug for our new service">Instagram</a></p>
-<p>This also works with photos: <a href="https://instagram.com/p/BRCdyxnjBsA/" data-toggle="lightbox">Instagram</a></p>
+
 </body>
 </html>

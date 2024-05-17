@@ -18,19 +18,21 @@ try {
     CREATE TABLE TblClub 
     (ClubID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     Clubname VARCHAR(20) NOT NULL,
-    Location VARCHAR(200) NOT NULL,
+    Location LONGTEXT NOT NULL,
     Website VARCHAR(200),
     Contactname VARCHAR(200) NOT NULL,
     Contactnumber VARCHAR(200),
-    Clubnight VARCHAR(200),
+    Clubnight LONGTEXT NOT NULL,
     Contactemail VARCHAR(200),
-    Password VARCHAR(200))");
+    Password VARCHAR(200),
+    Junior INT(1))");#0 - adult only, 1 junior 2, both
     
     $stmt1->execute();
     $stmt1->closeCursor();
-    $stmt5 = $conn->prepare("INSERT INTO TblClub(ClubID,Clubname,location,Website,Contactname,Contactnumber,Clubnight,Contactemail,password)VALUES 
-    (NULL,'Apollo BC','Moulton School, Moulton','www.apollo.co.uk','Bob','0798989899','Wednesday 3:70-9:30pm','x@y.com','password'),
-    (NULL,'Bugbrooke BC','Campion School & Language College, Kislingbury Rd, Bugbrooke, NN7 3QG','www.apollo.co.uk','Bob','0798989899','Thursday - 7.30 - 9.30pm','x@y.com','password')
+    $stmt5 = $conn->prepare("INSERT INTO TblClub(ClubID,Clubname,location,Website,Contactname,Contactnumber,Clubnight,Contactemail,password,junior)VALUES 
+    (NULL,'Apollo BC','Moulton School, Moulton','www.apollo.co.uk','Bob','0798989899','Wednesday 3:70-9:30pm','x@y.com','password',0),
+    (NULL,'Bugbrooke BC','Campion School & Language College, Kislingbury Rd, Bugbrooke, NN7 3QG','www.apollo.co.uk','Bob','0798989899','Thursday - 7.30 - 9.30pm','x@y.com','password',1),
+    (NULL,'Wellingborough BC','Monday Venue is Manor School in Raunds, Mountbatten Way, NN9 6PA, Wednesday Venue is Sharnbrook Academy, School Approach, Odell Road, Sharnbrook, MK44 1JL','www.wellingboroughbc.co.uk','Rachael Maywood','07709470567','Jnrs Monday 6-8pm,Snrs Monday 8-10pm, Snrs Wednesday 7.30-9.30pm','info@wellingboroughbc.co.uk','password',2)
     ");
     $stmt5->execute();
     $stmt5->closeCursor();

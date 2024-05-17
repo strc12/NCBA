@@ -16,7 +16,8 @@
 
 </div>
 <h1>Restricted</h1>
-
+ what details here?? winners historically and images??<br>
+ or are we talking details of tournaments as detailed on be.tournamentsoftware.com? 
 
 
 </body>
