@@ -16,7 +16,27 @@
 
 </div>
 <h1>Juniors</h1>
+<h2>Junior Clubs</h2>
+<div class="container">
+  Can tidy this up to be in prettier format - do we need other details held?
+  <br>
+  <hr>
+<?php
+    include_once('connection.php');
+	$stmt = $conn->prepare("SELECT * FROM TblClub WHERE junior <>0");
+	$stmt->execute();
+	while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+		{
+			echo("<h3>".$row["Clubname"].' </h3>'.$row["Location"].'<br> '.$row["Clubnight"]."<br><br>");
+     
+		}
+?>   
 
+
+
+</div>
+Do we want county setup here too?<br>
+What other info??
 
 
 </body>

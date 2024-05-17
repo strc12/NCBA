@@ -39,6 +39,9 @@
         <li class="nav-item">
           <a class="nav-link" href="gallery.php">Gallery</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="admin.php">Admin only</a>
+        </li>
       </ul>
     </div>
   </div>

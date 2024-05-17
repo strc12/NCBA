@@ -17,13 +17,16 @@
 </div>
 <h1>Clubs</h1>
 <div class="container">
+  Can tidy this up to be in prettier format - do we need other details held?
+  <br>
+  <hr>
 <?php
     include_once('connection.php');
 	$stmt = $conn->prepare("SELECT * FROM TblClub");
 	$stmt->execute();
 	while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 		{
-			echo($row["Clubname"].' '.$row["Location"].' '.$row["Clubnight"]."<br>");
+			echo("<h3>".$row["Clubname"].' </h3>'.$row["Location"].'<br> '.$row["Clubnight"]."<br><br>");
      
 		}
 ?>   

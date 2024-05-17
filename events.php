@@ -17,21 +17,7 @@
 </div>
 <h1>Events</h1>
 
-<div class="container">
-<?php
-    include_once('connection.php');
-	$stmt = $conn->prepare("SELECT * FROM TblMedia");
-	$stmt->execute();
-	while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
-		{
-			echo($row["embedcode"]."<br>");
-     
-		}
-?>   
-
-
-
-</div>
+What info here?? example of possible gallery below..
 
 <div class="container">
 

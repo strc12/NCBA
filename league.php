@@ -17,7 +17,8 @@
 </div>
 
 <h1>League</h1>
-
+do we want the equivalent of <a href="http://www.northantsbadminton.com/"> this</a> here? or at least the scores..<br>
+or could use something like <a href="http://www.emisbadminton.co.uk"> this</a> which would allow teams to enter scores "live"<br>
 
 </body>
 </html>
