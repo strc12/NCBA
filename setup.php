@@ -66,6 +66,135 @@ try {
     
     $stmt1->execute();
     $stmt1->closeCursor();
+    # tables for league scoring
+    #already have club
+    #club has team
+    #Club has team - to store team details i.e kettering A, oundle ladies Towster doubles A
+    $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblClubhasteam;
+    CREATE TABLE TblClubhasteam 
+    (ClubhasteamID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    ClubID INT(4) NOT NULL,
+    DivisionID VARCHAR(50) NOT NULL,
+    Name VARCHAR(200) NOT NULL)");
+    
+    $stmt1->execute();
+    $stmt1->closeCursor();
+    #player - name gender
+    $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblPlayers;
+    CREATE TABLE TblPlayers 
+    (PlayerID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    Gender VARCHAR(50) NOT NULL,
+    Forename VARCHAR(50) NOT NULL,
+    Surname VARCHAR(200) NOT NULL,
+    DOB DATE,
+    ClubID INT(4) NOT NULL)");
+    
+    $stmt1->execute();
+    $stmt1->closeCursor();
+    #player belongs to club for club has team?? 
+    
+   
+    #league - e.g. open or ladies or doubles
+    $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblLeague;
+    CREATE TABLE TblLeague 
+    (LeagueID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    Details VARCHAR(50) NOT NULL)");
+    
+    $stmt1->execute();
+    $stmt1->closeCursor();
+    #division - division with in league 1st 2ns 3rd etc
+    $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblDivision;
+    CREATE TABLE TblDivision 
+    (DivisionID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    Name VARCHAR(50) NOT NULL,
+    LeaGueID INT(4) NOT NULL)");
+    
+    $stmt1->execute();
+    $stmt1->closeCursor();
+    #matches - link team (H and A) with league and division
+    $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblMatch;
+    CREATE TABLE TblMatch 
+    (MatchID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    DivisionID VARCHAR(50) NOT NULL,
+    HomeID INT(4) NOT NULL,
+    AwayID INT(4) NOT NULL,
+    Fixturedate DATE,
+    HomeP1ID INT(4) ,
+    HomeP2ID INT(4) ,
+    HomeP3ID INT(4) ,
+    HomeP4ID INT(4) ,
+    HomeP5ID INT(4) ,
+    HomeP6ID INT(4) ,
+    AqayP1ID INT(4) ,
+    AWAYP2ID INT(4) ,
+    AwayP3ID INT(4) ,
+    AwayP4ID INT(4) ,
+    AwayP5ID INT(4) ,
+    AwayP6ID INT(4) ,
+    m1h int(2),
+    m1a int(2),
+    m2h int(2),
+    m2a int(2),
+    m3h int(2),
+    m3a int(2),
+    m4h int(2),
+    m4a int(2),
+    m5h int(2),
+    m5a int(2),
+    m6h int(2),
+    m6a int(2),
+    m7h int(2),
+    m7a int(2),
+    m8h int(2),
+    m8a int(2),
+    m9h int(2),
+    m9a int(2),
+    m10h int(2),
+    m10a int(2),
+    m11h int(2),
+    m11a int(2),
+    m12h int(2),
+    m12a int(2),
+    m13h int(2),
+    m13a int(2),
+    m14h int(2),
+    m14a int(2),
+    m15h int(2),
+    m15a int(2),
+    m16h int(2),
+    m16a int(2),
+    m17h int(2),
+    m17a int(2),
+    m18h int(2),
+    m18a int(2),
+    m19h int(2),
+    m19a int(2),
+    m20h int(2),
+    m20a int(2),
+    m21h int(2),
+    m21a int(2),
+    m22h int(2),
+    m22a int(2),
+    m23h int(2),
+    m23a int(2),
+    m24h int(2),
+    m24a int(2),
+    m25h int(2),
+    m25a int(2),
+    m26h int(2),
+    m26a int(2),
+    m27h int(2),
+    m27a int(2))
+    ");#all potential scores home and away (27 a side)
+    #need to limit for Ladies and doubles
+    
+    $stmt1->execute();
+    $stmt1->closeCursor();
+
+    #mixed, levels and doubles need different formats?? - all have same number of games??? Ladies team of 4...
+    #might need different scorecards for each league
+
 } 
     catch(PDOException $e)
 

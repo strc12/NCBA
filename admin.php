@@ -55,9 +55,9 @@
 	</form>
   <h1>Committee</h1>
   <form action="addcommittee.php" method="POST" enctype="multipart/form-data">
-  	Namet:<input type="text" name="name"><br>
+  	Name:<input type="text" name="name"><br>
     Post <input type="text" id="post" name="post">
-    image: <input type="file" id="comm" name="comm" accept="comm/*"><br>
+    image: <input type="file" id="comm" name="comm" accept=".jpg, .jpeg"><br>
   	<input type="submit" value="Add committee member">
 	</form>
 </body>
