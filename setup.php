@@ -38,7 +38,7 @@ try {
     $stmt5->bindParam(':pw', $hashed_password);
     $stmt5->execute();
     $stmt5->closeCursor();
-    $stmt1 = $conn->prepare("DROP TABLE IF EXISTS Tblmedia;
+    $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblMedia;
     CREATE TABLE TblMedia 
     (MediaID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     embedcode LONGTEXT NOT NULL,
@@ -47,17 +47,18 @@ try {
     
     $stmt1->execute();
     $stmt1->closeCursor();
-    $stmt1 = $conn->prepare("DROP TABLE IF EXISTS Tbldocs;
+    $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblDocs;
     CREATE TABLE TblDocs 
     (DocID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    title varchar(200) NOT NULL,
     filename VARCHAR(300) NOT NULL,
     dateadded DATE DEFAULT (current_timestamp()),
     type VARCHAR(200))");
     
     $stmt1->execute();
     $stmt1->closeCursor();
-    $stmt1 = $conn->prepare("DROP TABLE IF EXISTS Tblcommittee;
-    CREATE TABLE Tblcommittee 
+    $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblCommittee;
+    CREATE TABLE TblCommittee 
     (comitteeID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(50) NOT NULL,
     Post VARCHAR(50) NOT NULL,

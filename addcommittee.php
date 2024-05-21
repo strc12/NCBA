@@ -6,19 +6,24 @@ try{
 	include_once('connection.php');
 	array_map("htmlspecialchars", $_POST);
 	//create order if not already created
-    
-
-	
+   print_r($_FILES["comm"]); 
+   $string = str_replace(' ', '', $_POST["name"]);
+if ($_FILES["comm"]["name"]==""){
+  $name="genericicon.jpg";
+}else{
+	$name=$string.".jpg";
+}
+print($name);
 	$stmt = $conn->prepare("INSERT INTO TblCommittee(comitteeID,Name,Post, Pic)
     VALUES (NULL,:name,:post,:pic)");
     $stmt->bindParam(':name', $_POST["name"]);
     $stmt->bindParam(':post', $_POST["post"]);
-    $stmt->bindParam(':pic', $_FILES["comm"]["name"]);
+    $stmt->bindParam(':pic', $name);
     $stmt->execute();
     $target_dir = "comm/";
     #print_r($_FILES);
-    $target_file = $target_dir . basename($_FILES["comm"]["name"]);
-    #echo $target_file;
+    $target_file = $target_dir . basename($name);
+    echo $target_file;
     #$uploadOk = 1;
     
 
@@ -32,10 +37,8 @@ try{
       }
     #thumbnail creator
     // load your source image
-    $bigim="./comm/".$_FILES["comm"]["name"];
-
-//Your Image
-
+    $bigim="./comm/".$name;
+Echo($bigim);
 //getting the image dimensions
 list($width, $height) = getimagesize($bigim);
 
@@ -46,18 +49,17 @@ $myImage = imagecreatefromjpeg($bigim);
 if ($width > $height) {
   $y = 0;
   $x = ($width - $height) / 2;
-  $smallestheight = $height;
-
-  $v = 0;
-  $w = ($height - $width) / 2;
-  $smallestwidth = $width;
+  $smallestSide = $height;
+} else {
+  $x = 0;
+  $y = ($height - $width) / 2;
+  $smallestSide = $width;
 }
 
 // copying the part into thumbnail
-$thumbwidth = 200;
-$thumbheight= 300;
-$thumb = imagecreatetruecolor($thumbwidth,$thumbheight );
-imagecopyresampled($thumb, $myImage, 0, 0, $x, $y,  $thumbwidth, $thumbheight, $smallestwidth, $smallestheight);
+$thumbSize = 300;
+$thumb = imagecreatetruecolor($thumbSize, $thumbSize);
+imagecopyresampled($thumb, $myImage, 0, 0, $x, $y, $thumbSize, $thumbSize, $smallestSide, $smallestSide);
 
 //final output
 #header('Content-type: image/jpeg');

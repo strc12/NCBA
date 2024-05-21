@@ -16,36 +16,72 @@
 
 </div>
 <h1>Committee</h1>
+<H2>Meet the committee</h2><br>
 <div class="container">
 <div class="row">
-  <div class="col-sm-2">Melissa Davey - Chair</div>
-  <div class="col-sm-2">Steve Willis -Head coach </div>
-  <div class="col-sm-2">Karen Sturgess - Secretary</div>
-  <div class="col-sm-2">Simon Sturgess - Assistant Coach</div>
-  <div class="col-sm-2">Rob Cunniffe - Schools Representative</div>
-  <div class="col-sm-2">Jermaine Lovelace - League Representative</div>
-</div>
-<div class="row">
-  <div class="col-sm-2">Becky Rice - Vice Chair</div>
-  <div class="col-sm-2">Hon Wai Lee - Treasurer</div>
-  <div class="col-sm-2">Sachin Sharma - Social Media</div>
-  <div class="col-sm-2">Lucy Sturgess - Fixtures Secretary</div>
-  <div class="col-sm-2">Parent Liasion U19</div>
-  <div class="col-sm-2">Parent Liasion U17</div>
-</div>
-</div>
+  <?php
+  include_once('connection.php');
+  $stmt = $conn->prepare("SELECT * FROM TblCommittee");
+	$stmt->execute();
+  $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Determine the number of results
+$numResults = count($results);
+
+// Define number of columns per row
+$columnsPerRow = 4; // Change this to your desired number of columns
+
+// Calculate the Bootstrap column class
+$bootstrapColClass = 12 / $columnsPerRow;
+
+// Start generating HTML
+echo '<div class="container">';
+echo '<div class="row">';
+
+$count = 0;
+foreach ($results as $result) {
+    // Open a new row if count is a multiple of columns per row
+    if ($count % $columnsPerRow == 0 && $count != 0) {
+        echo '</div><div class="row">';
+    }
+
+    // Generate the column content
+    echo '<div class="col-md-' . $bootstrapColClass . '">';
+    echo '<div class="card ">';
+    echo '<div class="card-body mx-auto">';
+    // Customize the content as per your database fields
+    echo '<h5 class="card-title text-center">' . htmlspecialchars($result['Name']) . '</h5>';
+    echo '<p class="card-text text-center">' . htmlspecialchars($result['Post']) . '</p>';
+    echo '<img src="./comm/'.htmlspecialchars($result['Pic']).'" class="card-img-top img-fluid">';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+
+    $count++;
+}
+
+// Close the last row if it's not completed
+if ($count % $columnsPerRow != 0) {
+    echo '</div>';
+}
+
+echo '</div>';
+echo '</div>';
+?>
+<br>
 <div class="container">
-  Minutes of meetings
+  <h2>Minutes of meetings</h2>
   <br>
   <hr>
 <?php
-    include_once('connection.php');
+  
 	$stmt = $conn->prepare("SELECT * FROM TblDocs WHERE type='Minutes'");
 	$stmt->execute();
 	while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 		{
+      
             $path="/documents/".$row["filename"];
-			echo("<a href='.$path.' target='_blank'><h3>".$row["filename"].' </h3></a><br>');
+			echo("<a href='.$path.' target='_blank'><h3>".$row["title"].' </h3></a><br>');
      
 		}
 ?>   

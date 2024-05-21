@@ -43,7 +43,12 @@
 	</form>
   <h1>Documents</h1>
   <form action="adddocument.php" method="POST" enctype="multipart/form-data">
-  	Type of document:<input type="text" name="typeofdoc"><br>
+    Title of document:<input type="text" name="title"><br>
+    <select name="typeofdoc">
+    <option value="Minutes">Minutes</option>
+    <option value="Agenda">Agenda</option>
+    <option value="Other">Other</option>
+</select>
     File: <input type="file" id="doc" name="doc" accept="documents/*"><br>
     Date <input type="date" id="dateofupload" name="dateofupload">
   	<input type="submit" value="Add Document">
