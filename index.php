@@ -62,8 +62,29 @@
     </div>
    
   </div>
-</div
+</div>
+<div class="container">
+  <h1>Where to Find us</h1>
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8603.64306355196!2d-0.7243395375532741!3d52.30139139078685!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4877a1142249bab3%3A0xe40742334642f9ee!2sWeavers%20Leisure%20Centre!5e0!3m2!1sen!2suk!4v1716374406027!5m2!1sen!2suk" 
+    width=100% height=400px style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+</div>
+<div class="container">
+  <h1>Contact Us</h1>
+      <form action="send_email.php" method="post">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required>
+          <br>
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required>
+          <br>
+          <label for="message">Message:</label>
+          <textarea id="message" name="message" required></textarea>
+          <br>
+          <input type="submit" value="Send">
+      </form>
 
+</div>
 
 </body>
 </html>

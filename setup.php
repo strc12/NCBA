@@ -41,12 +41,35 @@ try {
     $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblMedia;
     CREATE TABLE TblMedia 
     (MediaID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    embedcode LONGTEXT NOT NULL,
+    details LONGTEXT NOT NULL,
     dateadded DATE DEFAULT (current_timestamp()),
     type VARCHAR(200))");
-    
+   
     $stmt1->execute();
     $stmt1->closeCursor();
+    $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblImages;
+    CREATE TABLE TblImages 
+    (ImageID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    filename LONGTEXT NOT NULL,
+    dateadded DATE DEFAULT (current_timestamp()),
+    type VARCHAR(200))");
+   
+    $stmt1->execute();
+    $stmt1->closeCursor();
+    $stmt5 = $conn->prepare("INSERT INTO TblImages(ImageID,filename,dateadded,type)VALUES 
+    (NULL,'1.jpg', '24-05-22','Portrait'),
+    (NULL,'2.jpg', '24-05-22','Portrait'),
+    (NULL,'3.jpg', '24-05-22','Portrait'),
+    (NULL,'4.jpg', '24-05-22','Panorama'),
+    (NULL,'5.jpg', '24-05-22','Portrait'),
+    (NULL,'6.jpg', '24-05-22','Portrait'),
+    (NULL,'7.jpg', '24-05-22','Portrait'),
+    (NULL,'8.jpg', '24-05-22','Portrait'),
+    (NULL,'9.jpg', '24-05-22','Landscape')
+    ");
+    $stmt5->execute();
+    $stmt5->closeCursor();
+
     $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblDocs;
     CREATE TABLE TblDocs 
     (DocID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -54,18 +77,27 @@ try {
     filename VARCHAR(300) NOT NULL,
     dateadded DATE DEFAULT (current_timestamp()),
     type VARCHAR(200))");
-    
     $stmt1->execute();
     $stmt1->closeCursor();
+    $stmt5 = $conn->prepare("INSERT INTO TblDocs(DocID,title,filename,dateadded,type)VALUES 
+    (NULL,'16th November 2023','16thNovember2023.pdf', NULL,'Minutes')
+    ");
+    $stmt5->execute();
+    $stmt5->closeCursor();
     $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblCommittee;
     CREATE TABLE TblCommittee 
-    (comitteeID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    (CommitteeID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(50) NOT NULL,
     Post VARCHAR(50) NOT NULL,
     Pic VARCHAR(200))");
-    
     $stmt1->execute();
     $stmt1->closeCursor();
+    $stmt5 = $conn->prepare("INSERT INTO TblCommittee(CommitteeID,Name,Post,Pic)VALUES 
+    (NULL,'Rob Cunniffe','Schools representative','Rob.jpg')
+    ");
+    $stmt5->execute();
+    $stmt5->closeCursor();
+
     # tables for league scoring
     #already have club
     #club has team

@@ -17,7 +17,19 @@
 </div>
 <h1>Admin for adding to website</h1>
 <p> need to have ability to edit here too and separate into different parts</p>
-
+<h1>Images</h1>
+  <form action="addimages.php" method="POST" enctype="multipart/form-data">
+    Type of image - note images will be cropped to default aspect ratio for these types of image
+    <select name="typeofdoc">
+      <option value="Square">Square</option>
+      <option value="Portrait">Portrait</option>
+      <option value="Landscape">Landscape</option>
+      <option value="Panorama">Panorama</option>
+    </select><br>
+    Date <input type="date" id="dateofupload" name="dateofupload"><br>
+    image: <input type="file" id="imagey" name="imagey" accept=".jpg, .jpeg"><br>
+  	<input type="submit" value="Add gallery image">
+	</form>
 <h1>Add social media feed</h1>
 <form action="addmedia.php" method="POST">
   	Embed code:<input type="text" name="embedcode"><br>
