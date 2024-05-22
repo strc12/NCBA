@@ -15,9 +15,10 @@
     ?>
 
 </div>
+
+<div class="container">
 <h1>Committee</h1>
 <H2>Meet the committee</h2><br>
-<div class="container">
 <div class="row">
   <?php
   include_once('connection.php');

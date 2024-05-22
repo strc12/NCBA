@@ -9,3 +9,4 @@ include_once('connection.php');
     $stmt->bindParam(':type', $_POST["type"]);
     
     $stmt->execute();
+    ?>
