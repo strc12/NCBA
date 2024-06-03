@@ -61,21 +61,29 @@ try{
     
     // Calculate the new dimensions
     $originalAspectRatio = $originalWidth / $originalHeight;
-    
+    echo($originalHeight ." orig ". $originalWidth."<br>");
     if ($originalAspectRatio > $targetAspectRatio) {
         // Original image is wider than target aspect ratio
         $newHeight = $originalHeight;
         $newWidth = $originalHeight * $targetAspectRatio;
         $cropX = ($originalWidth - $newWidth) / 2;
-        $cropY = 0;
-    } else {
+        echo($newHeight ." wide ". $newWidth."<br>");
+        #$cropY = 0;
+    } 
+    if ($originalAspectRatio <= $targetAspectRatio){
         // Original image is taller than target aspect ratio
         $newWidth = $originalWidth;
         $newHeight = $originalWidth / $targetAspectRatio;
-        $cropX = 0;
+        #$cropX = 0;
         $cropY = ($originalHeight - $newHeight) / 2;
+        echo($newHeight ." tall ". $newWidth."<br>");
     }
-    
+    if (!isset($cropX)){
+        $cropX=0;
+    }
+    if (!isset($cropY)){
+        $cropY=0;
+    }
     // Create a new image canvas with the new dimensions
     $croppedImage = imagecreatetruecolor($newWidth, $newHeight);
     
