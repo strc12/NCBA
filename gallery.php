@@ -23,25 +23,57 @@ could
 <!-- Carousel wrapper -->
 <div class="container-fluid">
 <div class="row">
-	<a href="https://unsplash.it/1200/768.jpg?image=251" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4">
-		<img src="images/1.jpg" class="img-fluid">
-	</a>
-	<a href="https://unsplash.it/1200/768.jpg?image=252" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4">
-		<img src="images/2.jpg" class="img-fluid">
-	</a>
-	<a href="https://unsplash.it/1200/768.jpg?image=253" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4">
-		<img src="images/3.jpg" class="img-fluid">
-	</a>
-</div>
-<div class="row">
-	<a href="https://unsplash.it/1200/768.jpg?image=254" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-8">
-		<img src="images/4.jpg" class="img-fluid">
-	</a>
+  <?php
+  $ori="Landscape";
+  include_once('connection.php');
+  $stmt = $conn->prepare("SELECT * FROM tblimages  ORDER BY TYPE asc");
+ # $stmt->bindParam(':ori', $ori);WHERE type =:ori
+	$stmt->execute();
 
-	<a href="https://unsplash.it/1200/768.jpg?image=256" data-toggle="lightbox" data-gallery="example-gallery" class="col-sm-4">
-		<img src="images/6.jpg" class="img-fluid">
-	</a>
-</div>
+  $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Determine the number of results
+$numResults = count($results);
+
+// Define number of columns per row
+$columnsPerRow = 3; // Change this to your desired number of columns
+
+// Calculate the Bootstrap column class
+$bootstrapColClass = 12 / $columnsPerRow;
+
+// Start generating HTML
+echo '<div class="container">';
+echo '<div class="row">';
+
+$count = 0;
+foreach ($results as $result) {
+    // Open a new row if count is a multiple of columns per row
+    if ($count % $columnsPerRow == 0 && $count != 0) {
+        echo '</div><div class="row">';
+    }
+
+    // Generate the column content
+    echo '<div class="col-md-' . $bootstrapColClass . '">';
+    echo '<div class="card ">';
+    echo '<div class="card-body mx-auto text-center">';
+    // Customize the content as per your database fields
+    echo '<H3> '.htmlspecialchars($result['filename'])."</h3>";
+    echo '<img src="./gallery/'.htmlspecialchars($result['filename']).'" class=" img-fluid" style="width: 80%;">';
+    echo '</div>';
+    echo '</div>';
+    echo '</div>';
+
+    $count++;
+}
+
+// Close the last row if it's not completed
+if ($count % $columnsPerRow != 0) {
+    echo '</div>';
+}
+
+echo '</div>';
+echo '</div>';
+?>
 </div>
 
 

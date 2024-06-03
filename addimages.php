@@ -16,7 +16,7 @@ try{
     $stmt->bindParam(':dateadded', $_POST["dateofupload"]);
     $stmt->bindParam(':type', $_POST["typeofdoc"]);
     $stmt->execute();
-    $target_dir = "images/";
+    $target_dir = "gallery/";
 
     $target_file = $target_dir . basename($name);
     echo $target_file;
@@ -31,7 +31,7 @@ try{
         echo "Sorry, there was an error uploading your file.";
       }
     #cropper
-    $imagePath = "./images/".$name;
+    $imagePath = "./gallery/".$name;
     list($originalWidth, $originalHeight, $imageType) = getimagesize($imagePath);
     
     switch ($imageType) {
@@ -83,7 +83,7 @@ try{
     imagecopyresampled($croppedImage, $image, 0, 0, $cropX, $cropY, $newWidth, $newHeight, $newWidth, $newHeight);
     
     // Save or output the cropped image
-    $outputPath = "./images/".$name;
+    $outputPath = "./gallery/".$name;
     imagejpeg($croppedImage, $outputPath, 90);
     
     // Clean up
@@ -92,34 +92,7 @@ try{
     
     echo "Image cropped and saved to $outputPath";
 
-    /* // load your source image
-    $bigim="./images/".$name;
-Echo($bigim);
-//getting the image dimensions
-list($width, $height) = getimagesize($bigim);
-
-//saving the image into memory (for manipulation with GD Library)
-$myImage = imagecreatefromjpeg($bigim);
-
-// calculating the part of the image to use for thumbnail
-if ($width > $height) {
-  $y = 0;
-  $x = ($width - $height) / 2;
-  $smallestSide = $height;
-} else {
-  $x = 0;
-  $y = ($height - $width) / 2;
-  $smallestSide = $width;
-}
-
-// copying the part into thumbnail
-$thumbSize = 300;
-$thumb = imagecreatetruecolor($thumbSize, $thumbSize);
-imagecopyresampled($thumb, $myImage, 0, 0, $x, $y, $thumbSize, $thumbSize, $smallestSide, $smallestSide);
-
-//final output
-#header('Content-type: image/jpeg');
-imagejpeg($thumb,$bigim); */
+   
 }
 catch(PDOException $e)
 {
