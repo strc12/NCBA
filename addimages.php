@@ -7,14 +7,22 @@ try{
 	array_map("htmlspecialchars", $_POST);
     $ext = pathinfo($_FILES["imagey"]["name"], PATHINFO_EXTENSION);
     $name = str_replace(' ', '', $_FILES["imagey"]["name"]);
-    
-   
-    
-	$stmt = $conn->prepare("INSERT INTO TblImages(ImageID,filename,dateadded,type)VALUES 
-    (NULL,:fn, :dateadded,:type)");
+    if ($_POST['dateofupload']!="") {
+        $stmt = $conn->prepare("INSERT INTO TblImages(ImageID,filename,dateadded,description,type,current)VALUES 
+    (NULL,:fn, :dateadded,:desc,:type,DEFAULT)");
     $stmt->bindParam(':fn', $_FILES["imagey"]["name"]);
     $stmt->bindParam(':dateadded', $_POST["dateofupload"]);
+    $stmt->bindParam(':desc', $_POST["desc"]);
     $stmt->bindParam(':type', $_POST["typeofdoc"]);
+        
+    } else {
+        $stmt = $conn->prepare("INSERT INTO TblImages(ImageID,filename,dateadded,description,type,current)VALUES 
+        (NULL,:fn, DEFAULT,:desc,:type,DEFAULT)");
+        $stmt->bindParam(':fn', $_FILES["imagey"]["name"]);
+        $stmt->bindParam(':desc', $_POST["desc"]);
+        $stmt->bindParam(':type', $_POST["typeofdoc"]);
+    }
+   
     $stmt->execute();
     $target_dir = "gallery/";
 
@@ -51,12 +59,24 @@ try{
     // Set the desired aspect ratio
     if ($_POST["typeofdoc"]=="Panorama"){
         $targetAspectRatio = 20 / 9;
+        $widthn=1000;
+        $heightn=450;
+       
     }elseif ($_POST["typeofdoc"]=="Landscape"){
         $targetAspectRatio = 4 / 3;
+        $widthn=800;
+        $heightn=600;
+        
     }elseif ($_POST["typeofdoc"]=="Portrait"){
         $targetAspectRatio = 3 / 4;
+        $widthn=600;
+        $heightn=800;
+       
     }else{
         $targetAspectRatio = 1 / 1;
+        $widthn=800;
+        $heightn=800;
+
     }
     
     // Calculate the new dimensions
@@ -85,11 +105,11 @@ try{
         $cropY=0;
     }
     // Create a new image canvas with the new dimensions
-    $croppedImage = imagecreatetruecolor($newWidth, $newHeight);
+    $croppedImage = imagecreatetruecolor($widthn, $heightn);
     
     // Copy and resize the original image to the new canvas
-    imagecopyresampled($croppedImage, $image, 0, 0, $cropX, $cropY, $newWidth, $newHeight, $newWidth, $newHeight);
-    
+    #imagecopyresampled($croppedImage, $image, 0, 0, $cropX, $cropY, $newWidth, $newHeight, $newWidth, $newHeight);
+    imagecopyresampled($croppedImage, $image, 0, 0, $cropX, $cropY, $widthn, $heightn, $newWidth, $newHeight);
     // Save or output the cropped image
     $outputPath = "./gallery/".$name;
     imagejpeg($croppedImage, $outputPath, 90);

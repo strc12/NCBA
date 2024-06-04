@@ -52,20 +52,18 @@ try {
     (ImageID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     filename LONGTEXT NOT NULL,
     dateadded DATE DEFAULT (current_timestamp()),
-    type VARCHAR(200))");
+    description VARCHAR (500) DEFAULT '',
+    type VARCHAR(200),
+    current INT(1) DEFAULT 1)");
    
     $stmt1->execute();
     $stmt1->closeCursor();
-    $stmt5 = $conn->prepare("INSERT INTO TblImages(ImageID,filename,dateadded,type)VALUES 
-    (NULL,'1.jpg', '24-05-22','Portrait'),
-    (NULL,'2.jpg', '24-05-22','Portrait'),
-    (NULL,'3.jpg', '24-05-22','Portrait'),
-    (NULL,'4.jpg', '24-05-22','Panorama'),
-    (NULL,'5.jpg', '24-05-22','Portrait'),
-    (NULL,'6.jpg', '24-05-22','Portrait'),
-    (NULL,'7.jpg', '24-05-22','Portrait'),
-    (NULL,'8.jpg', '24-05-22','Portrait'),
-    (NULL,'9.jpg', '24-05-22','Landscape')
+    #current 1 - current, 0 is archived
+    $stmt5 = $conn->prepare("INSERT INTO TblImages(ImageID,filename,dateadded,description,type,current)VALUES 
+    (NULL,'1.jpg', '24-05-22','Christmas elf','Square',1),
+    (NULL,'3.jpg', '24-05-22','','Square',1),
+    (NULL,'7.jpg', '24-05-22','U19 Restricted winners 2024','Portrait',0)
+   
     ");
     $stmt5->execute();
     $stmt5->closeCursor();

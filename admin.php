@@ -26,6 +26,7 @@
       <option value="Landscape">Landscape</option>
       <option value="Panorama">Panorama</option>
     </select><br>
+    Description <input type="test" id="desc" name="desc"><br> 
     Date <input type="date" id="dateofupload" name="dateofupload"><br>
     image: <input type="file" id="imagey" name="imagey" accept=".jpg, .jpeg"><br>
   	<input type="submit" value="Add gallery image">

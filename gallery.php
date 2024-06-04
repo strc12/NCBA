@@ -47,9 +47,30 @@ echo '<div class="row">';
 
 $count = 0;
 foreach ($results as $result) {
+	if (!isset($ty)){
+		$ty=$result["type"];
+
+	}
+	if ($ty!=$result["type"]){
+		$ty=$result["type"];
+		echo '</div><br><div class="row">';
+		$count=0;
+	
+	}
+	if ($ty=="Landscape"){
+		$columnsPerRow=3;
+	}else if ($ty=="Portrait"){
+		$columnsPerRow=4;
+	}else 
+	if ($ty=="Panorama"){
+		$columnsPerRow=2;
+	}else if ($ty=="Square"){
+		$columnsPerRow=3;
+	}
+		$bootstrapColClass = 12 / $columnsPerRow;
     // Open a new row if count is a multiple of columns per row
     if ($count % $columnsPerRow == 0 && $count != 0) {
-        echo '</div><div class="row">';
+        echo '</div><br><div class="row">';
     }
 
     // Generate the column content
@@ -57,7 +78,12 @@ foreach ($results as $result) {
     echo '<div class="card ">';
     echo '<div class="card-body mx-auto text-center">';
     // Customize the content as per your database fields
-    echo '<H3> '.htmlspecialchars($result['filename'])."</h3>";
+	if($result['description']==''){
+		$desc="Picture";
+	}else{
+		$desc=$result['description'];
+	}
+    echo '<H3> '.htmlspecialchars($desc)."</h3>";
     echo '<img src="./gallery/'.htmlspecialchars($result['filename']).'" class=" img-fluid" style="width: 80%;">';
     echo '</div>';
     echo '</div>';
