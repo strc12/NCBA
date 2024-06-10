@@ -144,6 +144,7 @@ try {
     Surname VARCHAR(200) NOT NULL,
     DOB DATE,
     ClubID INT(4) NOT NULL)");#DOB for Junior identification?
+    #do we need registration date?? and deregistration date?
     $stmt1->execute();
     $stmt1->closeCursor();
     #player belongs to club for club has team?? 
