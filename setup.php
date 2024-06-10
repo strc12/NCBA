@@ -14,6 +14,22 @@ try {
     $sql = "USE NCB";
     $conn->exec($sql);
     echo "DB created successfully";
+
+    $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblAdmin;
+    CREATE TABLE TblAdmin 
+    (AdminID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    Username VARCHAR(20) NOT NULL,
+    Password VARCHAR(200) NOT NULL)");
+    $stmt1->execute();
+    $stmt1->closeCursor();
+    $hashed_password = password_hash("password", PASSWORD_DEFAULT);
+    $stmt5 = $conn->prepare("INSERT INTO TblAdmin(AdminID,Username,Password)VALUES 
+    (NULL,'Rob',:pw)");
+    $stmt5->bindParam(':pw', $hashed_password);
+    $stmt5->execute();
+    $stmt5->closeCursor();
+
+
     $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblClub;
     CREATE TABLE TblClub 
     (ClubID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -29,6 +45,7 @@ try {
     
     $stmt1->execute();
     $stmt1->closeCursor();
+    
     $hashed_password = password_hash("password", PASSWORD_DEFAULT);
     $stmt5 = $conn->prepare("INSERT INTO TblClub(ClubID,Clubname,location,Website,Contactname,Contactnumber,Clubnight,Contactemail,password,junior)VALUES 
     (NULL,'Apollo BC','Moulton School, Moulton','www.apollo.co.uk','Bob','0798989899','Wednesday 3:70-9:30pm','x@y.com',:pw,0),

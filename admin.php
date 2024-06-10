@@ -15,6 +15,7 @@
     ?>
 
 </div>
+<a href="editclub.php"><h2>Edit club data</h2></a>
 <h1>Admin for adding to website</h1>
 <p> need to have ability to edit here too and separate into different parts</p>
 <h1>Images</h1>
