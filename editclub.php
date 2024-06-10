@@ -17,33 +17,43 @@
 </div>
 <div class="Container">
 <h1>Team management</h1>
-<h2>For Admin users only</h2>
-<?php
-    include_once('connection.php');
-	$stmt = $conn->prepare("SELECT * FROM TblClub");
-	$stmt->execute();
-	while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
-		{
-			echo("<h3>".$row["Clubname"].' </h3>'.$row["Location"].'<br> '.$row["Clubnight"]."<br><br>");
-     
-		}
 
-?>
-</div>
 
-</body>
-</html>
 <?php
 include_once ("connection.php");
 // Check if the form is submitted to update the item
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
     $id = $_POST['id'];
-    $name = $_POST['name'];
-    $description = $_POST['description'];
-
-    $sql = "UPDATE tblclub SET clubname = :name, location = :description WHERE clubID = :id";
+    $Clubname = $_POST['Clubname'];
+    $Location = $_POST['Location'];
+    $Website = $_POST['Website'];
+    $Contactname = $_POST['Contactname'];
+    $Contactemail = $_POST['Contactemail'];
+    $Clubnight = $_POST['Clubnight'];
+    $Contactnumber = $_POST['Contactnumber'];
+    print_R($_POST);
+    if (isset($_POST['Junior'])) {
+        $checkboxes = $_POST['Junior'];
+        if ((in_array("1", $checkboxes)) && (in_array("2", $checkboxes))) {
+            $Junior = 2;#both
+        } elseif (in_array("1", $checkboxes)) {
+            $Junior = 1;#Junior only
+        }else{
+            $Junior=0;#Senior only
+        }
+ 
+    }else{
+        $Junior=0;#default to senior f none selected
+    }
+    echo($Junior);
+    
+    $sql = "UPDATE tblclub SET clubname = :name, location = :Location, Website = :Website, Contactname =:Contactname, 
+    Contactemail = :Contactemail, Clubnight = :Clubnight,
+    Contactnumber = :Contactnumber, Junior = :Junior WHERE clubID = :id";
     $stmt = $conn->prepare($sql);
-    $stmt->execute([':name' => $name, ':description' => $description, ':id' => $id]);
+    $stmt->execute([':name' => $Clubname, ':Location' => $Location, ':id' => $id,
+     ':Website' => $Website, ':Contactname' => $Contactname, ':Contactemail' => $Contactemail, ':Clubnight' => $Clubnight,
+      ':Contactnumber' => $Contactnumber, ':Junior' => $Junior]);
 
     echo "Record updated successfully<br>";
 }
@@ -55,19 +65,13 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Item</title>
-</head>
-<body>
+
     <h1>Select an Item to Edit</h1>
     <form action="" method="get">
         <select name="id">
             <?php foreach ($items as $item): ?>
-                <option value="<?= htmlspecialchars($item['clubID']) ?>" <?= (isset($_GET['clubID']) && $_GET['clubID'] == $item['clubID']) ? 'selected' : '' ?>>
-                    <?= htmlspecialchars($item['clubname']) ?>
+                <option value="<?php echo htmlspecialchars($item['clubID']) ?>" <?php echo (isset($_GET['clubID']) && $_GET['clubID'] == $item['clubID']) ? 'selected' : '' ?>>
+                    <?php echo htmlspecialchars($item['clubname']) ?>
                 </option>
             <?php endforeach; ?>
         </select>
@@ -87,11 +91,27 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
         ?>
             <h2>Edit Item</h2>
             <form action="" method="post">
-                <input type="hidden" name="id" value="<?php htmlspecialchars($item['ClubID']) ?>">
-                <label for="name">Name:</label>
-                <input type="text" name="name" value="<?php htmlspecialchars($item['Clubname']) ?>"><br>
-                <label for="description">Description:</label>
-                <textarea name="description"><?= htmlspecialchars($item['Location']) ?></textarea><br>
+                <input type="hidden" name="id" value="<?php echo htmlspecialchars($item['ClubID']) ?>">
+                <label for="Clubname">Name:</label>
+                <input type="text" name="Clubname" value="<?php echo htmlspecialchars($item['Clubname']) ?>"><br>
+                <label for="Location">Location:</label>
+                <textarea name="Location"><?php echo htmlspecialchars($item['Location']) ?></textarea><br>
+                <label for="Website">Name:</label>
+                <input type="text" name="Website" value="<?php echo htmlspecialchars($item['Website']) ?>"><br>
+                <label for="Contactname">Name:</label>
+                <input type="text" name="Contactname" value="<?php echo htmlspecialchars($item['Contactname']) ?>"><br>
+                <label for="Contactnumber">Name:</label>
+                <input type="text" name="Contactnumber" value="<?php echo htmlspecialchars($item['Contactnumber']) ?>"><br>
+                <label for="Contactemail">Name:</label>
+                <input type="text" name="Contactemail" value="<?php echo htmlspecialchars($item['Contactemail']) ?>"><br>
+                <label for="Clubnight">Description:</label>
+                <textarea name="Clubnight"><?php echo htmlspecialchars($item['Clubnight']) ?></textarea><br>
+                <label>
+                <input type="checkbox" name="Junior[]" value="1" <?php if ($item['Junior'] == 1 || $item['Junior'] == 2) { echo 'checked'; } else { echo ''; } ?>>
+                Junior section
+                <input type="checkbox" name="Junior[]" value="2"<?php if ($item['Junior'] == 0||$item['Junior'] == 2) { echo 'checked'; } else { echo ''; } ?>>
+                Senior section
+                </label><br>
                 <input type="submit" value="Update">
             </form>
         <?php else: ?>
