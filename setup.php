@@ -123,9 +123,18 @@ try {
     ClubID INT(4) NOT NULL,
     DivisionID VARCHAR(50) NOT NULL,
     Name VARCHAR(200) NOT NULL)");
-    
     $stmt1->execute();
     $stmt1->closeCursor();
+    
+    $stmt5 = $conn->prepare("INSERT INTO TblClubhasteam(ClubhasteamID,ClubID,DivisionID,Name)VALUES 
+    (NULL,1,1,'A'),
+    (NULL,1,2,'B'),
+    (NULL,2,1,'A'),
+    (NULL,2,2,'B')
+    ");
+    $stmt5->execute();
+    $stmt5->closeCursor();
+
     #player - name gender
     $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblPlayers;
     CREATE TABLE TblPlayers 
@@ -134,12 +143,27 @@ try {
     Forename VARCHAR(50) NOT NULL,
     Surname VARCHAR(200) NOT NULL,
     DOB DATE,
-    ClubID INT(4) NOT NULL)");
-    
+    ClubID INT(4) NOT NULL)");#DOB for Junior identification?
     $stmt1->execute();
     $stmt1->closeCursor();
     #player belongs to club for club has team?? 
-    
+    $stmt5 = $conn->prepare("INSERT INTO TblPlayers(PlayerID,Gender,Forename,Surname,DOB,ClubID)VALUES 
+    (NULL,'M','Fred','Smith','24-05-02',1),
+    (NULL,'M','Fred1','Smith1','24-05-02',1),
+    (NULL,'M','Fred2','Smith2','24-05-02',1),
+    (NULL,'F','Freda','Smith','24-05-02',1),
+    (NULL,'F','Freda1','Smith','24-05-02',1),
+    (NULL,'F','Freda2','Smith','24-05-02',1),
+    (NULL,'M','Freddy','Smith','24-05-02',2),
+    (NULL,'M','Freddy1','Smith','24-05-02',2),
+    (NULL,'M','Freddy2','Smith','24-05-02',2),
+    (NULL,'F','Frederica','Smith','24-05-02',2),
+    (NULL,'F','Frederica1','Smith','24-05-02',2),
+    (NULL,'F','Frederica2','Smith','24-05-02',2),
+    (NULL,'F','Fred','Smith','24-05-02',3)
+    ");
+    $stmt5->execute();
+    $stmt5->closeCursor();
    
     #league - e.g. open or ladies or doubles
     $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblLeague;
@@ -150,15 +174,32 @@ try {
     
     $stmt1->execute();
     $stmt1->closeCursor();
+    $stmt5 = $conn->prepare("INSERT INTO TblLeague(LeagueID,Name,Details)VALUES 
+    (NULL,'Open','open doubles'),
+    (NULL,'Mixed','Mixed doubles'),
+    (NULL,'Doubles','Doubles league - mixed diff format')
+    ");
+    $stmt5->execute();
+    $stmt5->closeCursor();
     #division - division with in league 1st 2ns 3rd etc
     $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblDivision;
     CREATE TABLE TblDivision 
     (DivisionID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(50) NOT NULL,
-    LeaGueID INT(4) NOT NULL)");
-    
+    LeagueID INT(4) NOT NULL)");
     $stmt1->execute();
     $stmt1->closeCursor();
+
+    $stmt5 = $conn->prepare("INSERT INTO TblDivision(DivisionID,Name,LeagueID)VALUES 
+    (NULL,'Mens1',1),
+    (NULL,'Mens2',1),
+    (NULL,'Doubles1',2),
+    (NULL,'Mixed1',3),
+    (NULL,'Mixed2',3)
+    ");
+    $stmt5->execute();
+    $stmt5->closeCursor();
+
     #matches - link team (H and A) with league and division
     $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblMatch;
     CREATE TABLE TblMatch 
