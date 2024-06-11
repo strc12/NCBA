@@ -51,7 +51,30 @@
         <li class="nav-item">
           <a class="nav-link" href="clubadmin.php">Club Admin</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="Login.php">Club Login</a>
+        </li>
+       
+<?php
+session_start();
+if(isset($_SESSION['clubname'])){
+echo('<li>
+<a class="nav-link">Hi '.$_SESSION['clubname'].'</a>
+</li> 
+<li>
+<a class="nav-link" href="changepassword.php">Change Password</a>
+</li>
+<li>
+<a class="nav-link" href="logout.php">Logout</a>
+</li>');
+}else{
+  echo('<li>
+  <a class="nav-link" href="login.php">Login</a>
+  </li>');
+}?>
+
       </ul>
+      
     </div>
   </div>
 </nav>
