@@ -21,17 +21,46 @@
   <br>
   <hr>
 <?php
-    session_start();
-    $_SESSION["clubid"]=1;
+
+    echo('<div class="container mt-5">
+    <h2 class="mb-4">Registered Players</h2>
+    <table class="table table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">DOB</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Member</th>
+                <th scope="col">Edit</th>
+                
+            </tr>
+        </thead>
+        <tbody>');
     include_once('connection.php');
-	$stmt = $conn->prepare("SELECT * FROM Tblplayers WHERE ClubID=:cid");
+	$stmt = $conn->prepare("SELECT * FROM Tblplayers WHERE ClubID=:cid  ORDER BY active DESC, Gender, Surname ASC, Forename ASC ");
     $stmt->bindParam(':cid', $_SESSION["clubid"]);
 	$stmt->execute();
 	while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 		{
-			echo("<h3>".$row["Forename"].' '.$row["Surname"].' </h3>'.$row["DOB"].'<br> '.$row["Gender"]."<br><br>");
-     
+            echo("<tr>");
+			echo("<td>".$row["Forename"].' '.$row["Surname"].' </td><td>'.$row["DOB"].'</td> <td>'.$row["Gender"]."</td>
+            <td>");
+            if($row["active"]==1){
+                echo("Member");
+            }else{
+                echo("Non-Member");
+            }
+
+            echo("</td>
+            <td>
+            <form action='editplayer.php' method='post'>
+                        <input type='hidden' name='id' value='".$row["PlayerID"]."'>
+                        <button type='submit' class='btn btn-primary'>Edit</button>
+                    </form>
+            </td>");
+            echo("</tr>");
 		}
+    echo("</table>");
 ?>   
 
 

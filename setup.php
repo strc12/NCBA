@@ -143,25 +143,26 @@ try {
     Forename VARCHAR(50) NOT NULL,
     Surname VARCHAR(200) NOT NULL,
     DOB DATE,
-    ClubID INT(4) NOT NULL)");#DOB for Junior identification?
+    ClubID INT(4) NOT NULL,
+    active TINYINT DEFAULT 1)");#DOB for Junior identification?
     #do we need registration date?? and deregistration date?
     $stmt1->execute();
     $stmt1->closeCursor();
     #player belongs to club for club has team?? 
-    $stmt5 = $conn->prepare("INSERT INTO TblPlayers(PlayerID,Gender,Forename,Surname,DOB,ClubID)VALUES 
-    (NULL,'M','Fred','Smith','24-05-02',1),
-    (NULL,'M','Fred1','Smith1','24-05-02',1),
-    (NULL,'M','Fred2','Smith2','24-05-02',1),
-    (NULL,'F','Freda','Smith','24-05-02',1),
-    (NULL,'F','Freda1','Smith','24-05-02',1),
-    (NULL,'F','Freda2','Smith','24-05-02',1),
-    (NULL,'M','Freddy','Smith','24-05-02',2),
-    (NULL,'M','Freddy1','Smith','24-05-02',2),
-    (NULL,'M','Freddy2','Smith','24-05-02',2),
-    (NULL,'F','Frederica','Smith','24-05-02',2),
-    (NULL,'F','Frederica1','Smith','24-05-02',2),
-    (NULL,'F','Frederica2','Smith','24-05-02',2),
-    (NULL,'F','Fred','Smith','24-05-02',3)
+    $stmt5 = $conn->prepare("INSERT INTO TblPlayers(PlayerID,Gender,Forename,Surname,DOB,ClubID,active)VALUES 
+    (NULL,'M','Fred','Smith','24-05-02',1,1),
+    (NULL,'M','Fred1','Smith1','24-05-02',1,1),
+    (NULL,'M','Fred2','Smith2','24-05-02',1,1),
+    (NULL,'F','Freda','Smith','24-05-02',1,1),
+    (NULL,'F','Freda1','Smith','24-05-02',1,1),
+    (NULL,'F','Freda2','Smith','24-05-02',1,1),
+    (NULL,'M','Freddy','Smith','24-05-02',2,1),
+    (NULL,'M','Freddy1','Smith','24-05-02',2,0),
+    (NULL,'M','Freddy2','Smith','24-05-02',2,1),
+    (NULL,'F','Frederica','Smith','24-05-02',2,1),
+    (NULL,'F','Frederica1','Smith','24-05-02',2,1),
+    (NULL,'F','Frederica2','Smith','24-05-02',2,1),
+    (NULL,'F','Fred','Smith','24-05-02',3,1)
     ");
     $stmt5->execute();
     $stmt5->closeCursor();
