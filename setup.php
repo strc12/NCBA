@@ -14,6 +14,19 @@ try {
     $sql = "USE NCB";
     $conn->exec($sql);
     echo "DB created successfully";
+    $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblSeason;
+    CREATE TABLE TblSeason 
+    (Season INT(4) UNSIGNED PRIMARY KEY,
+    current INT(1) )");#format 2223(season 2022-2023) - 1 current 0 archived
+    $stmt1->execute();
+    $stmt1->closeCursor();
+    
+    $stmt5 = $conn->prepare("INSERT INTO TblSeason(Season,current)VALUES 
+    (2223,0),
+    (2324,1)
+    ");
+    $stmt5->execute();
+    $stmt5->closeCursor();
 
     $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblAdmin;
     CREATE TABLE TblAdmin 
@@ -127,10 +140,23 @@ try {
     $stmt1->closeCursor();
     
     $stmt5 = $conn->prepare("INSERT INTO TblClubhasteam(ClubhasteamID,ClubID,DivisionID,Name)VALUES 
-    (NULL,1,1,'A'),
-    (NULL,1,2,'B'),
-    (NULL,2,1,'A'),
-    (NULL,2,2,'B')
+    (NULL,1,1,'AA'),
+    (NULL,1,1,'AB'),
+    (NULL,2,1,'BA'),
+    (NULL,2,2,'BB'),
+    (NULL,1,2,'AC'),
+    (NULL,2,1,'BC'),
+    (NULL,3,2,'WA'),
+    (NULL,2,3,'BDA'),
+    (NULL,2,4,'BMX1'),
+    (NULL,1,3,'ADA'),
+    (NULL,1,4,'AMX1'),
+    (NULL,3,4,'WMX1'),
+    (NULL,2,3,'BDA'),
+    (NULL,1,5,'BMX2'),
+    (NULL,1,5,'BMX3'),
+    (NULL,3,5,'WMX2'),
+    (NULL,2,5,'BMX2')
     ");
     $stmt5->execute();
     $stmt5->closeCursor();
@@ -201,15 +227,17 @@ try {
     ");
     $stmt5->execute();
     $stmt5->closeCursor();
+    
 
     #matches - link team (H and A) with league and division
-    $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblMatch;
-    CREATE TABLE TblMatch 
+    $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblMatches;
+    CREATE TABLE TblMatches 
     (MatchID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     DivisionID VARCHAR(50) NOT NULL,
     HomeID INT(4) NOT NULL,
     AwayID INT(4) NOT NULL,
     Fixturedate DATE,
+    Season INT(4),
     HomeP1ID INT(4) ,
     HomeP2ID INT(4) ,
     HomeP3ID INT(4) ,

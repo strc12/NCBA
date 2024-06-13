@@ -57,6 +57,7 @@
        
 <?php
 session_start();
+include_once("setseason.php");
 if(isset($_SESSION['clubname'])){
 echo('<li>
 <a class="nav-link">Hi '.$_SESSION['clubname'].'</a>
