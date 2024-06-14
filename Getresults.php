@@ -22,22 +22,22 @@ td,th{
 include ("setseason.php");
 $q = intval($_GET['q']);
 
-
+print_r($q);
 
 include_once ("connection.php");
-echo("YAY");
-/* $stmt = $conn->prepare("SELECT fixtures.FixtDate, 
-fixtures.M1H1,fixtures.M1A1,
-fixtures.M2H1,fixtures.M2A1,
-fixtures.M3H1,fixtures.M3A1,fixtures.M3H2,fixtures.M3A2,
-fixtures.M4H1,fixtures.M4A1,fixtures.M4H2,fixtures.M4A2,
-fixtures.M5H1,fixtures.M5A1,fixtures.M5H2,fixtures.M5A2,
-fixtures.M6H1,fixtures.M6A1,fixtures.M6H2,fixtures.M6A2,
-fixtures.M7H1,fixtures.M7A1,fixtures.M7H2,fixtures.M7A2,
-fixtures.M8H1,fixtures.M8A1,fixtures.M8H2,fixtures.M8A2,
-fixtures.M9H1,fixtures.M9A1,fixtures.M9H2,fixtures.M9A2,
-fixtures.M10H1,fixtures.M10A1,fixtures.M10H2,fixtures.M10A2,
-fixtures.HomeID as Home, fixtures.AwayID as Away,  
+
+$stmt = $conn->prepare("SELECT TblMatches.FixtureDate, 
+TblMatches.M1H1,TblMatches.M1A1,
+TblMatches.M2H1,TblMatches.M2A1,
+TblMatches.M3H1,TblMatches.M3A1,TblMatches.M3H2,TblMatches.M3A2,
+TblMatches.M4H1,TblMatches.M4A1,TblMatches.M4H2,TblMatches.M4A2,
+TblMatches.M5H1,TblMatches.M5A1,TblMatches.M5H2,TblMatches.M5A2,
+TblMatches.M6H1,TblMatches.M6A1,TblMatches.M6H2,TblMatches.M6A2,
+TblMatches.M7H1,TblMatches.M7A1,TblMatches.M7H2,TblMatches.M7A2,
+TblMatches.M8H1,TblMatches.M8A1,TblMatches.M8H2,TblMatches.M8A2,
+TblMatches.M9H1,TblMatches.M9A1,TblMatches.M9H2,TblMatches.M9A2,
+TblMatches.M10H1,TblMatches.M10A1,TblMatches.M10H2,TblMatches.M10A2,
+TblMatches.HomeID as Home, TblMatches.AwayID as Away,  
 M1.Forename as M1f, M1.Surname as M1s, 
 M2.Forename as M2f, M2.Surname as M2s,
 M3.Forename as M3f, M3.Surname as M3s,
@@ -52,7 +52,7 @@ AL2.Forename as AL2f, AL2.Surname as AL2s,
 AL3.Forename as AL3f, AL3.Surname as AL3s,
 awsc.Schoolname as AWS, hsch.Schoolname as HS, 
 home.Division, away.Division
-FROM Fixtures 
+FROM TblMatches 
 INNER JOIN  players as M1 on HM1ID = M1.UserID
 INNER JOIN  players as M2 on HM2ID = M2.UserID
 INNER JOIN  players as M3 on HM3ID = M3.UserID
@@ -65,11 +65,11 @@ INNER JOIN  players as AM3 on AM3ID = AM3.UserID
 INNER JOIN  players as AL1 on AL1ID = AL1.UserID
 INNER JOIN  players as AL2 on AL2ID = AL2.UserID
 INNER JOIN  players as AL3 on AL3ID = AL3.UserID
-INNER JOIN teams as home ON (fixtures.HomeID = home.teamID) 
-INNER JOIN teams as away ON (fixtures.AwayID=away.TeamID) 
-INNER JOIN schools as awsc ON away.SchoolID=awsc.SchoolID 
-INNER JOIN schools as hsch ON home.SchoolID=hsch.SchoolID 
-WHERE fixtures.FixtureID=:fid " );
+INNER JOIN teams as home ON (TblMatches.HomeID = home.teamID) 
+INNER JOIN teams as away ON (TblMatches.AwayID=away.TeamID) 
+INNER JOIN tblclub as awt ON away.ClublID=awsc.SchoolID 
+INNER JOIN tblclub as ht ON home.SchoolID=hsch.SchoolID 
+WHERE TblMatches.FixtureID=:fid " );
 $stmt->bindParam(':fid', $q);
 $stmt->execute();
 $row = $stmt->fetch(PDO::FETCH_ASSOC);

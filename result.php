@@ -38,7 +38,7 @@
     ?>
 
 </div>
-
+<div class="container-fluid">
 <label>Fixture: </label>
 <select id="matches" onchange="showresult(this.value)">
     <option>Select match</option>
@@ -50,21 +50,26 @@
    INNER JOIN tblclubhasteam as away ON (Tblmatches.AwayID=away.ClubhasteamID) 
    INNER JOIN tblclub as awt ON away.ClubID=awt.ClubID 
    INNER JOIN tblclub as ht ON home.ClubID=ht.ClubID 
-   WHERE  Season=:SEAS ORDER BY ad ASC,fixturedate ASC " );
+   WHERE  Season=:SEAS  AND HomeID=:club OR AwayID=:club ORDER BY ad ASC,fixturedate ASC " );
 
-
+   $stmt->bindParam(':club', $_SESSION["clubid"]);
    $stmt->bindParam(':SEAS', $_SESSION["Season"]);
    $stmt->execute();
    
    while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
    {
-       echo("<option value=".$row["FixtureID"].'>'.$row["HS"]." ".$row["hd"]." v ".$row["AWS"]." ".$row["ad"]." - ".date("d M y",(strtotime($row["fixtdate"])))."</option><br>");
+       echo("<option value=".$row["MatchID"].'>'.$row["HS"]." ".$row["hd"]." v ".$row["AWS"]." ".$row["ad"]." - ".date("d M y",(strtotime($row["fixtdate"])))."</option><br>");
    }
    $conn=null;
    ?>
     
 </select>
 </form>
+</div>
+<?php
+
+print_r($_SESSION);
+?>
 <div id="results"></div>
 <script>
 $("#matches").on("change", function(){
