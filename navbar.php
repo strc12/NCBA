@@ -43,6 +43,9 @@
           <a class="nav-link" href="committee.php">Committee</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="Leagueadmin.php">League Admin</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="Handbook.php">Handbook</a>
         </li>
         <li class="nav-item">
