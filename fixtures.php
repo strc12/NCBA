@@ -44,11 +44,11 @@ include_once ("connection.php");
             foreach ( $divisions as $division){
                 echo($division["DivisionID"].$division["Name"]);
                 echo("<br>");
-                $stmtc = $conn->prepare("SELECT * FROM TblClubhasteam WHERE DivisionID=:div ");
+                $stmtc = $conn->prepare("SELECT * FROM TblClubhasteam WHERE DivisionID=:div and current=1");
                 $stmtc->bindParam(':div', $division["DivisionID"]);
                 $stmtc->execute();
                 $teams = $stmtc->fetchAll(\PDO::FETCH_ASSOC);
-                #print_r($teams);
+                print_r($teams);
                 $arrlength = count($teams);
 
                 for($x = 0; $x < $arrlength; $x++) {

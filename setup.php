@@ -135,28 +135,29 @@ try {
     (ClubhasteamID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     ClubID INT(4) NOT NULL,
     DivisionID VARCHAR(50) NOT NULL,
-    Name VARCHAR(200) NOT NULL)");
+    Name VARCHAR(200) NOT NULL,
+    current INT(1) DEFAULT 1)");
     $stmt1->execute();
     $stmt1->closeCursor();
     
-    $stmt5 = $conn->prepare("INSERT INTO TblClubhasteam(ClubhasteamID,ClubID,DivisionID,Name)VALUES 
-    (NULL,1,1,'AA'),
-    (NULL,1,1,'AB'),
-    (NULL,2,1,'BA'),
-    (NULL,2,2,'BB'),
-    (NULL,1,2,'AC'),
-    (NULL,2,1,'BC'),
-    (NULL,3,2,'WA'),
-    (NULL,2,3,'BDA'),
-    (NULL,2,4,'BMX1'),
-    (NULL,1,3,'ADA'),
-    (NULL,1,4,'AMX1'),
-    (NULL,3,4,'WMX1'),
-    (NULL,2,3,'BDA'),
-    (NULL,1,5,'BMX2'),
-    (NULL,1,5,'BMX3'),
-    (NULL,3,5,'WMX2'),
-    (NULL,2,5,'BMX2')
+    $stmt5 = $conn->prepare("INSERT INTO TblClubhasteam(ClubhasteamID,ClubID,DivisionID,Name,current)VALUES 
+    (NULL,1,1,'AA',1),
+    (NULL,1,1,'AB',1),
+    (NULL,2,1,'BA',1),
+    (NULL,2,2,'BB',0),
+    (NULL,1,2,'AC',1),
+    (NULL,2,1,'BC',1),
+    (NULL,3,2,'WA',1),
+    (NULL,2,3,'BDA',1),
+    (NULL,2,4,'BMX1',1),
+    (NULL,1,3,'ADA',1),
+    (NULL,1,4,'AMX1',1),
+    (NULL,3,4,'WMX1',1),
+    (NULL,2,3,'BDA',1),
+    (NULL,1,5,'BMX2',1),
+    (NULL,1,5,'BMX3',1),
+    (NULL,3,5,'WMX2',1),
+    (NULL,2,5,'BMX2',1)
     ");
     $stmt5->execute();
     $stmt5->closeCursor();
@@ -219,12 +220,12 @@ try {
     $stmt1->closeCursor();
 
     $stmt5 = $conn->prepare("INSERT INTO TblDivision(DivisionID,Name,LeagueID)VALUES 
-    (NULL,'Mens1',1),
-    (NULL,'Mens2',1),
-    (NULL,'Doubles1',2),
-    (NULL,'Mixed1',3),
-    (NULL,'Mixed2',3)
-    ");
+    (NULL,'1st',1),
+    (NULL,'2nd',1),
+    (NULL,'1st',3),
+    (NULL,'1st',2),
+    (NULL,'2nd',2)
+    ");#type picked from tblleague 
     $stmt5->execute();
     $stmt5->closeCursor();
     

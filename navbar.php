@@ -46,6 +46,12 @@
           <a class="nav-link" href="Handbook.php">Handbook</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="tables.php">Tables</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="result.php">Results</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="admin.php">Admin only</a>
         </li>
         <li class="nav-item">
