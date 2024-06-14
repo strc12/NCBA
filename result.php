@@ -45,14 +45,15 @@
    <?php
    include_once ("connection.php");
    $stmt = $conn->prepare("SELECT MatchID,HomeID, AwayID, Season, Fixturedate, tblmatches.DivisionID as DID, 
-   leag.name as LN, awt.Clubname as AWS, ht.Clubname as HS, home.DivisionID as hd, away.DivisionID as ad 
-   FROM tblmatches INNER JOIN tblclubhasteam as home ON (Tblmatches.HomeID = home.ClubhasteamID) 
+   leag.name as LN, awt.Clubname as AWC, ht.Clubname as HC, home.DivisionID as hd, away.Name as AWN, home.Name as HN, 
+   away.DivisionID as ad , DIVIS.Name as DIVN FROM tblmatches 
+   INNER JOIN tblclubhasteam as home ON (Tblmatches.HomeID = home.ClubhasteamID) 
    INNER JOIN tblclubhasteam as away ON (Tblmatches.AwayID=away.ClubhasteamID) 
    INNER JOIN Tbldivision as DIVIS ON (tblmatches.DivisionID = DIVIS.DivisionID) 
    INNER JOIN TblLeague as leag ON (DIVIS.LeagueID = leag.LEagueID) 
    INNER JOIN tblclub as awt ON away.ClubID=awt.ClubID 
    INNER JOIN tblclub as ht ON home.ClubID=ht.ClubID 
-   WHERE  Season=:SEAS  AND awt.clubID=:club OR ht.clubid=:club ORDER BY ad ASC,fixturedate ASC " );
+   WHERE Season=:SEAS  AND awt.clubID=:club OR ht.clubid=:club ORDER BY ad ASC,fixturedate ASC " );
 
    $stmt->bindParam(':club', $_SESSION["clubid"]);
    $stmt->bindParam(':SEAS', $_SESSION["Season"]);
@@ -60,7 +61,7 @@
    
    while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
    {
-       echo("<option value=".$row["MatchID"].'>'.$row["HS"]." ".$row["hd"]." v ".$row["AWS"]." ".$row["ad"]." - ".date("d M y",(strtotime($row["fixtdate"])))." ~ ".$row["LN"]."</option><br>");
+       echo("<option value=".$row["MatchID"].'>'.$row["HC"]." ".$row["HN"]." v ".$row["AWC"]." ".$row["AWN"]." ".$row["ad"]." - ".date("d M y",(strtotime($row["fixtdate"])))." ~ ".$row["LN"]." ".$row["DIVN"]."</option><br>");
    }
    $conn=null;
    ?>
