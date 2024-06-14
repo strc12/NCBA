@@ -1,50 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Image Gallery</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .gallery img {
-            width: 100%;
-            height: auto;
-        }
-        .gallery .col {
-            margin-bottom: 15px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container mt-5">
-        <div class="row gallery">
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                <img src="https://via.placeholder.com/300x200" class="img-fluid" alt="Image 1">
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                <img src="https://via.placeholder.com/400x300" class="img-fluid" alt="Image 2">
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                <img src="https://via.placeholder.com/200x300" class="img-fluid" alt="Image 3">
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                <img src="https://via.placeholder.com/500x400" class="img-fluid" alt="Image 4">
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                <img src="https://via.placeholder.com/300x500" class="img-fluid" alt="Image 5">
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                <img src="https://via.placeholder.com/400x200" class="img-fluid" alt="Image 6">
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                <img src="https://via.placeholder.com/600x300" class="img-fluid" alt="Image 7">
-            </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                <img src="https://via.placeholder.com/300x600" class="img-fluid" alt="Image 8">
-            </div>
-        </div>
-    </div>
-
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+SELECT MatchID,HomeID, AwayID, Season, Fixturedate, tblmatches.DivisionID as DID, 
+   leag.name as LN, awt.Clubname as AWTN, ht.Clubname as HTN, home.DivisionID as hd, away.DivisionID as ad 
+   FROM tblmatches 
+   INNER JOIN tblclubhasteam as home ON (Tblmatches.HomeID = home.ClubhasteamID) 
+   INNER JOIN tblclubhasteam as away ON (Tblmatches.AwayID=away.ClubhasteamID) 
+   INNER JOIN tblclub as awt ON away.ClubID=awt.ClubID 
+   INNER JOIN tblclub as ht ON home.ClubID=ht.ClubID 
+   INNER JOIN Tbldivision as DIVIS ON (tblmatches.DivisionID = DIVIS.DivisionID) 
+   INNER JOIN TblLeague as leag ON (DIVIS.LeagueID = leag.LEagueID) 
+   WHERE  Season=2425  AND HomeID=1 OR AwayID=1 ORDER BY ad ASC,fixturedate ASC;
