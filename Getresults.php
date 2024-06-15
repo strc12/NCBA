@@ -27,53 +27,46 @@ print_r($q);
 include_once ("connection.php");
 
 $stmt = $conn->prepare("SELECT TblMatches.FixtureDate, 
-TblMatches.M1H1,TblMatches.M1A1,
-TblMatches.M2H1,TblMatches.M2A1,
-TblMatches.M3H1,TblMatches.M3A1,TblMatches.M3H2,TblMatches.M3A2,
-TblMatches.M4H1,TblMatches.M4A1,TblMatches.M4H2,TblMatches.M4A2,
-TblMatches.M5H1,TblMatches.M5A1,TblMatches.M5H2,TblMatches.M5A2,
-TblMatches.M6H1,TblMatches.M6A1,TblMatches.M6H2,TblMatches.M6A2,
-TblMatches.M7H1,TblMatches.M7A1,TblMatches.M7H2,TblMatches.M7A2,
-TblMatches.M8H1,TblMatches.M8A1,TblMatches.M8H2,TblMatches.M8A2,
-TblMatches.M9H1,TblMatches.M9A1,TblMatches.M9H2,TblMatches.M9A2,
-TblMatches.M10H1,TblMatches.M10A1,TblMatches.M10H2,TblMatches.M10A2,
-TblMatches.HomeID as Home, TblMatches.AwayID as Away,  
-M1.Forename as M1f, M1.Surname as M1s, 
-M2.Forename as M2f, M2.Surname as M2s,
-M3.Forename as M3f, M3.Surname as M3s,
-L1.Forename as L1f, L1.Surname as L1s,
-L2.Forename as L2f, L2.Surname as L2s,
-L3.Forename as L3f, L3.Surname as L3s,
-AM1.Forename as AM1f, AM1.Surname as AM1s, 
-AM2.Forename as AM2f, AM2.Surname as AM2s,
-AM3.Forename as AM3f, AM3.Surname as AM3s,
-AL1.Forename as AL1f, AL1.Surname as AL1s,
-AL2.Forename as AL2f, AL2.Surname as AL2s,
-AL3.Forename as AL3f, AL3.Surname as AL3s,
-awsc.Schoolname as AWS, hsch.Schoolname as HS, 
-home.Division, away.Division
+TblMatches.HomeP1ID,TblMatches.HomeP2ID,
+TblMatches.HomeP3ID,TblMatches.HomeP4ID,
+TblMatches.HomeP5ID,TblMatches.HomeP6ID,TblMatches.AwayP1ID,TblMatches.AwayP2ID,
+TblMatches.AwayP3ID,TblMatches.AwayP4ID,TblMatches.AwayP5ID,TblMatches.AwayP6ID,
+TblMatches.m1h,TblMatches.m2h,TblMatches.m3h,TblMatches.m4h,
+TblMatches.m5h,TblMatches.m6h,TblMatches.m7h,TblMatches.m8h,
+TblMatches.m9h,TblMatches.m10h,TblMatches.m11h,TblMatches.m12h,
+TblMatches.m13h,TblMatches.m14h,TblMatches.m15h,TblMatches.m16h,
+TblMatches.m17h,TblMatches.m18h,TblMatches.m19h,TblMatches.m20h,
+TblMatches.m21h,TblMatches.m22h,TblMatches.m23h,TblMatches.m24h,
+TblMatches.m25a,TblMatches.m26a,TblMatches.m27a,
+TblMatches.m1a,TblMatches.m2a,TblMatches.m3a,TblMatches.m4a,
+TblMatches.m5a,TblMatches.m6a,TblMatches.m7a,TblMatches.m8a,
+TblMatches.m9a,TblMatches.m10a,TblMatches.m11a,TblMatches.m12a,
+TblMatches.m13a,TblMatches.m14a,TblMatches.m15a,TblMatches.m16a,
+TblMatches.m17a,TblMatches.m18a,TblMatches.m19a,TblMatches.m20a,
+TblMatches.m21a,TblMatches.m22a,TblMatches.m23a,TblMatches.m24a,
+TblMatches.m25a,TblMatches.m26a,TblMatches.m27a,
+TblMatches.HomeID as Hid, TblMatches.AwayID as Aid,  
+awt.Clubname as AWC, ht.Clubname as HC, 
+TblMatches.DivisionID,
+home.Name as HN, away.Name as AWN,
+Lg.Name as LGN, divs.Name as DIVN
 FROM TblMatches 
-INNER JOIN  players as M1 on HM1ID = M1.UserID
-INNER JOIN  players as M2 on HM2ID = M2.UserID
-INNER JOIN  players as M3 on HM3ID = M3.UserID
-INNER JOIN  players as L1 on HL1ID = L1.UserID
-INNER JOIN  players as L2 on HL2ID = L2.UserID
-INNER JOIN  players as L3 on HL3ID = L3.UserID
-INNER JOIN  players as AM1 on AM1ID = AM1.UserID
-INNER JOIN  players as AM2 on AM2ID = AM2.UserID
-INNER JOIN  players as AM3 on AM3ID = AM3.UserID
-INNER JOIN  players as AL1 on AL1ID = AL1.UserID
-INNER JOIN  players as AL2 on AL2ID = AL2.UserID
-INNER JOIN  players as AL3 on AL3ID = AL3.UserID
-INNER JOIN teams as home ON (TblMatches.HomeID = home.teamID) 
-INNER JOIN teams as away ON (TblMatches.AwayID=away.TeamID) 
-INNER JOIN tblclub as awt ON away.ClublID=awsc.SchoolID 
-INNER JOIN tblclub as ht ON home.SchoolID=hsch.SchoolID 
-WHERE TblMatches.FixtureID=:fid " );
+
+INNER JOIN tblclubhasteam as home ON (TblMatches.HomeID = home.clubhasteamID) 
+INNER JOIN tblclubhasteam as away ON (TblMatches.AwayID=away.clubhasteamID) 
+INNER JOIN tblclub as awt ON (away.ClubID=awt.ClubID )
+INNER JOIN tblclub as ht ON (home.ClubID=ht.ClubID) 
+INNER JOIN tblDivision as divs ON (divs.DivisionID = TblMatches.DivisionID)
+INNER JOIN tblleague as Lg ON (divs.LeagueID = Lg.LeagueID)
+WHERE TblMatches.MatchID=:fid " );
 $stmt->bindParam(':fid', $q);
 $stmt->execute();
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
-$Hometotal=$row["M1H1"]+$row["M2H1"]+$row["M3H1"]+$row["M3H2"]+$row["M4H1"]+$row["M4H2"]+$row["M5H1"]+$row["M5H2"]+$row["M6H1"]+$row["M6H2"]+$row["M7H1"]+$row["M7H2"]+$row["M8H1"]+$row["M8H2"]+$row["M9H1"]+$row["M9H2"]+$row["M10H1"]+$row["M10H2"];
+print_r($row);
+echo("<h2>".$row['HC']." - ".$row['HN']." v ".$row['AWC']." - ".$row['AWN']."</H2>");
+echo("<h2>".$row['LGN']." - ".$row['DIVN']."</H2>")
+
+/*$Hometotal=$row["M1H1"]+$row["M2H1"]+$row["M3H1"]+$row["M3H2"]+$row["M4H1"]+$row["M4H2"]+$row["M5H1"]+$row["M5H2"]+$row["M6H1"]+$row["M6H2"]+$row["M7H1"]+$row["M7H2"]+$row["M8H1"]+$row["M8H2"]+$row["M9H1"]+$row["M9H2"]+$row["M10H1"]+$row["M10H2"];
 $Awaytotal=$row["M1A1"]+$row["M2A1"]+$row["M3A1"]+$row["M3A2"]+$row["M4A1"]+$row["M4A2"]+$row["M5A1"]+$row["M5A2"]+$row["M6A1"]+$row["M6A2"]+$row["M7A1"]+$row["M7A2"]+$row["M8A1"]+$row["M8A2"]+$row["M9A1"]+$row["M9A2"]+$row["M10A1"]+$row["M10A2"];
 
 $homegametotal=0;
