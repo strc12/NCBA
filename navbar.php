@@ -28,6 +28,9 @@
           <a class="nav-link" href="senior.php">Seniors</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="selectmatch.php">Enter scores</a>
+        </li>
+        <!-- <li class="nav-item">
           <a class="nav-link" href="trials.php">Trials</a>
         </li>
         <li class="nav-item">
@@ -35,7 +38,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="events.php">Events</a>
-        </li>
+        </li> -->
         <li class="nav-item">
           <a class="nav-link" href="gallery.php">Gallery</a>
         </li>
