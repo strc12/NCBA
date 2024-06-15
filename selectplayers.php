@@ -36,7 +36,7 @@
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 	{	
 			//code for drop down list
-			echo '<option value="' . $row['UserID'] . '">' . $row['Forename'] ." ". $row['Surname'] .'</option>';
+			echo '<option value="' . $row['PlayerID'] . '">' . $row['Forename'] ." ". $row['Surname'] .'</option>';
 			
 	}
     echo("</select>");
