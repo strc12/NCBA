@@ -68,11 +68,12 @@ try {
     $stmt5->bindParam(':pw', $hashed_password);
     $stmt5->execute();
     $stmt5->closeCursor();
+
     $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblMedia;
     CREATE TABLE TblMedia 
     (MediaID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     details LONGTEXT NOT NULL,
-    dateadded DATE DEFAULT (current_timestamp()),
+    dateadded DATE DEFAULT current_timestamp(),
     type VARCHAR(200))");
    
     $stmt1->execute();

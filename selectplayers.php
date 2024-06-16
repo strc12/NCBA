@@ -15,32 +15,45 @@
     include_once("navbar.php");
     
     function popdropdown($club,$sex,$position){
+        include ('connection.php');//hides connection details
 
-	echo "<select name='$position' id='$position'>";
-    
-	include ('connection.php');//hides connection details
-    if ($sex=="B"){
-        $stmt=$conn->prepare("SELECT Forename, Surname, Gender, PlayerID,active FROM tblplayers where ClubID = :cid AND active=1 Order By Gender ASC, Surname ASC, Forename ASC");
-        $stmt->bindParam(':cid', $club);
-        $stmt->execute();  
-    }else{
-        echo("yo");
-        $stmt=$conn->prepare("SELECT Forename, Surname, Gender, PlayerID FROM tblplayers where ClubID = :cid AND Gender= :sex AND active=1 Order By  Surname ASC, Forename ASC");
-        $stmt->bindParam(':cid', $club);
-        $stmt->bindParam(':sex', $sex);
-        $stmt->execute();  
+        $stmt1=$conn->prepare("SELECT $position FROM tblmatches where MatchID = :mid");#looks up the field to see if alread set value
+        $stmt1->bindParam(':mid', $_SESSION["curmatch"]);
+        $stmt1->execute(); 
+        while ($row = $stmt1->fetch(PDO::FETCH_ASSOC)){
+            $playerID=($row[$position]);
+        }
+
+        echo "<select name='$position' id='$position'>";
         
-    } 
-	echo "<option value='' selected disabled>Please select a Player...</option>";
-// GOING THROUGH THE DATA
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
-	{	
-			//code for drop down list
-			echo '<option value="' . $row['PlayerID'] . '">' . $row['Forename'] ." ". $row['Surname'] .'</option>';
-			
-	}
-    echo("</select>");
-}
+       
+        if ($sex=="B"){
+            $stmt=$conn->prepare("SELECT Forename, Surname, Gender, PlayerID,active FROM tblplayers where ClubID = :cid AND active=1 Order By Gender ASC, Surname ASC, Forename ASC");
+            $stmt->bindParam(':cid', $club);
+            $stmt->execute();  
+        }else{
+            echo("yo");
+            $stmt=$conn->prepare("SELECT Forename, Surname, Gender, PlayerID FROM tblplayers where ClubID = :cid AND Gender= :sex AND active=1 Order By  Surname ASC, Forename ASC");
+            $stmt->bindParam(':cid', $club);
+            $stmt->bindParam(':sex', $sex);
+            $stmt->execute();  
+            
+        } 
+        echo "<option value='' selected disabled>Please select a Player...</option>";
+    // GOING THROUGH THE DATA
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+        {	if ($playerID == $row['PlayerID']) {
+                $selected = 'selected';
+            } else {
+                $selected = '';
+            }
+                //code for drop down list
+                echo '<option value="' . $row['PlayerID'] . '"' . $selected . '>' . $row['Forename'] ." ". $row['Surname'] .'</option>';
+                
+        }
+        echo("</select>");
+    }
+
 ?>
 
 </div>
@@ -66,6 +79,7 @@ include_once ("connection.php");
    while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
    {
     print_r($row);
+    print_r($_SESSION);
        $_SESSION["curleague"]=$row["LeagueID"];
        $_SESSION["curmatch"]=$_POST["match"];
        $home=$row["hc"];
@@ -85,66 +99,66 @@ include_once ("connection.php");
     <h3>Players</h3><table style = "width:60%"  class="table-striped table-bordered table-condensed"><tr><th colspan="2"><?php echo($ht);?> Players</th><th colspan="2"><?php echo($at);?> Players</th></tr>
     <tr>
     <td>Player 1</td>
-    <td><?php popdropdown($home,'B','ph1');?></td>
+    <td><?php popdropdown($home,'B','HomeP1ID');?></td>
     <td>Player 1</td>
-    <td><?php popdropdown($away,'B','pa1');?></td>
+    <td><?php popdropdown($away,'B','AwayP1ID');?></td>
     </tr>
 
     <tr>
     <td>Player 2</td>
-    <td><?php popdropdown($home,'B','ph2');?></td>
+    <td><?php popdropdown($home,'B','HomeP2ID');?></td>
     <td>Player 2</td>
-    <td><?php popdropdown($away,'B','pa2');?></td>
+    <td><?php popdropdown($away,'B','AwayP2ID');?></td>
     </tr>
 
     <tr>
     <td>Player 3</td>
-    <td><?php popdropdown($home,'B','ph3');?></td>
+    <td><?php popdropdown($home,'B','HomeP3ID');?></td>
     <td>Player 3</td>
-    <td><?php popdropdown($away,'B','pa3');?></td>
+    <td><?php popdropdown($away,'B','AwayP3ID');?></td>
     </tr>
     <?php if($_SESSION["curleague"]==1){
         ?>
         <tr>
         <td>Player 1</td>
-        <td><?php popdropdown($home,'B','ph4');?></td>
+        <td><?php popdropdown($home,'B','HomeP4ID');?></td>
         <td>Player 1</td>
-        <td><?php popdropdown($away,'B','pa4');?></td>
+        <td><?php popdropdown($away,'B','AwayP4ID');?></td>
         </tr>
 
         <tr>
         <td>Player 2</td>
-        <td><?php popdropdown($home,'B','ph5');?></td>
+        <td><?php popdropdown($home,'B','HomeP5ID');?></td>
         <td>Player 2</td>
-        <td><?php popdropdown($away,'B','pa5');?></td>
+        <td><?php popdropdown($away,'B','AwayP5ID');?></td>
         </tr>
 
         <tr>
         <td>Player 3</td>
-        <td><?php popdropdown($home,'B','ph6');?></td>
+        <td><?php popdropdown($home,'B','HomeP6ID');?></td>
         <td>Player 3</td>
-        <td><?php popdropdown($away,'B','pa6');?></td>
+        <td><?php popdropdown($away,'B','AwayP6ID');?></td>
         </tr>
     <?php }else{ ?>
         <tr>
         <td>Lady 1</td>
-        <td><?php popdropdown($home,'F','ph4');?></td>
+        <td><?php popdropdown($home,'F','HomeP4ID');?></td>
         <td>Lady 1</td>
-        <td><?php popdropdown($away,'F','pa4');?></td>
+        <td><?php popdropdown($away,'F','AwayP4ID');?></td>
         </tr>
 
         <tr>
         <td>Lady 2</td>
-        <td><?php popdropdown($home,'F','ph5');?></td>
+        <td><?php popdropdown($home,'F','HomeP5ID');?></td>
         <td>Lady 2</td>
-        <td><?php popdropdown($away,'F','pa5');?></td>
+        <td><?php popdropdown($away,'F','AwayP5ID');?></td>
         </tr>
 
         <tr>
         <td>Lady 3</td>
-        <td><?php popdropdown($home,'F','ph6');?></td>
+        <td><?php popdropdown($home,'F','HomeP6ID');?></td>
         <td>Lady 3</td>
-        <td><?php popdropdown($away,'F','pa6');?></td>
+        <td><?php popdropdown($away,'F','AwayP6ID');?></td>
         </tr>
     <?php } ?>
         <tr><td colspan="4"><input class="btn btn-primary mb-2" type="submit" value="Submit players"></td></tr>
