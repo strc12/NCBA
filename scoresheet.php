@@ -117,7 +117,7 @@ print_r($_SESSION);
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <link href="styles.css" rel="stylesheet">
-    <script>
+  <script>
         // removes session variable counter
     sessionStorage.removeItem("counter");
     
@@ -170,38 +170,38 @@ print_r($_SESSION);
             return 0;
         }
     }
-function prepopulate(id){
-    //fills in values if already entered and stored in the session variables
-    //console.log(Object.keys(sessionStorage));
-    //console.log(Object(sessionStorage));
-    if(sessionStorage.getItem(id)) {
-    document.getElementById(id).value = sessionStorage.getItem(id);
-    } else {
-    document.getElementById(id).value = '';
+    function prepopulate(id){
+        //fills in values if already entered and stored in the session variables
+        //console.log(Object.keys(sessionStorage));
+        //console.log(Object(sessionStorage));
+        if(sessionStorage.getItem(id)) {
+        document.getElementById(id).value = sessionStorage.getItem(id);
+        } else {
+        document.getElementById(id).value = '';
+        }
+        document.getElementById(id).addEventListener('input', function() {
+        sessionStorage.setItem(id, this.value);
+        }); 
+        
     }
-    document.getElementById(id).addEventListener('input', function() {
-    sessionStorage.setItem(id, this.value);
-    }); 
-    
-}
-function prepopres(id){
-    console.log(Object.keys(sessionStorage));
-    console.log(Object(sessionStorage));
-    if (sessionStorage.counter==null){
-    sessionStorage.counter=1;
+    function prepopres(id){
+        console.log(Object.keys(sessionStorage));
+        console.log(Object(sessionStorage));
+        if (sessionStorage.counter==null){
+        sessionStorage.counter=1;
+        }
+        if(sessionStorage.getItem(id)) {
+        document.getElementById(id).innerText = sessionStorage.getItem(id);
+        } else {
+        document.getElementById(id).innerText = '';
+        }
+        document.getElementById(id).addEventListener('input', function() {
+        sessionStorage.setItem(id, this.innerText);
+        });  
+        sessionStorage.counter=Number(sessionStorage.counter)+1;
+        
     }
-    if(sessionStorage.getItem(id)) {
-    document.getElementById(id).innerText = sessionStorage.getItem(id);
-    } else {
-    document.getElementById(id).innerText = '';
-    }
-    document.getElementById(id).addEventListener('input', function() {
-    sessionStorage.setItem(id, this.innerText);
-    });  
-    sessionStorage.counter=Number(sessionStorage.counter)+1;
-    
-}
-function games(match1,match2, home,away,box){
+    function games(match1,match2, home,away,box){
         //validate scores - 
         var homescore=parseInt(document.getElementById(match1).value);
         var awayscore=parseInt(document.getElementById(match2).value);
@@ -266,26 +266,25 @@ function games(match1,match2, home,away,box){
             sessionStorage[match2.slice(0,match2.length -3)+1]="1";
             
         } 
-    if (checkfilled()!=1) {
-        // need to make this work for prepopulated too
-        document.getElementById("but").style.display='block';
-        
-    }else{
-        document.getElementById("but").style.display='none';
-    }
-    }
-
-</script>
-  <script>
-  $(function() {
-    $("#navigation").load("navbar.php");
-    });
-</script>
-<style>
-    td,th[colspan="2"], th[rowspan="2"]{
-    text-align:center;
-    }
-</style>
+        if (checkfilled()!=1) {
+            // need to make this work for prepopulated too
+            document.getElementById("but").style.display='block';
+            
+        }else{
+            document.getElementById("but").style.display='none';
+        }
+        }
+    </script>
+    <script>
+        $(function() {
+            $("#navigation").load("navbar.php");
+        });
+    </script>
+    <style>
+        td,th[colspan="2"], th[rowspan="2"]{
+        text-align:center;
+        }
+    </style>
 </head>
 <body>
 <div id="navigation"></div>
@@ -298,6 +297,7 @@ if ($_SESSION["curleague"]==3){
 }else if ($_SESSION["curleague"]==4){
     echo("Ladies");
 }else{
+    $tot=1;
 ?>
 <form action ="Confirmresults.php" method="POST">
 <?php echo("<input type='hidden'  name='FixID' value=".$_SESSION['curmatch'].">");?>
@@ -317,7 +317,7 @@ if ($_SESSION["curleague"]==3){
 <td><?php echo $row['HC']." ".$row['HT'];?></td>
 <td><?php echo $row['AWC']." ".$row['AWT'];?></td>
 </tr>
-
+<!-- HEADINGS DONE -->
 <tr>
 <td rowspan="3">1</td>
 <td rowspan="3"><?php echo $row['P1f']." ".$row['P1s']." & ",$row['P2f']." ".$row['P2s'];?></td>
@@ -334,9 +334,10 @@ if ($_SESSION["curleague"]==3){
 <td id="m2h"><script>prepopres("m2h");</script></td>
 <td id="m2a"><script>prepopres("m2a");</script></td>
 </tr>
+<!-- DISABLE UNTIL NEEDED -->
 <tr>
-<td><input autocomplete="off" id="m3hpts" name="m3hpts" onchange="games(this.id,document.getElementById('m3apts').id,document.getElementById('m3h').id,document.getElementById('m3a').id)" type="text" ><script>prepopulate("m3hpts");</script></td>
-<td><input autocomplete="off" id="m3apts" name="m3apts" onchange="games(document.getElementById('m3hpts').id,this.id,document.getElementById('m3h').id,document.getElementById('m3a').id)"type="text" ><script>prepopulate("m3apts");</script></td>
+<td><input autocomplete="off" <?php if ($tot==1) { echo 'disabled'; } ?> id="m3hpts" name="m3hpts" onchange="games(this.id,document.getElementById('m3apts').id,document.getElementById('m3h').id,document.getElementById('m3a').id)" type="text" ><script>prepopulate("m3hpts");</script></td>
+<td><input autocomplete="off" <?php if ($tot==1) { echo 'disabled'; } ?>  id="m3apts" name="m3apts" onchange="games(document.getElementById('m3hpts').id,this.id,document.getElementById('m3h').id,document.getElementById('m3a').id)"type="text" ><script>prepopulate("m3apts");</script></td>
 <td id="m3h"><script>prepopres("m3h");</script></td>
 <td id="m3a"><script>prepopres("m3a");</script></td>
 </tr>
