@@ -158,7 +158,9 @@ try {
     (NULL,1,5,'BMX2',1),
     (NULL,1,5,'BMX3',1),
     (NULL,3,5,'WMX2',1),
-    (NULL,2,5,'BMX2',1)
+    (NULL,2,5,'BMX2',1),
+    (NULL,1,6,'AL1',1),
+    (NULL,2,6,'BL1',1)
     ");
     $stmt5->execute();
     $stmt5->closeCursor();
@@ -185,7 +187,7 @@ try {
     (NULL,'F','Freda1','Smith','24-05-02',1,1),
     (NULL,'F','Freda2','Smith','24-05-02',1,1),
     (NULL,'M','Freddy','Smith','24-05-02',2,1),
-    (NULL,'M','Freddy1','Smith','24-05-02',2,0),
+    (NULL,'M','Freddy1','Smith','24-05-02',2,1),
     (NULL,'M','Freddy2','Smith','24-05-02',2,1),
     (NULL,'F','Frederica','Smith','24-05-02',2,1),
     (NULL,'F','Frederica1','Smith','24-05-02',2,1),
@@ -207,7 +209,8 @@ try {
     $stmt5 = $conn->prepare("INSERT INTO TblLeague(LeagueID,Name,Details)VALUES 
     (NULL,'Open','open doubles'),
     (NULL,'Mixed','Mixed doubles'),
-    (NULL,'Doubles','Doubles league - mixed diff format')
+    (NULL,'Doubles','Doubles league - mixed diff format'),
+    (NULL,'Ladies','Ladies league - 4 players - six games')
     ");
     $stmt5->execute();
     $stmt5->closeCursor();
@@ -225,7 +228,10 @@ try {
     (NULL,'2nd',1),
     (NULL,'1st',3),
     (NULL,'1st',2),
-    (NULL,'2nd',2)
+    (NULL,'2nd',2),
+    (NULL,'1st',4)
+    
+
     ");#type picked from tblleague 
     $stmt5->execute();
     $stmt5->closeCursor();

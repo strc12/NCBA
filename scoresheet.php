@@ -65,19 +65,20 @@ tblmatches.m25h,tblmatches.m25a,
 tblmatches.m26h,tblmatches.m26a,
 tblmatches.m27h,tblmatches.m27a,
 tblmatches.HomeID as Home, tblmatches.AwayID as Away,  
-P1.Forename as M1f, P1.Surname as M1s, 
-P2.Forename as M2f, P2.Surname as M2s,
-P3.Forename as M3f, P3.Surname as M3s,
-P4.Forename as L1f, P4.Surname as L1s,
-P5.Forename as L2f, P5.Surname as L2s,
-P6.Forename as L3f, P6.Surname as L3s,
-AP1.Forename as AM1f, AP1.Surname as AM1s, 
-AP2.Forename as AM2f, AP2.Surname as AM2s,
-AP3.Forename as AM3f, AP3.Surname as AM3s,
-AP4.Forename as AL1f, AP4.Surname as AL1s,
-AP5.Forename as AL2f, AP5.Surname as AL2s,
-AP6.Forename as AL3f, AP6.Surname as AL3s,
-awc.CLubname as AWC, hc.Clubname as HC
+P1.Forename as P1f, P1.Surname as P1s, 
+P2.Forename as P2f, P2.Surname as P2s,
+P3.Forename as P3f, P3.Surname as P3s,
+P4.Forename as P4f, P4.Surname as P4s,
+P5.Forename as P5f, P5.Surname as P5s,
+P6.Forename as P6f, P6.Surname as P6s,
+AP1.Forename as AP1f, AP1.Surname as AP1s, 
+AP2.Forename as AP2f, AP2.Surname as AP2s,
+AP3.Forename as AP3f, AP3.Surname as AP3s,
+AP4.Forename as AP4f, AP4.Surname as AP4s,
+AP5.Forename as AP5f, AP5.Surname as AP5s,
+AP6.Forename as AP6f, AP6.Surname as AP6s,
+awc.CLubname as AWC, hc.Clubname as HC,
+awt.Name as AWT, ht.Name as HT
 
 FROM tblMatches 
 INNER JOIN  TblPlayers as P1 on HomeP1ID = P1.PlayerID
@@ -101,8 +102,10 @@ $stmt->bindParam(':id', $_SESSION['curmatch']);
 $stmt->execute();
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        print_r($row);
-    
+print_r($row);
+echo("<br>");
+print_r($_SESSION);
+
 ?>
 <!DOCTYPE HTML>
 <HTML>
@@ -288,191 +291,57 @@ function games(match1,match2, home,away,box){
 <div id="navigation"></div>
 <div class="container-fluid" style="margin-top:40px">
 <h3>Scores</h3>
+<?php
+if ($_SESSION["curleague"]==3){
+    echo("doubles");
 
+}else if ($_SESSION["curleague"]==4){
+    echo("Ladies");
+}else{
+?>
 <form action ="Confirmresults.php" method="POST">
 <?php echo("<input type='hidden'  name='FixID' value=".$_SESSION['curmatch'].">");?>
 <table style = "width:80%" class="table-bordered table-condensed">
 <tr>
 <th rowspan="2">No</th>
-<th rowspan="2"><?php echo $row['HS']." ".$row['hd'];?></th>
+<th rowspan="2"><?php echo $row['HC']." ".$row['HT'];?></th>
 <th rowspan="2"> </th>
-<th rowspan="2"><?php echo $row['AWS']." ".$row['ad'];?></th>
+<th rowspan="2"><?php echo $row['AWC']." ".$row['AWT'];?></th>
 <th colspan = "2">Points</th>
 <th colspan="2">Games</th>
 </tr>
 
 <tr>
-<td><?php echo $row['HS'];?></td>
-<td><?php echo $row['AWS'];?></td>
-<td><?php echo $row['HS'];?></td>
-<td><?php echo $row['AWS'];?></td>
+<td><?php echo $row['HC']." ".$row['HT'];?></td>
+<td><?php echo $row['AWC']." ".$row['AWT'];?></td>
+<td><?php echo $row['HC']." ".$row['HT'];?></td>
+<td><?php echo $row['AWC']." ".$row['AWT'];?></td>
 </tr>
 
 <tr>
-<td>1</td>
-<td><?php echo $row['L1f']." ".$row['L1s'];?></td>
-<td>v</td>
-<td><?php echo $row['AL1f']." ".$row['AL1s'];?></td>
-<td><input autocomplete="off" id="m1hpts" name="m1hpts" onchange="games(this.id,document.getElementById('m1apts').id,document.getElementById('m1h1').id,document.getElementById('m1a1').id)" type="text" ><script>prepopulate("m1hpts");</script></td>
-<td><input autocomplete="off" id="m1apts" name="m1apts" onchange="games(document.getElementById('m1hpts').id,this.id,document.getElementById('m1h1').id,document.getElementById('m1a1').id)"type="text" ><script>prepopulate("m1apts");</script></td>
-<td id="m1h1"><script>prepopres("m1h1");</script></td>
-<td id="m1a1"><script>prepopres("m1a1");</script></td>
+<td rowspan="3">1</td>
+<td rowspan="3"><?php echo $row['P1f']." ".$row['P1s']." & ",$row['P2f']." ".$row['P2s'];?></td>
+<td rowspan="3">v</td>
+<td rowspan="3"><?php echo $row['AP1f']." ".$row['AP1s']." & ",$row['AP2f']." ".$row['AP2s'];?></td>
+<td><input autocomplete="off" id="m1hpts" name="m1hpts" onchange="games(this.id,document.getElementById('m1apts').id,document.getElementById('m1h').id,document.getElementById('m1a').id)" type="text" ><script>prepopulate("m1hpts");</script></td>
+<td><input autocomplete="off" id="m1apts" name="m1apts" onchange="games(document.getElementById('m1hpts').id,this.id,document.getElementById('m1h').id,document.getElementById('m1a').id)"type="text" ><script>prepopulate("m1apts");</script></td>
+<td id="m1h"><script>prepopres("m1h");</script></td>
+<td id="m1a"><script>prepopres("m1a");</script></td>
+</tr>
+<tr>
+<td><input autocomplete="off" id="m2hpts" name="m2hpts" onchange="games(this.id,document.getElementById('m2apts').id,document.getElementById('m2h').id,document.getElementById('m2a').id)" type="text" ><script>prepopulate("m2hpts");</script></td>
+<td><input autocomplete="off" id="m2apts" name="m2apts" onchange="games(document.getElementById('m2hpts').id,this.id,document.getElementById('m2h').id,document.getElementById('m2a').id)"type="text" ><script>prepopulate("m2apts");</script></td>
+<td id="m2h"><script>prepopres("m2h");</script></td>
+<td id="m2a"><script>prepopres("m2a");</script></td>
+</tr>
+<tr>
+<td><input autocomplete="off" id="m3hpts" name="m3hpts" onchange="games(this.id,document.getElementById('m3apts').id,document.getElementById('m3h').id,document.getElementById('m3a').id)" type="text" ><script>prepopulate("m3hpts");</script></td>
+<td><input autocomplete="off" id="m3apts" name="m3apts" onchange="games(document.getElementById('m3hpts').id,this.id,document.getElementById('m3h').id,document.getElementById('m3a').id)"type="text" ><script>prepopulate("m3apts");</script></td>
+<td id="m3h"><script>prepopres("m3h");</script></td>
+<td id="m3a"><script>prepopres("m3a");</script></td>
 </tr>
 
-<tr>
-<td>2</td>
-<td><?php echo $row['M1f']." ".$row['M1s'];?></td>
-<td>v</td>
-<td><?php echo $row['AM1f']." ".$row['AM1s'];?></td>
-<td><input autocomplete="off" id="m2hpts" name="m2hpts" onchange="games(this.id,document.getElementById('m2apts').id,document.getElementById('m2h1').id,document.getElementById('m2a1').id)" type="text" ><script>prepopulate("m2hpts");</script></td>
-<td><input autocomplete="off" id="m2apts" name="m2apts" onchange="games(document.getElementById('m2hpts').id,this.id,document.getElementById('m2h1').id,document.getElementById('m2a1').id)"type="text" ><script>prepopulate("m2apts");</script></td>
-<td id="m2h1"><script>prepopres("m2h1");</script></td>
-<td id="m2a1"><script>prepopres("m2a1");</script></td>
-</tr>
 
-<tr>
-<td rowspan="2">3</td>
-<td rowspan="2"><?php echo $row['M2f']." ".$row['M2s']." & ",$row['M3f']." ".$row['M3s'];?></td>
-<td rowspan="2">v</td>
-<td rowspan="2"><?php echo $row['AM2f']." ".$row['AM2s']." & ",$row['AM3f']." ".$row['AM3s'];?></td>
-<td><input autocomplete="off" id="m3hpts" name="m3hpts" onchange="games(this.id,document.getElementById('m3apts').id,document.getElementById('m3h1').id,document.getElementById('m3a1').id)" type="text" ><script>prepopulate("m3hpts");</script></td>
-<td><input autocomplete="off" id="m3apts" name="m3apts" onchange="games(document.getElementById('m3hpts').id,this.id,document.getElementById('m3h1').id,document.getElementById('m3a1').id)"type="text" ><script>prepopulate("m3apts");</script></td>
-<td id="m3h1"><script>prepopres("m3h1");</script></td>
-<td id="m3a1"><script>prepopres("m3a1");</script></td>
-</tr>
-
-<tr>
-<td><input autocomplete="off" id="m3ahpts" name="m3ahpts" onchange="games(this.id,document.getElementById('m3aapts').id,document.getElementById('m3ah1').id,document.getElementById('m3aa1').id)" type="text" ><script>prepopulate("m3ahpts");</script></td>
-<td><input autocomplete="off" id="m3aapts" name="m3aapts" onchange="games(document.getElementById('m3ahpts').id,this.id,document.getElementById('m3ah1').id,document.getElementById('m3aa1').id)"type="text" ><script>prepopulate("m3aapts");</script></td>
-<td id="m3ah1"><script>prepopres("m3ah1");</script></td>
-<td id="m3aa1"><script>prepopres("m3aa1");</script></td>
-</tr>
-
-<tr>
-<td rowspan="2">4</td>
-<td rowspan="2"><?php echo $row['L2f']." ".$row['L2s']." & ",$row['L3f']." ".$row['L3s'];?></td>
-<td rowspan="2">v</td>
-<td rowspan="2"><?php echo $row['AL2f']." ".$row['AL2s']." & ",$row['AL3f']." ".$row['AL3s'];?></td>
-<td><input autocomplete="off" id="m4hpts" name="m4hpts" onchange="games(this.id,document.getElementById('m4apts').id,document.getElementById('m4h1').id,document.getElementById('m4a1').id)" type="text" ><script>prepopulate("m4hpts");</script></td>
-<td><input autocomplete="off" id="m4apts" name="m4apts" onchange="games(document.getElementById('m4hpts').id,this.id,document.getElementById('m4h1').id,document.getElementById('m4a1').id)"type="text" ><script>prepopulate("m4apts");</script></td>
-<td id="m4h1"><script>prepopres("m4h1");</script></td>
-<td id="m4a1"><script>prepopres("m4a1");</script></td>
-</tr>
-
-<tr>
-<td><input autocomplete="off" id="m4ahpts" name="m4ahpts" onchange="games(this.id,document.getElementById('m4aapts').id,document.getElementById('m4ah1').id,document.getElementById('m4aa1').id)" type="text" ><script>prepopulate("m4ahpts");</script></td>
-<td><input autocomplete="off" id="m4aapts" name="m4aapts" onchange="games(document.getElementById('m4ahpts').id,this.id,document.getElementById('m4ah1').id,document.getElementById('m4aa1').id)"type="text" ><script>prepopulate("m4aapts");</script></td>
-<td id="m4ah1"><script>prepopres("m4ah1");</script></td>
-<td id="m4aa1"><script>prepopres("m4aa1");</script></td>
-</tr>
-
-<tr>
-<td rowspan="2">5</td>
-<td rowspan="2"><?php echo $row['M1f']." ".$row['M1s']." & ",$row['M2f']." ".$row['M2s'];?></td>
-<td rowspan="2">v</td>
-<td rowspan="2"><?php echo $row['AM1f']." ".$row['AM1s']." & ",$row['AM2f']." ".$row['AM2s'];?></td>
-<td><input autocomplete="off" id="m5hpts" name="m5hpts" onchange="games(this.id,document.getElementById('m5apts').id,document.getElementById('m5h1').id,document.getElementById('m5a1').id)" type="text" ><script>prepopulate("m5hpts");</script></td>
-<td><input autocomplete="off" id="m5apts" name="m5apts" onchange="games(document.getElementById('m5hpts').id,this.id,document.getElementById('m5h1').id,document.getElementById('m5a1').id)"type="text" ><script>prepopulate("m5apts");</script></td>
-<td id="m5h1"><script>prepopres("m5h1");</script></td>
-<td id="m5a1"><script>prepopres("m5a1");</script></td>
-</tr>
-
-<tr>
-<td><input autocomplete="off" id="m5ahpts" name="m5ahpts" onchange="games(this.id,document.getElementById('m5aapts').id,document.getElementById('m5ah1').id,document.getElementById('m5aa1').id)" type="text" ><script>prepopulate("m5ahpts");</script></td>
-<td><input autocomplete="off" id="m5aapts" name="m5aapts" onchange="games(document.getElementById('m5ahpts').id,this.id,document.getElementById('m5ah1').id,document.getElementById('m5aa1').id)"type="text" ><script>prepopulate("m5aapts");</script></td>
-<td id="m5ah1"><script>prepopres("m5ah1");</script></td>
-<td id="m5aa1"><script>prepopres("m5aa1");</script></td>
-</tr>
-
-<tr>
-<td rowspan="2">6</td>
-<td rowspan="2"><?php echo $row['L1f']." ".$row['L1s']." & ",$row['L2f']." ".$row['L2s'];?></td>
-<td rowspan="2">v</td>
-<td rowspan="2"><?php echo $row['AL1f']." ".$row['AL1s']." & ",$row['AL2f']." ".$row['AL2s'];?></td>
-<td><input autocomplete="off" id="m6hpts" name="m6hpts" onchange="games(this.id,document.getElementById('m6apts').id,document.getElementById('m6h1').id,document.getElementById('m6a1').id)" type="text" ><script>prepopulate("m6hpts");</script></td>
-<td><input autocomplete="off" id="m6apts" name="m6apts" onchange="games(document.getElementById('m6hpts').id,this.id,document.getElementById('m6h1').id,document.getElementById('m6a1').id)"type="text" ><script>prepopulate("m6apts");</script></td>
-<td id="m6h1"><script>prepopres("m6h1");</script></td>
-<td id="m6a1"><script>prepopres("m6a1");</script></td>
-</tr>
-
-<tr>
-<td><input autocomplete="off" id="m6ahpts" name="m6ahpts"  onchange="games(this.id,document.getElementById('m6aapts').id,document.getElementById('m6ah1').id,document.getElementById('m6aa1').id)" type="text" ><script>prepopulate("m6ahpts");</script></td>
-<td><input autocomplete="off" id="m6aapts" name="m6aapts" onchange="games(document.getElementById('m6ahpts').id,this.id,document.getElementById('m6ah1').id,document.getElementById('m6aa1').id)"type="text" ><script>prepopulate("m6aapts");</script></td>
-<td id="m6ah1"><script>prepopres("m6ah1");</script></td>
-<td id="m6aa1"><script>prepopres("m6aa1");</script></td>
-</tr>
-
-<tr>
-<td rowspan="2">7</td>
-<td rowspan="2"><?php echo $row['L3f']." ".$row['L3s']." & ",$row['M3f']." ".$row['M3s'];?></td>
-<td rowspan="2">v</td>
-<td rowspan="2"><?php echo $row['AL3f']." ".$row['AL3s']." & ",$row['AM3f']." ".$row['AM3s'];?></td>
-<td><input autocomplete="off" id="m7hpts" name="m7hpts" onchange="games(this.id,document.getElementById('m7apts').id,document.getElementById('m7h1').id,document.getElementById('m7a1').id)" type="text" ><script>prepopulate("m7hpts");</script></td>
-<td><input autocomplete="off" id="m7apts" name="m7apts" onchange="games(document.getElementById('m7hpts').id,this.id,document.getElementById('m7h1').id,document.getElementById('m7a1').id)"type="text" ><script>prepopulate("m7apts");</script></td>
-<td id="m7h1"><script>prepopres("m7h1");</script></td>
-<td id="m7a1"><script>prepopres("m7a1");</script></td>
-</tr>
-
-<tr>
-<td><input autocomplete="off" id="m7ahpts" name="m7ahpts" onchange="games(this.id,document.getElementById('m7aapts').id,document.getElementById('m7ah1').id,document.getElementById('m7aa1').id)" type="text" ><script>prepopulate("m7ahpts");</script></td>
-<td><input autocomplete="off" id="m7aapts" name="m7aapts" onchange="games(document.getElementById('m7ahpts').id,this.id,document.getElementById('m7ah1').id,document.getElementById('m7aa1').id)"type="text" ><script>prepopulate("m7aapts");</script></td>
-<td id="m7ah1"><script>prepopres("m7ah1");</script></td>
-<td id="m7aa1"><script>prepopres("m7aa1");</script></td>
-</tr>
-
-<tr>
-<td rowspan="2">8</td>
-<td rowspan="2"><?php echo $row['L1f']." ".$row['L1s']." & ",$row['M1f']." ".$row['M1s'];?></td>
-<td rowspan="2">v</td>
-<td rowspan="2"><?php echo $row['AL1f']." ".$row['AL1s']." & ",$row['AM1f']." ".$row['AM1s'];?></td>
-<td><input autocomplete="off" id="m8hpts" name="m8hpts" onchange="games(this.id,document.getElementById('m8apts').id,document.getElementById('m8h1').id,document.getElementById('m8a1').id)" type="text" ><script>prepopulate("m8hpts");</script></td>
-<td><input autocomplete="off" id="m8apts" name="m8apts" onchange="games(document.getElementById('m8hpts').id,this.id,document.getElementById('m8h1').id,document.getElementById('m8a1').id)"type="text" ><script>prepopulate("m8apts");</script></td>
-<td id="m8h1"><script>prepopres("m8h1");</script></td>
-<td id="m8a1"><script>prepopres("m8a1");</script></td>
-</tr>
-
-<tr>
-<td><input autocomplete="off" id="m8ahpts"  name="m8ahpts" onchange="games(this.id,document.getElementById('m8aapts').id,document.getElementById('m8ah1').id,document.getElementById('m8aa1').id)" type="text" ><script>prepopulate("m8ahpts");</script></td>
-<td><input autocomplete="off" id="m8aapts"  name="m8aapts"onchange="games(document.getElementById('m8ahpts').id,this.id,document.getElementById('m8ah1').id,document.getElementById('m8aa1').id)"type="text" ><script>prepopulate("m8aapts");</script></td>
-<td id="m8ah1"><script>prepopres("m8ah1");</script></td>
-<td id="m8aa1"><script>prepopres("m8aa1");</script></td>
-</tr>
-
-<tr>
-<td rowspan="2">9</td>
-<td rowspan="2"><?php echo $row['L3f']." ".$row['L3s']." & ",$row['M2f']." ".$row['M2s'];?></td>
-<td rowspan="2">v</td>
-<td rowspan="2"><?php echo $row['AL3f']." ".$row['AL3s']." & ",$row['AM2f']." ".$row['AM2s'];?></td>
-<td><input autocomplete="off" id="m9hpts" name="m9hpts" onchange="games(this.id,document.getElementById('m9apts').id,document.getElementById('m9h1').id,document.getElementById('m9a1').id)" type="text" ><script>prepopulate("m9hpts");</script></td>
-<td><input autocomplete="off" id="m9apts" name="m9apts" onchange="games(document.getElementById('m9hpts').id,this.id,document.getElementById('m9h1').id,document.getElementById('m9a1').id)"type="text" ><script>prepopulate("m9apts");</script></td>
-<td id="m9h1"><script>prepopres("m9h1");</script></td>
-<td id="m9a1"><script>prepopres("m9a1");</script></td>
-</tr>
-
-<tr>
-<td><input autocomplete="off" id="m9ahpts" name="m9ahpts" onchange="games(this.id,document.getElementById('m9aapts').id,document.getElementById('m9ah1').id,document.getElementById('m9aa1').id)" type="text" ><script>prepopulate("m9ahpts");</script></td>
-<td><input autocomplete="off" id="m9aapts" name="m9aapts" onchange="games(document.getElementById('m9ahpts').id,this.id,document.getElementById('m9ah1').id,document.getElementById('m9aa1').id)"type="text" ><script>prepopulate("m9aapts");</script></td>
-<td id="m9ah1"><script>prepopres("m9ah1");</script></td>
-<td id="m9aa1"><script>prepopres("m9aa1");</script></td>
-</tr>
-
-<tr>
-<td rowspan="2">10</td>
-<td rowspan="2"><?php echo $row['L2f']." ".$row['L2s']." & ",$row['M3f']." ".$row['M3s'];?></td>
-<td rowspan="2">v</td>
-<td rowspan="2"><?php echo $row['AL2f']." ".$row['AL2s']." & ",$row['AM3f']." ".$row['AM3s'];?></td>
-<td><input autocomplete="off" id="m10hpts" name="m10hpts" onchange="games(this.id,document.getElementById('m10apts').id,document.getElementById('m10h1').id,document.getElementById('m10a1').id)" type="text" ><script>prepopulate("m10hpts");</script></td>
-<td><input autocomplete="off" id="m10apts" name="m10apts"onchange="games(document.getElementById('m10hpts').id,this.id,document.getElementById('m10h1').id,document.getElementById('m10a1').id)"type="text" ><script>prepopulate("m10apts");</script></td>
-<td id="m10h1"><script>prepopres("m10h1");</script></td>
-<td id="m10a1"><script>prepopres("m10a1");</script></td>
-</tr>
-
-<tr>
-<td><input autocomplete="off" id="m10ahpts" name="m10ahpts"  onchange="games(this.id,document.getElementById('m10aapts').id,document.getElementById('m10ah1').id,document.getElementById('m10aa1').id)" type="text" ><script>prepopulate("m10ahpts");</script></td>
-<td><input autocomplete="off" id="m10aapts" name="m10aapts" onchange="games(document.getElementById('m10ahpts').id,this.id,document.getElementById('m10ah1').id,document.getElementById('m10aa1').id)"type="text" ><script>prepopulate("m10aapts");</script></td>
-<td id="m10ah1"><script>prepopres("m10ah1");</script></td>
-<td id="m10aa1"><script>prepopres("m10aa1");</script></td>
-</tr>
 <tr>
 <td></td>
 <td></td>
@@ -489,6 +358,9 @@ function games(match1,match2, home,away,box){
 
 
 </form>
+<?php
+}
+?>
 </div>
 
 <div id="but" style="display:none;">

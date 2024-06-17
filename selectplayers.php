@@ -32,7 +32,6 @@
             $stmt->bindParam(':cid', $club);
             $stmt->execute();  
         }else{
-            echo("yo");
             $stmt=$conn->prepare("SELECT Forename, Surname, Gender, PlayerID FROM tblplayers where ClubID = :cid AND Gender= :sex AND active=1 Order By  Surname ASC, Forename ASC");
             $stmt->bindParam(':cid', $club);
             $stmt->bindParam(':sex', $sex);
@@ -88,6 +87,7 @@ include_once ("connection.php");
        $at=$row["awcn"].' '.$row["awtn"];
        $_SESSION["home"]=$ht;
        $_SESSION["away"]=$at;
+       
    }
    $conn=null;
    echo$home."- ".$away;
@@ -97,49 +97,87 @@ include_once ("connection.php");
     echo("<input type='hidden'  name='FixID' value=".$_SESSION["curmatch"].">");
     ?>
     <h3>Players</h3><table style = "width:60%"  class="table-striped table-bordered table-condensed"><tr><th colspan="2"><?php echo($ht);?> Players</th><th colspan="2"><?php echo($at);?> Players</th></tr>
+    <?php if($_SESSION["curleague"]==4){
+    ?>
     <tr>
     <td>Player 1</td>
-    <td><?php popdropdown($home,'B','HomeP1ID');?></td>
+    <td><?php popdropdown($home,'L','HomeP1ID');?></td>
     <td>Player 1</td>
-    <td><?php popdropdown($away,'B','AwayP1ID');?></td>
+    <td><?php popdropdown($away,'L','AwayP1ID');?></td>
     </tr>
 
     <tr>
     <td>Player 2</td>
-    <td><?php popdropdown($home,'B','HomeP2ID');?></td>
+    <td><?php popdropdown($home,'L','HomeP2ID');?></td>
     <td>Player 2</td>
-    <td><?php popdropdown($away,'B','AwayP2ID');?></td>
+    <td><?php popdropdown($away,'L','AwayP2ID');?></td>
     </tr>
 
-    <tr>
-    <td>Player 3</td>
-    <td><?php popdropdown($home,'B','HomeP3ID');?></td>
-    <td>Player 3</td>
-    <td><?php popdropdown($away,'B','AwayP3ID');?></td>
-    </tr>
-    <?php if($_SESSION["curleague"]==1){
-        ?>
+   
+    <?php
+    }else{
+    ?>
         <tr>
         <td>Player 1</td>
-        <td><?php popdropdown($home,'B','HomeP4ID');?></td>
+        <td><?php popdropdown($home,'B','HomeP1ID');?></td>
         <td>Player 1</td>
+        <td><?php popdropdown($away,'B','AwayP1ID');?></td>
+        </tr>
+
+        <tr>
+        <td>Player 2</td>
+        <td><?php popdropdown($home,'B','HomeP2ID');?></td>
+        <td>Player 2</td>
+        <td><?php popdropdown($away,'B','AwayP2ID');?></td>
+        </tr>
+
+        <tr>
+        <td>Player 3</td>
+        <td><?php popdropdown($home,'B','HomeP3ID');?></td>
+        <td>Player 3</td>
+        <td><?php popdropdown($away,'B','AwayP3ID');?></td>
+        </tr>
+    <?php };
+    if($_SESSION["curleague"]==1){
+        ?>
+        <tr>
+        <td>Player 4</td>
+        <td><?php popdropdown($home,'B','HomeP4ID');?></td>
+        <td>Player 4</td>
         <td><?php popdropdown($away,'B','AwayP4ID');?></td>
         </tr>
 
         <tr>
-        <td>Player 2</td>
+        <td>Player 5</td>
         <td><?php popdropdown($home,'B','HomeP5ID');?></td>
-        <td>Player 2</td>
+        <td>Player 4</td>
         <td><?php popdropdown($away,'B','AwayP5ID');?></td>
         </tr>
 
         <tr>
-        <td>Player 3</td>
+        <td>Player 6</td>
         <td><?php popdropdown($home,'B','HomeP6ID');?></td>
-        <td>Player 3</td>
+        <td>Player 6</td>
         <td><?php popdropdown($away,'B','AwayP6ID');?></td>
         </tr>
-    <?php }else{ ?>
+    <?php 
+    }else if($_SESSION["curleague"]==4){
+        ?>
+        <tr>
+        <td>Player 3</td>
+        <td><?php popdropdown($home,'F','HomeP3ID');?></td>
+        <td>Player 3</td>
+        <td><?php popdropdown($away,'F','AwayP3ID');?></td>
+        </tr>
+
+        <tr>
+        <td>Player 4</td>
+        <td><?php popdropdown($home,'F','HomeP4ID');?></td>
+        <td>Player 4</td>
+        <td><?php popdropdown($away,'F','AwayP4ID');?></td>
+        </tr>
+    <?php 
+    }else{ ?>
         <tr>
         <td>Lady 1</td>
         <td><?php popdropdown($home,'F','HomeP4ID');?></td>
@@ -160,7 +198,9 @@ include_once ("connection.php");
         <td>Lady 3</td>
         <td><?php popdropdown($away,'F','AwayP6ID');?></td>
         </tr>
-    <?php } ?>
+    <?php 
+    } 
+    ?>
         <tr><td colspan="4"><input class="btn btn-primary mb-2" type="submit" value="Submit players"></td></tr>
     </table>
 
