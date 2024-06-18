@@ -201,14 +201,29 @@ function prepopres(id){
     sessionStorage.counter=Number(sessionStorage.counter)+1;
     
 }
-function games(match1,match2, home,away,box){
+/* function games(match1,match2, home,away,box){
         //validate scores - 
         var homescore=parseInt(document.getElementById(match1).value);
         var awayscore=parseInt(document.getElementById(match2).value);
-      
+        if (!sessionStorage.getItem(box)) {
+        sessionStorage.setItem(box, 0);
+    }
+        function toggleInputs() {
+        var boxValue = parseInt(sessionStorage.getItem(box), 10);
+        var m3apts = document.getElementById("m3apts");
+        var m3hpts = document.getElementById("m3hpts");
         
-        console.log(Object.keys(sessionStorage));
-        console.log(Object(sessionStorage));
+        if (boxValue === 1) {
+            m3apts.disabled = true;
+            m3hpts.disabled = true;
+        } else if (boxValue === 0) {
+            m3apts.disabled = false;
+            m3hpts.disabled = false;
+        }
+    }
+    
+    toggleInputs();
+        
         
         
         if(homescore>30 || homescore<0){
@@ -250,13 +265,16 @@ function games(match1,match2, home,away,box){
             document.getElementById(match1).value='';
             document.getElementById(home).innerHTML = ""; 
             document.getElementById(away).innerHTML = "";
-            document.getElementById(match1).focus(); */
+            document.getElementById(match1).focus(); 
         }else if(homescore>awayscore&&(homescore>=21 ||awayscore>=21)){
             document.getElementById(home).innerHTML = "1"; 
             document.getElementById(away).innerHTML = "0";
       
             sessionStorage[match1.slice(0,match1.length -3)+1]="1";
             sessionStorage[match2.slice(0,match2.length -3)+1]="0";
+            sessionStorage.setItem(box,variable + 1);
+            
+            alert(sessionStorage[box]);
           
         }else if (homescore<awayscore&&(homescore>=21 ||awayscore>=21)){
             document.getElementById(home).innerHTML = "0";
@@ -264,7 +282,10 @@ function games(match1,match2, home,away,box){
             
             sessionStorage[match1.slice(0,match1.length -3)+1]="0";
             sessionStorage[match2.slice(0,match2.length -3)+1]="1";
+            var variable = parseInt(sessionStorage.getItem(box),10);
+            sessionStorage.setItem(box,variable - 1);
             
+            alert(sessionStorage[box]);
         } 
     if (checkfilled()!=1) {
         // need to make this work for prepopulated too
@@ -273,7 +294,106 @@ function games(match1,match2, home,away,box){
     }else{
         document.getElementById("but").style.display='none';
     }
+    console.log(Object(sessionStorage));
+    if (sessionStorage[box]==0){
+        document.getElementById("m3apts").disabled = false;
+    }else{
+        document.getElementById("m3apts").disabled = true;
     }
+    toggleInputs();
+} */
+function games(match1, match2, home, away, box) {
+    // Validate scores
+    var homeElement = document.getElementById(match1);
+    var awayElement = document.getElementById(match2);
+    
+    if (!homeElement || !awayElement) {
+        console.error('Element not found');
+        return;
+    }
+    
+    var homescore = parseInt(homeElement.value);
+    var awayscore = parseInt(awayElement.value);
+    
+    if (isNaN(homescore) || isNaN(awayscore)) {
+        console.error('Invalid scores');
+        return;
+    }
+    
+    if (!sessionStorage.getItem(box)) {
+        sessionStorage.setItem(box, 0);
+    }
+    
+    function toggleInputs() {
+        var boxValue = parseInt(sessionStorage.getItem(box), 10);
+        var m3apts = document.getElementById("m3apts");
+        var m3hpts = document.getElementById("m3hpts");
+        
+        if (!m3apts || !m3hpts) {
+            console.error('Input elements not found');
+            return;
+        }
+        
+        if (boxValue === 1) {
+            m3apts.disabled = true;
+            m3hpts.disabled = true;
+        } else if (boxValue === 0) {
+            m3apts.disabled = false;
+            m3hpts.disabled = false;
+        }
+    }
+    
+    toggleInputs();
+    
+    var variable = parseInt(sessionStorage.getItem(box), 10);
+    
+    var homeElementDisplay = document.getElementById(home);
+    var awayElementDisplay = document.getElementById(away);
+    
+    if (!homeElementDisplay || !awayElementDisplay) {
+        console.error('Home/Away elements not found');
+        return;
+    }
+    
+    if (homescore > awayscore && (homescore >= 21 || awayscore >= 21)) {
+        homeElementDisplay.innerText = "1";
+        awayElementDisplay.innerText = "0";
+      
+        sessionStorage.setItem(match1.slice(0, match1.length - 3) + "1", "1");
+        sessionStorage.setItem(match2.slice(0, match2.length - 3) + "1", "0");
+        sessionStorage.setItem(box, variable + 1);
+        
+        alert(sessionStorage.getItem(box));
+          
+    } else if (homescore < awayscore && (homescore >= 21 || awayscore >= 21)) {
+        homeElementDisplay.innerText = "0";
+        awayElementDisplay.innerText = "1";
+        
+        sessionStorage.setItem(match1.slice(0, match1.length - 3) + "1", "0");
+        sessionStorage.setItem(match2.slice(0, match2.length - 3) + "1", "1");
+        sessionStorage.setItem(box, variable - 1);
+        
+        alert(sessionStorage.getItem(box));
+    }
+    
+    /* if (typeof checkfilled === 'function' && checkfilled() != 1) {
+        document.getElementById("but").style.display = 'block';
+    } else {
+        document.getElementById("but").style.display = 'none';
+    } */
+    
+    console.log(Object(sessionStorage));
+    
+    if (sessionStorage.getItem(box) == 0) {
+        var m3apts = document.getElementById("m3apts");
+        if (m3apts) m3apts.disabled = false;
+    } else {
+        var m3apts = document.getElementById("m3apts");
+        if (m3apts) m3apts.disabled = true;
+    }
+    
+    toggleInputs();
+}
 
 </script>
   <script>
@@ -323,20 +443,20 @@ if ($_SESSION["curleague"]==3){
 <td rowspan="3"><?php echo $row['P1f']." ".$row['P1s']." & ",$row['P2f']." ".$row['P2s'];?></td>
 <td rowspan="3">v</td>
 <td rowspan="3"><?php echo $row['AP1f']." ".$row['AP1s']." & ",$row['AP2f']." ".$row['AP2s'];?></td>
-<td><input autocomplete="off" id="m1hpts" name="m1hpts" onchange="games(this.id,document.getElementById('m1apts').id,document.getElementById('m1h').id,document.getElementById('m1a').id)" type="text" ><script>prepopulate("m1hpts");</script></td>
-<td><input autocomplete="off" id="m1apts" name="m1apts" onchange="games(document.getElementById('m1hpts').id,this.id,document.getElementById('m1h').id,document.getElementById('m1a').id)"type="text" ><script>prepopulate("m1apts");</script></td>
+<td><input autocomplete="off" id="m1hpts" name="m1hpts" onchange="games(this.id,document.getElementById('m1apts').id,document.getElementById('m1h').id,document.getElementById('m1a').id,1)" type="text" ><script>prepopulate("m1hpts");</script></td>
+<td><input autocomplete="off" id="m1apts" name="m1apts" onchange="games(document.getElementById('m1hpts').id,this.id,document.getElementById('m1h').id,document.getElementById('m1a').id,1)"type="text" ><script>prepopulate("m1apts");</script></td>
 <td id="m1h"><script>prepopres("m1h");</script></td>
 <td id="m1a"><script>prepopres("m1a");</script></td>
 </tr>
 <tr>
-<td><input autocomplete="off" id="m2hpts" name="m2hpts" onchange="games(this.id,document.getElementById('m2apts').id,document.getElementById('m2h').id,document.getElementById('m2a').id)" type="text" ><script>prepopulate("m2hpts");</script></td>
-<td><input autocomplete="off" id="m2apts" name="m2apts" onchange="games(document.getElementById('m2hpts').id,this.id,document.getElementById('m2h').id,document.getElementById('m2a').id)"type="text" ><script>prepopulate("m2apts");</script></td>
+<td><input autocomplete="off" id="m2hpts" name="m2hpts" onchange="games(this.id,document.getElementById('m2apts').id,document.getElementById('m2h').id,document.getElementById('m2a').id,1)" type="text" ><script>prepopulate("m2hpts");</script></td>
+<td><input autocomplete="off" id="m2apts" name="m2apts" onchange="games(document.getElementById('m2hpts').id,this.id,document.getElementById('m2h').id,document.getElementById('m2a').id,1)"type="text" ><script>prepopulate("m2apts");</script></td>
 <td id="m2h"><script>prepopres("m2h");</script></td>
 <td id="m2a"><script>prepopres("m2a");</script></td>
 </tr>
 <tr>
-<td><input autocomplete="off" id="m3hpts" name="m3hpts" onchange="games(this.id,document.getElementById('m3apts').id,document.getElementById('m3h').id,document.getElementById('m3a').id)" type="text" ><script>prepopulate("m3hpts");</script></td>
-<td><input autocomplete="off" id="m3apts" name="m3apts" onchange="games(document.getElementById('m3hpts').id,this.id,document.getElementById('m3h').id,document.getElementById('m3a').id)"type="text" ><script>prepopulate("m3apts");</script></td>
+<td><input autocomplete="off" id="m3hpts" name="m3hpts" onchange="games(this.id,document.getElementById('m3apts').id,document.getElementById('m3h').id,document.getElementById('m3a').id,1)" type="text" ><script>prepopulate("m3hpts");</script></td>
+<td><input autocomplete="off" id="m3apts" name="m3apts" onchange="games(document.getElementById('m3hpts').id,this.id,document.getElementById('m3h').id,document.getElementById('m3a').id,1)"type="text" ><script>prepopulate("m3apts");</script></td>
 <td id="m3h"><script>prepopres("m3h");</script></td>
 <td id="m3a"><script>prepopres("m3a");</script></td>
 </tr>
