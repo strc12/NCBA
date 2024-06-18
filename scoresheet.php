@@ -117,7 +117,7 @@ print_r($_SESSION);
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <link href="styles.css" rel="stylesheet">
-    <script>
+  <script>
         // removes session variable counter
     sessionStorage.removeItem("counter");
     
@@ -422,6 +422,7 @@ if ($_SESSION["curleague"]==3){
 }else if ($_SESSION["curleague"]==4){
     echo("Ladies");
 }else{
+    $tot=1;
 ?>
 <form action ="Confirmresults.php" method="POST">
 <?php echo("<input type='hidden'  name='FixID' value=".$_SESSION['curmatch'].">");?>
