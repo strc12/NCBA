@@ -306,76 +306,81 @@ function games(match1, match2, home, away, box) {
     // Validate scores
     var homeElement = document.getElementById(match1);
     var awayElement = document.getElementById(match2);
-    
+    $trd=box*3;//identifier for 3 boxes
     if (!homeElement || !awayElement) {
         console.error('Element not found');
         return;
     }
-    
     var homescore = parseInt(homeElement.value);
     var awayscore = parseInt(awayElement.value);
-    
     if (isNaN(homescore) || isNaN(awayscore)) {
-        console.error('Invalid scores');
+        console.error('Invalids scores');
         return;
-    }
-    
-    if (!sessionStorage.getItem(box)) {
-        sessionStorage.setItem(box, 0);
-    }
-    
-    function toggleInputs() {
-        var boxValue = parseInt(sessionStorage.getItem(box), 10);
-        var m3apts = document.getElementById("m3apts");
-        var m3hpts = document.getElementById("m3hpts");
-        
-        if (!m3apts || !m3hpts) {
-            console.error('Input elements not found');
-            return;
-        }
-        
-        if (boxValue === 1) {
-            m3apts.disabled = true;
-            m3hpts.disabled = true;
-        } else if (boxValue === 0) {
-            m3apts.disabled = false;
-            m3hpts.disabled = false;
-        }
-    }
-    
-    toggleInputs();
-    
-    var variable = parseInt(sessionStorage.getItem(box), 10);
-    
+    }          
     var homeElementDisplay = document.getElementById(home);
     var awayElementDisplay = document.getElementById(away);
-    
     if (!homeElementDisplay || !awayElementDisplay) {
         console.error('Home/Away elements not found');
         return;
     }
-    
     if (homescore > awayscore && (homescore >= 21 || awayscore >= 21)) {
         homeElementDisplay.innerText = "1";
         awayElementDisplay.innerText = "0";
-      
-        sessionStorage.setItem(match1.slice(0, match1.length - 3) + "1", "1");
-        sessionStorage.setItem(match2.slice(0, match2.length - 3) + "1", "0");
-        sessionStorage.setItem(box, variable + 1);
-        
-        alert(sessionStorage.getItem(box));
-          
+        sessionStorage.setItem(match1.slice(0, match1.length - 3) + "r", "1");
+        sessionStorage.setItem(match2.slice(0, match2.length - 3) + "r", "0");
     } else if (homescore < awayscore && (homescore >= 21 || awayscore >= 21)) {
         homeElementDisplay.innerText = "0";
         awayElementDisplay.innerText = "1";
-        
-        sessionStorage.setItem(match1.slice(0, match1.length - 3) + "1", "0");
-        sessionStorage.setItem(match2.slice(0, match2.length - 3) + "1", "1");
-        sessionStorage.setItem(box, variable - 1);
-        
-        alert(sessionStorage.getItem(box));
+        sessionStorage.setItem(match1.slice(0, match1.length - 3) + "r", "0");
+        sessionStorage.setItem(match2.slice(0, match2.length - 3) + "r", "1");
     }
-    
+    const homeresults = ["m"+($trd-2)+"hr", "m"+($trd-1)+"hr", "m"+$trd+"hr"];
+    const awayresults = ["m"+($trd-2)+"ha", "m"+($trd-1)+"ha", "m"+$trd+"ha"];
+    console.log(homeresults);
+    function resultsdone(keys) {
+        let count = 0;
+
+        for (let key of keys) {
+            if (sessionStorage.getItem(key)) {
+                count++;
+            }
+        }
+        return count >= 2;
+    }
+    function getSessionStorageValues(keys) {
+        return keys.map(key => parseFloat(sessionStorage.getItem(key))).filter(value => !isNaN(value));
+    }
+    if (resultsdone(homeresults)||resultsdone(awayresults)) {
+        const homevalues = getSessionStorageValues(homeresults);
+        const awayvalues = getSessionStorageValues(awayresults);
+        console.log('Home:',homevalues);
+        console.log('Away:',awayvalues);
+        // Example calculation: sum of all values
+        const sumh = homevalues.reduce((acc, value) => acc + value, 0);
+        const suma = awayvalues.reduce((acc, value) => acc + value, 0);
+        console.log()
+        console.log('Sumh:', sumh);
+        console.log('Suma:', suma);
+        if (sumh==2){
+            $hg="m"+($trd-2)+"hg";
+            $hg.innerText=1;
+            $ag="m"+($trd-2)+"ag";
+            $ag.innerText=0;
+            console.log($ag);
+            console.log($hg);
+            document.getElementById("m"+$trd+"hpts").disabled = true;
+            document.getElementById("m"+$trd+"apts").disabled = true;
+        }else if (suma==2){
+            m1hg.innerText=0;
+            m1ag.innerText=1;
+            document.getElementById("m"+$trd+"hpts").disabled = true;
+            document.getElementById("m"+$trd+"apts").disabled = true;
+        }
+
+    // Additional calculations can be performed here
+    } 
+}
+
     /* if (typeof checkfilled === 'function' && checkfilled() != 1) {
         document.getElementById("but").style.display = 'block';
     } else {
@@ -384,16 +389,15 @@ function games(match1, match2, home, away, box) {
     
     console.log(Object(sessionStorage));
     
-    if (sessionStorage.getItem(box) == 0) {
+    /* if (sessionStorage.getItem(box) == 0) {
         var m3apts = document.getElementById("m3apts");
         if (m3apts) m3apts.disabled = false;
     } else {
         var m3apts = document.getElementById("m3apts");
         if (m3apts) m3apts.disabled = true;
-    }
+    } */
     
-    toggleInputs();
-}
+
 
 </script>
   <script>
@@ -428,6 +432,7 @@ if ($_SESSION["curleague"]==3){
 <th rowspan="2"> </th>
 <th rowspan="2"><?php echo $row['AWC']." ".$row['AWT'];?></th>
 <th colspan = "2">Points</th>
+<th colspan="2">Rubbers</th>
 <th colspan="2">Games</th>
 </tr>
 
@@ -436,31 +441,56 @@ if ($_SESSION["curleague"]==3){
 <td><?php echo $row['AWC']." ".$row['AWT'];?></td>
 <td><?php echo $row['HC']." ".$row['HT'];?></td>
 <td><?php echo $row['AWC']." ".$row['AWT'];?></td>
+<td><?php echo $row['HC']." ".$row['HT'];?></td>
+<td><?php echo $row['AWC']." ".$row['AWT'];?></td>
 </tr>
-
-<tr>
-<td rowspan="3">1</td>
-<td rowspan="3"><?php echo $row['P1f']." ".$row['P1s']." & ",$row['P2f']." ".$row['P2s'];?></td>
-<td rowspan="3">v</td>
-<td rowspan="3"><?php echo $row['AP1f']." ".$row['AP1s']." & ",$row['AP2f']." ".$row['AP2s'];?></td>
-<td><input autocomplete="off" id="m1hpts" name="m1hpts" onchange="games(this.id,document.getElementById('m1apts').id,document.getElementById('m1h').id,document.getElementById('m1a').id,1)" type="text" ><script>prepopulate("m1hpts");</script></td>
-<td><input autocomplete="off" id="m1apts" name="m1apts" onchange="games(document.getElementById('m1hpts').id,this.id,document.getElementById('m1h').id,document.getElementById('m1a').id,1)"type="text" ><script>prepopulate("m1apts");</script></td>
-<td id="m1h"><script>prepopres("m1h");</script></td>
-<td id="m1a"><script>prepopres("m1a");</script></td>
-</tr>
-<tr>
-<td><input autocomplete="off" id="m2hpts" name="m2hpts" onchange="games(this.id,document.getElementById('m2apts').id,document.getElementById('m2h').id,document.getElementById('m2a').id,1)" type="text" ><script>prepopulate("m2hpts");</script></td>
-<td><input autocomplete="off" id="m2apts" name="m2apts" onchange="games(document.getElementById('m2hpts').id,this.id,document.getElementById('m2h').id,document.getElementById('m2a').id,1)"type="text" ><script>prepopulate("m2apts");</script></td>
-<td id="m2h"><script>prepopres("m2h");</script></td>
-<td id="m2a"><script>prepopres("m2a");</script></td>
-</tr>
-<tr>
-<td><input autocomplete="off" id="m3hpts" name="m3hpts" onchange="games(this.id,document.getElementById('m3apts').id,document.getElementById('m3h').id,document.getElementById('m3a').id,1)" type="text" ><script>prepopulate("m3hpts");</script></td>
-<td><input autocomplete="off" id="m3apts" name="m3apts" onchange="games(document.getElementById('m3hpts').id,this.id,document.getElementById('m3h').id,document.getElementById('m3a').id,1)"type="text" ><script>prepopulate("m3apts");</script></td>
-<td id="m3h"><script>prepopres("m3h");</script></td>
-<td id="m3a"><script>prepopres("m3a");</script></td>
-</tr>
-
+<?php
+$pairs = [
+    1 => ['P1f', 'P1s', 'P2f', 'P2s', 'AP1f', 'AP1s', 'AP2f', 'AP2s'],
+    2 => ['P3f', 'P3s', 'P4f', 'P4s', 'AP3f', 'AP3s', 'AP4f', 'AP4s'],
+    3 => ['P5f', 'P5s', 'P6f', 'P6s', 'AP5f', 'AP5s', 'AP6f', 'AP6s'],
+    4 => ['P3f', 'P3s', 'P4f', 'P4s', 'AP1f', 'AP1s', 'AP2f', 'AP2s'],
+    5 => ['P5f', 'P5s', 'P6f', 'P6s', 'AP3f', 'AP3s', 'AP4f', 'AP4s'],
+    6 => ['P1f', 'P1s', 'P2f', 'P2s', 'AP5f', 'AP5s', 'AP6f', 'AP6s'],
+    7 => ['P5f', 'P5s', 'P6f', 'P6s', 'AP1f', 'AP1s', 'AP2f', 'AP2s'],
+    8 => ['P1f', 'P1s', 'P2f', 'P2s', 'AP3f', 'AP3s', 'AP4f', 'AP4s'],
+    9 => ['P3f', 'P3s', 'P4f', 'P4s', 'AP5f', 'AP5s', 'AP6f', 'AP6s']
+];
+#format of open and mixed? need alternative for Doubles/ladies
+for ($k = 1;$k<=9; $k++){
+?>
+     <tr>
+        <td rowspan="3"><?php echo $k;?></td>
+        <td rowspan="3"><?php echo $row[$pairs[$k][0]] . " " . $row[$pairs[$k][1]] . " & " . $row[$pairs[$k][2]] . " " . $row[$pairs[$k][3]];?></td>
+        <td rowspan="3">v</td>
+        <td rowspan="3"><?php echo $row[$pairs[$k][4]] . " " . $row[$pairs[$k][5]] . " & " . $row[$pairs[$k][6]] . " " . $row[$pairs[$k][7]];?></td>
+<?php
+    for ($j = 0;$j<=2; $j++){
+        $v=3*$k-2+$j;
+        ?>
+        <td><input autocomplete="off" id="m<?php echo $v;?>hpts" name="m<?php echo $v;?>hpts" 
+        onchange="games(this.id,document.getElementById('m<?php echo $v;?>apts').id,document.getElementById('m<?php echo $v;?>hr').id,document.getElementById('m<?php echo $v;?>ar').id,<?php echo $k;?>)" 
+        type="text" ><script>prepopulate("m<?php echo $v;?>hpts");</script>
+        </td>
+        <td><input autocomplete="off" id="m<?php echo $v;?>apts" name="m<?php echo $v;?>apts" 
+        onchange="games(document.getElementById('m<?php echo $v;?>hpts').id,this.id,document.getElementById('m<?php echo $v;?>hr').id,document.getElementById('m<?php echo $v;?>ar').id,<?php echo $k;?>)"
+        type="text" ><script>prepopulate("m<?php echo $v;?>apts");</script>
+        </td>
+        <td id="m<?php echo $v;?>hr"><script>prepopres("m<?php echo $v;?>hr");</script></td>
+        <td id="m<?php echo $v;?>ar"><script>prepopres("m<?php echo $v;?>ar");</script></td>
+        <?php
+            if ($j == 0) {
+                ?>
+                <td rowspan="3" id="m<?php echo $v;?>hg"><script>prepopres("m<?php echo $v;?>hg");</script></td>
+                <td rowspan="3" id="m<?php echo $v;?>ag"><script>prepopres("m<?php echo $v;?>ag");</script></td>
+                </tr>
+        <?php
+        }else{
+            echo '<tr>';
+        }?>
+<?php
+}}
+?>
 
 <tr>
 <td></td>
