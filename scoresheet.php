@@ -299,121 +299,6 @@ function games(match1, match2, home, away, box) {
     } else {
         document.getElementById("but").style.display = 'none';
     }  */   
-function totals(){
-    rubbers = [
-        ['m1hr', 'm2hr', 'm3hr', 'm4hr', 'm5hr', 'm6hr', 'm7hr', 'm8hr','m9hr','m10hr','m11hr','m12hr','m13hr','m14hr','m15hr','m16hr','m17hr','m18hr','m19hr','m20hr','m21hr','m22hr','m23hr','m24hr','m25hr','m26hr','m27hr'],
-        ['m1ar', 'm2ar', 'm3ar', 'm4ar', 'm5ar', 'm6ar', 'm7ar', 'm8ar','m9ar','m10ar','m11ar','m12ar','m13ar','m14ar','m15ar','m16ar','m17ar','m18ar','m19ar','m20ar','m21ar','m22ar','m23ar','m24ar','m25ar','m26ar','m27ar']
-    ];
-    game=[
-        ['m1hg', 'm4hg', 'm7hg', 'm10hg', 'm13hg', 'm16hg', 'm19hg', 'm22hg', 'm25hg'],
-        ['m1ag', 'm4ag', 'm7ag', 'm10ag', 'm13ag', 'm16ag', 'm19ag', 'm22ag', 'm25ag']
-    ];
-    points=[
-        ['m1hpts', 'm2hpts', 'm3hpts', 'm4hpts', 'm5hpts', 'm6hpts', 'm7hpts', 'm8hpts','m9hpts','m10hpts','m11hpts','m12hpts','m13hpts','m14hpts','m15hpts','m16hpts','m17hpts','m18hpts','m19hpts','m20hpts','m21hpts','m22hpts','m23hpts','m24hpts','m25hpts','m26hpts','m27hpts'],
-        ['m1apts', 'm2apts', 'm3apts', 'm4apts', 'm5apts', 'm6apts', 'm7apts', 'm8apts','m9apts','m10apts','m11apts','m12apts','m13apts','m14apts','m15apts','m16apts','m17apts','m18apts','m19apts','m20apts','m21apts','m22apts','m23apts','m24apts','m25apts','m26apts','m27apts']
-    ];
-    matches=[
-        ["m1hr","m2hr","m3hr"],
-        ["m1ar","m2ar","m3ar"]
-    ];
-    let hr=0;
-    let ar=0;
-    for (k = 0;k<=points[0].length; k++){
-        if(sessionStorage.getItem(points[0][k])>sessionStorage.getItem(points[1][k])){
-            hr=1;
-            ar=0;
-            let homeRubbers = document.getElementById(matches[0][k]);
-        if (homeRubbers) {
-            homeRubbers.innerText = hr;
-        }
-        let awayRubbers = document.getElementById(matches[1][k]);
-        if (awayRubbers) {
-            awayRubbers.innerText = ar;
-        }
-            
-        }else if(sessionStorage.getItem(points[0][k])<sessionStorage.getItem(points[1][k])){
-            hr=1;
-            ar=0;
-            let homeRubbers = document.getElementById(matches[0][k]);
-        if (homeRubbers) {
-            homeRubbers.innerText = hr;
-        }
-        let awayRubbers = document.getElementById(matches[1][k]);
-        if (awayRubbers) {
-            awayRubbers.innerText = ar;
-        }
-        }
-        
-    }
-    console.log("hr",hr);
-    console.log("ar",ar);
-    let hrtot=0;
-    let artot=0;
-    //rubbers total
-    for (k = 0;k<=rubbers[0].length; k++){
-        if(sessionStorage.getItem(rubbers[0][k])!=null){
-            
-            hrtot+=parseInt(sessionStorage.getItem(rubbers[0][k]));
-        }
-        if(sessionStorage.getItem(rubbers[1][k])!=null){
-            artot+=parseInt(sessionStorage.getItem(rubbers[1][k]));
-        }
-    }
-    let homeRubbersTotalElement = document.getElementById('hrtot');
-    if (homeRubbersTotalElement) {
-        homeRubbersTotalElement.innerText = hrtot;
-    }
-    let awayRubbersTotalElement = document.getElementById('artot');
-    if (awayRubbersTotalElement) {
-        awayRubbersTotalElement.innerText = artot;
-    }
-    //games totals
-    let hgtot=0;
-    let agtot=0;
-    for (k = 0;k<=game[1].length; k++){
-        if(sessionStorage.getItem(game[0][k])!=null){
-                hgtot+=parseInt(sessionStorage.getItem(game[0][k]));
-        }
-        if(sessionStorage.getItem(game[1][k])!=null){
-            agtot+=parseInt(sessionStorage.getItem(game[1][k]));
-        }
-    }
-    let homegamesTotalElement = document.getElementById('hgtot');
-    if (homegamesTotalElement) {
-        homegamesTotalElement.innerText = hgtot;
-    }
-    let awaygamesTotalElement = document.getElementById('agtot');
-    if (awaygamesTotalElement) {
-        awaygamesTotalElement.innerText = agtot;
-    }
-    //points totals
-    let hptot=0;
-    let aptot=0;
-    for (k = 0;k<=points[0].length; k++){
-        console.log(k," ",sessionStorage.getItem(points[0][k]));
-        if(sessionStorage.getItem(points[0][k])!=null && sessionStorage.getItem(points[0][k])!=''){
-            hptot+=parseInt(sessionStorage.getItem(points[0][k]));
-        }
-        if(sessionStorage.getItem(points[1][k])!=null && sessionStorage.getItem(points[0][k])!=''){
-            aptot+=parseInt(sessionStorage.getItem(points[1][k]));
-        }
-    }
-    let homepointsTotalElement = document.getElementById('hptot');
-    if (homepointsTotalElement) {
-        homepointsTotalElement.innerText = hptot;
-    }
-    let awaypointsTotalElement = document.getElementById('aptot');
-    if (awaypointsTotalElement) {
-        awaypointsTotalElement.innerText = aptot;
-    }
-    //save for prepop
-    sessionStorage.setItem('hptot', hptot);
-    sessionStorage.setItem('aptot', aptot);
-    sessionStorage.setItem('hrtot', hrtot);
-    sessionStorage.setItem('artot', artot);
-    sessionStorage.setItem('hgtot', hgtot);
-    sessionStorage.setItem('agtot', agtot);
-}
 
 </script>
   <script>
@@ -540,18 +425,190 @@ for ($k = 1;$k<=9; $k++){
 ?>
 </div>
 
-<!-- <div id="but" style="display:none;">
-    <button  onclick="totalscores()">Calculate totals</button>
-</div>
+
 <script>
+    function totals(){
+    rubbers = [
+        ['m1hr', 'm2hr', 'm3hr', 'm4hr', 'm5hr', 'm6hr', 'm7hr', 'm8hr','m9hr','m10hr','m11hr','m12hr','m13hr','m14hr','m15hr','m16hr','m17hr','m18hr','m19hr','m20hr','m21hr','m22hr','m23hr','m24hr','m25hr','m26hr','m27hr'],
+        ['m1ar', 'm2ar', 'm3ar', 'm4ar', 'm5ar', 'm6ar', 'm7ar', 'm8ar','m9ar','m10ar','m11ar','m12ar','m13ar','m14ar','m15ar','m16ar','m17ar','m18ar','m19ar','m20ar','m21ar','m22ar','m23ar','m24ar','m25ar','m26ar','m27ar']
+    ];
+    game=[
+        ['m1hg', 'm4hg', 'm7hg', 'm10hg', 'm13hg', 'm16hg', 'm19hg', 'm22hg', 'm25hg'],
+        ['m1ag', 'm4ag', 'm7ag', 'm10ag', 'm13ag', 'm16ag', 'm19ag', 'm22ag', 'm25ag']
+    ];
+    points=[
+        ['m1hpts', 'm2hpts', 'm3hpts', 'm4hpts', 'm5hpts', 'm6hpts', 'm7hpts', 'm8hpts','m9hpts','m10hpts','m11hpts','m12hpts','m13hpts','m14hpts','m15hpts','m16hpts','m17hpts','m18hpts','m19hpts','m20hpts','m21hpts','m22hpts','m23hpts','m24hpts','m25hpts','m26hpts','m27hpts'],
+        ['m1apts', 'm2apts', 'm3apts', 'm4apts', 'm5apts', 'm6apts', 'm7apts', 'm8apts','m9apts','m10apts','m11apts','m12apts','m13apts','m14apts','m15apts','m16apts','m17apts','m18apts','m19apts','m20apts','m21apts','m22apts','m23apts','m24apts','m25apts','m26apts','m27apts']
+    ];
+    matches=[
+        ["m1hr","m2hr","m3hr"],
+        ["m1ar","m2ar","m3ar"],
+        ["m4hr","m5hr","m6hr"],
+        ["m4ar","m5ar","m6ar"],
+        ["m7hr","m8hr","m9hr"],
+        ["m7ar","m8ar","m9ar"],
+        ["m10hr","m11hr","m12hr"],
+        ["m10ar","m11ar","m12ar"],
+        ["m13hr","m14hr","m15hr"],
+        ["m13ar","m14ar","m15ar"]
+    ];
+    // calc rubber win/loss
+    let hr=0;
+    let ar=0;
+    for (k = 0;k<=points[0].length; k++){
+        if(sessionStorage.getItem(points[0][k])>sessionStorage.getItem(points[1][k]) && sessionStorage.getItem(points[1][k])!='' ){
+            hr=1;
+            ar=0;
+            let homeRubbers = document.getElementById(rubbers[0][k]);
+            if(homeRubbers){
+                homeRubbers.innerText = hr;
+            }
+            let awayRubbers = document.getElementById(rubbers[1][k]);
+            if(awayRubbers){
+                awayRubbers.innerText = ar;
+            }
+            sessionStorage.setItem(rubbers[0][k], hr);
+            sessionStorage.setItem(rubbers[1][k], ar);
+            
+        }else if(sessionStorage.getItem(points[0][k])<sessionStorage.getItem(points[1][k]) && sessionStorage.getItem(points[0][k])!=''){
+            hr=0;
+            ar=1;
+            let homeRubbers = document.getElementById(rubbers[0][k]);
+            homeRubbers.innerText = hr;
+            let awayRubbers = document.getElementById(rubbers[1][k]);
+            awayRubbers.innerText = ar;
+            sessionStorage.setItem(rubbers[0][k], hr);
+            sessionStorage.setItem(rubbers[1][k], ar);
+        }else if (sessionStorage.getItem(points[1][k])!='' || sessionStorage.getItem(points[0][k])!=''){
+            let homeRubbers = document.getElementById(rubbers[0][k]);
+            if(homeRubbers){
+                homeRubbers.innerText = '';
+            }
+        
+            let awayRubbers = document.getElementById(rubbers[1][k]);
+            if(awayRubbers){
+                awayRubbers.innerText = '';
+            }
+            sessionStorage.removeItem(rubbers[0][k]);
+            sessionStorage.removeItem(rubbers[1][k]);
+            
+        }
+        
+    }
+    //calc games won
+
+    
+    for (k = 0;k<=game[0].length; k++){
+        let hg=0;
+        let ag=0;
+        for(d=0;d<=2;d++){
+            if(sessionStorage.getItem(rubbers[0][k+d])>sessionStorage.getItem(rubbers[1][k+d]) && (sessionStorage.getItem(rubbers[1][k+d])!='')){
+                hg+=1;
+            }else if(sessionStorage.getItem(rubbers[0][k+d])<sessionStorage.getItem(rubbers[1][k+d]) && (sessionStorage.getItem(rubbers[0][k+d])!='')){
+                ag+=1;
+            }
+        }
+        
+        if (hg>ag && hg==2){
+            let homegames = document.getElementById(game[0][k]);
+            homegames.innerText = 1;
+            let awaygames = document.getElementById(game[1][k]);
+            awaygames.innerText = 0;
+            sessionStorage.setItem(game[0][k], 1);
+            sessionStorage.setItem(game[1][k], 0);
+        }else if(hg<ag && ag==2){
+            let homegames = document.getElementById(game[0][k]);
+            homegames.innerText = 0;
+            let awaygames = document.getElementById(game[1][k]);
+            awaygames.innerText = 1;
+            sessionStorage.setItem(game[0][k], 0);
+            sessionStorage.setItem(game[1][k], 1);
+        }else{
+            let homegames = document.getElementById(game[0][k]);
+            let awaygames = document.getElementById(game[1][k]);
+            if(homegames){
+                homegames.innerText = '';
+            }
+            if(awaygames){
+                awaygames.innerText = '';
+            }
+        }
+        
+    }
+        
+    
+   
+    console.log("hr",hr);
+    console.log("ar",ar);
+    let hrtot=0;
+    let artot=0;
+    //rubbers total
+    for (k = 0;k<=rubbers[0].length; k++){
+        if(sessionStorage.getItem(rubbers[0][k])!=null){
+            
+            hrtot+=parseInt(sessionStorage.getItem(rubbers[0][k]));
+        }
+        if(sessionStorage.getItem(rubbers[1][k])!=null){
+            artot+=parseInt(sessionStorage.getItem(rubbers[1][k]));
+        }
+         
+    }
+    let homeRubbersTotalElement = document.getElementById('hrtot');
+    homeRubbersTotalElement.innerText = hrtot;
+    let awayRubbersTotalElement = document.getElementById('artot');
+    awayRubbersTotalElement.innerText = artot;
+
+    //games totals
+    let hgtot=0;
+    let agtot=0;
+    for (k = 0;k<=game[1].length; k++){
+        if(sessionStorage.getItem(game[0][k])!=null){
+                hgtot+=parseInt(sessionStorage.getItem(game[0][k]));
+        }
+        if(sessionStorage.getItem(game[1][k])!=null){
+            agtot+=parseInt(sessionStorage.getItem(game[1][k]));
+        }
+    }
+    let homegamesTotalElement = document.getElementById('hgtot');
+    homegamesTotalElement.innerText = hgtot;
+    let awaygamesTotalElement = document.getElementById('agtot');
+    awaygamesTotalElement.innerText = agtot;
+    
+    //points totals
+    let hptot=0;
+    let aptot=0;
+    for (k = 0;k<=points[0].length; k++){
+        console.log(k," ",sessionStorage.getItem(points[0][k]));
+        if(sessionStorage.getItem(points[0][k])!=null && sessionStorage.getItem(points[0][k])!=''){
+            hptot+=parseInt(sessionStorage.getItem(points[0][k]));
+        }
+        if(sessionStorage.getItem(points[1][k])!=null && sessionStorage.getItem(points[0][k])!=''){
+            aptot+=parseInt(sessionStorage.getItem(points[1][k]));
+        }
+    }
+    let homepointsTotalElement = document.getElementById('hptot');
+    homepointsTotalElement.innerText = hptot;
+    
+    let awaypointsTotalElement = document.getElementById('aptot');
+    awaypointsTotalElement.innerText = aptot;
+    
+    //save for prepop
+    sessionStorage.setItem('hptot', hptot);
+    sessionStorage.setItem('aptot', aptot);
+    sessionStorage.setItem('hrtot', hrtot);
+    sessionStorage.setItem('artot', artot);
+    sessionStorage.setItem('hgtot', hgtot);
+    sessionStorage.setItem('agtot', agtot);
+}
+
     //at end to allow page to fully populate
     //console.log(sessionStorage.counter);
-    if (sessionStorage.counter==37) {
-        document.getElementById("but").style.display='block';
+   // if (sessionStorage.counter==37) {
+   //    document.getElementById("but").style.display='block';
         
-    }else{
-        document.getElementById("but").style.display='none';
-    }
-</script> -->
+   // }else{
+    //    document.getElementById("but").style.display='none';
+    //}-->
+</script>
 </body>
 </html>
