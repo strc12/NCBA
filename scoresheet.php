@@ -510,6 +510,7 @@ for ($k = 1;$k<=9; $k++){
         }
         
         if (hg>ag && hg==2){
+            alert("h",k);
             let homegames = document.getElementById(game[0][k]);
             homegames.innerText = 1;
             let awaygames = document.getElementById(game[1][k]);
@@ -517,6 +518,7 @@ for ($k = 1;$k<=9; $k++){
             sessionStorage.setItem(game[0][k], 1);
             sessionStorage.setItem(game[1][k], 0);
         }else if(hg<ag && ag==2){
+            alert("a",k);
             let homegames = document.getElementById(game[0][k]);
             homegames.innerText = 0;
             let awaygames = document.getElementById(game[1][k]);
@@ -524,6 +526,7 @@ for ($k = 1;$k<=9; $k++){
             sessionStorage.setItem(game[0][k], 0);
             sessionStorage.setItem(game[1][k], 1);
         }else{
+            alert(k);
             let homegames = document.getElementById(game[0][k]);
             let awaygames = document.getElementById(game[1][k]);
             if(homegames){
