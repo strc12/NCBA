@@ -121,7 +121,7 @@ print_r($_SESSION);
         // removes session variable counter
     sessionStorage.removeItem("counter");
     
-    function totalscores(){
+    /* function totalscores(){
         var homegamestotal=0;
         var awaygamestotal=0;
         var homepointstotal=0;
@@ -150,7 +150,8 @@ print_r($_SESSION);
         document.getElementById('awaygamestotals').innerHTML=awaygamestotal;
         document.getElementById("subres").style.display='block';
         sessionStorage.clear();
-    }
+    } */
+
     function checkfilled(){
     //alert (document.getElementById('m1h1').innerHTML);
         if (document.getElementById('m1a1').innerText=='' || document.getElementById('m2a1').innerText=='' 
@@ -161,7 +162,8 @@ print_r($_SESSION);
         || document.getElementById('m7a1').innerText=='' || document.getElementById('m7aa1').innerText==''
         || document.getElementById('m8a1').innerText=='' || document.getElementById('m8aa1').innerText=='' 
         || document.getElementById('m9a1').innerText=='' || document.getElementById('m9aa1').innerText=='' 
-        || document.getElementById('m10a1').innerText=='' || document.getElementById('m10aa1').innerText=='')
+        || document.getElementById('m10a1').innerText=='' || document.getElementById('m10aa1').innerText==''
+        )
         {
             
             return 1;
@@ -185,11 +187,12 @@ function prepopulate(id){
     
 }
 function prepopres(id){
-    console.log(Object.keys(sessionStorage));
-    console.log(Object(sessionStorage));
+    //console.log(Object.keys(sessionStorage));
+    //console.log(Object(sessionStorage));
     if (sessionStorage.counter==null){
     sessionStorage.counter=1;
     }
+    //console.log(id);
     if(sessionStorage.getItem(id)) {
     document.getElementById(id).innerText = sessionStorage.getItem(id);
     } else {
@@ -201,107 +204,6 @@ function prepopres(id){
     sessionStorage.counter=Number(sessionStorage.counter)+1;
     
 }
-/* function games(match1,match2, home,away,box){
-        //validate scores - 
-        var homescore=parseInt(document.getElementById(match1).value);
-        var awayscore=parseInt(document.getElementById(match2).value);
-        if (!sessionStorage.getItem(box)) {
-        sessionStorage.setItem(box, 0);
-    }
-        function toggleInputs() {
-        var boxValue = parseInt(sessionStorage.getItem(box), 10);
-        var m3apts = document.getElementById("m3apts");
-        var m3hpts = document.getElementById("m3hpts");
-        
-        if (boxValue === 1) {
-            m3apts.disabled = true;
-            m3hpts.disabled = true;
-        } else if (boxValue === 0) {
-            m3apts.disabled = false;
-            m3hpts.disabled = false;
-        }
-    }
-    
-    toggleInputs();
-        
-        
-        
-        if(homescore>30 || homescore<0){
-            alert("invalid score Home team " + homescore);
-            document.getElementById(match1).value='';
-            document.getElementById(home).innerHTML = ""; 
-            document.getElementById(away).innerHTML = "";
-            document.getElementById(match1).focus();
-        }else if (awayscore>30 || awayscore<0){
-            alert("invalid score Away team " + awayscore);
-            document.getElementById(match2).value='';
-            document.getElementById(home).innerHTML = ""; 
-            document.getElementById(away).innerHTML = "";
-            document.getElementById(match2).focus();
-        }else if (awayscore<21 && homescore<21){
-            alert("No one to 21 yet!");
-            document.getElementById(match2).value='';
-            document.getElementById(match1).value='';
-            document.getElementById(home).innerHTML = ""; 
-            document.getElementById(away).innerHTML = "";
-            document.getElementById(match1).focus();
-        /* }else if (awayscore!=21 && homescore!=21  && homescore!==homescore && awayscore!==awayscore){//checks if 21 has been entered in one only and also stops NAN  errors
-            alert("No winner!");
-            document.getElementById(match2).value='';
-            document.getElementById(match1).value='';
-            document.getElementById(home).innerHTML = ""; 
-            document.getElementById(away).innerHTML = "";
-            document.getElementById(match1).focus(); */
-        /* }else if (awayscore!=21 && homescore!=21  && homescore!==homescore && awayscore!==awayscore){//checks if 21 has been entered in one only and also stops NAN  errors
-            alert("No winner!");
-            document.getElementById(match2).value='';
-            document.getElementById(match1).value='';
-            document.getElementById(home).innerHTML = ""; 
-            document.getElementById(away).innerHTML = "";
-            document.getElementById(match1).focus(); */
-        /* }else if (homescore==21 && awayscore==21){
-            alert("can't have two winners")
-            document.getElementById(match2).value='';
-            document.getElementById(match1).value='';
-            document.getElementById(home).innerHTML = ""; 
-            document.getElementById(away).innerHTML = "";
-            document.getElementById(match1).focus(); 
-        }else if(homescore>awayscore&&(homescore>=21 ||awayscore>=21)){
-            document.getElementById(home).innerHTML = "1"; 
-            document.getElementById(away).innerHTML = "0";
-      
-            sessionStorage[match1.slice(0,match1.length -3)+1]="1";
-            sessionStorage[match2.slice(0,match2.length -3)+1]="0";
-            sessionStorage.setItem(box,variable + 1);
-            
-            alert(sessionStorage[box]);
-          
-        }else if (homescore<awayscore&&(homescore>=21 ||awayscore>=21)){
-            document.getElementById(home).innerHTML = "0";
-            document.getElementById(away).innerHTML = "1";  
-            
-            sessionStorage[match1.slice(0,match1.length -3)+1]="0";
-            sessionStorage[match2.slice(0,match2.length -3)+1]="1";
-            var variable = parseInt(sessionStorage.getItem(box),10);
-            sessionStorage.setItem(box,variable - 1);
-            
-            alert(sessionStorage[box]);
-        } 
-    if (checkfilled()!=1) {
-        // need to make this work for prepopulated too
-        document.getElementById("but").style.display='block';
-        
-    }else{
-        document.getElementById("but").style.display='none';
-    }
-    console.log(Object(sessionStorage));
-    if (sessionStorage[box]==0){
-        document.getElementById("m3apts").disabled = false;
-    }else{
-        document.getElementById("m3apts").disabled = true;
-    }
-    toggleInputs();
-} */
 function games(match1, match2, home, away, box) {
     // Validate scores
     var homeElement = document.getElementById(match1);
@@ -335,8 +237,8 @@ function games(match1, match2, home, away, box) {
         sessionStorage.setItem(match2.slice(0, match2.length - 3) + "r", "1");
     }
     const homeresults = ["m"+($trd-2)+"hr", "m"+($trd-1)+"hr", "m"+$trd+"hr"];
-    const awayresults = ["m"+($trd-2)+"ha", "m"+($trd-1)+"ha", "m"+$trd+"ha"];
-    console.log(homeresults);
+    const awayresults = ["m"+($trd-2)+"ar", "m"+($trd-1)+"ar", "m"+$trd+"ar"];
+    //console.log(awayresults);
     function resultsdone(keys) {
         let count = 0;
 
@@ -350,54 +252,129 @@ function games(match1, match2, home, away, box) {
     function getSessionStorageValues(keys) {
         return keys.map(key => parseFloat(sessionStorage.getItem(key))).filter(value => !isNaN(value));
     }
-    if (resultsdone(homeresults)||resultsdone(awayresults)) {
+    //console.log(Object(sessionStorage));
+    if (homeresults.length>=2) {
         const homevalues = getSessionStorageValues(homeresults);
         const awayvalues = getSessionStorageValues(awayresults);
-        console.log('Home:',homevalues);
-        console.log('Away:',awayvalues);
+        //console.log('Home:',homevalues);
+        //console.log('Away:',awayvalues);
         // Example calculation: sum of all values
         const sumh = homevalues.reduce((acc, value) => acc + value, 0);
         const suma = awayvalues.reduce((acc, value) => acc + value, 0);
-        console.log()
-        console.log('Sumh:', sumh);
-        console.log('Suma:', suma);
+        //console.log()
+       // console.log('Sumh:', sumh);
+       // console.log('Suma:', suma);
         if (sumh==2){
-            $hg="m"+($trd-2)+"hg";
-            $hg.innerText=1;
-            $ag="m"+($trd-2)+"ag";
-            $ag.innerText=0;
-            console.log($ag);
-            console.log($hg);
-            document.getElementById("m"+$trd+"hpts").disabled = true;
-            document.getElementById("m"+$trd+"apts").disabled = true;
+            hg="m"+($trd-2)+"hg";
+            let element = document.getElementById(hg);
+            element.innerText=1;
+            ag="m"+($trd-2)+"ag";
+            let element1 = document.getElementById(ag);
+            element1.innerText=0;
+            sessionStorage.setItem(ag, "0");
+            sessionStorage.setItem(hg, "1");
+            //console.log(ag);
+           // console.log(hg);
+       
         }else if (suma==2){
-            m1hg.innerText=0;
-            m1ag.innerText=1;
-            document.getElementById("m"+$trd+"hpts").disabled = true;
-            document.getElementById("m"+$trd+"apts").disabled = true;
+            hg="m"+($trd-2)+"hg";
+            let element = document.getElementById(hg);
+            element.innerText=0;
+            ag="m"+($trd-2)+"ag";
+            let element1 = document.getElementById(ag);
+            element1.innerText=1;
+            sessionStorage.setItem(ag, "1");
+            sessionStorage.setItem(hg, "0");
+           
         }
 
-    // Additional calculations can be performed here
+
     } 
+    totals();
+   // console.log(Object(sessionStorage));
 }
 
-    /* if (typeof checkfilled === 'function' && checkfilled() != 1) {
+    /*  if (typeof checkfilled === 'function' && checkfilled() != 1) {
         document.getElementById("but").style.display = 'block';
     } else {
         document.getElementById("but").style.display = 'none';
-    } */
+    }  */   
+function totals(){
+        rubbers = [
+     ['m1hr', 'm2hr', 'm3hr', 'm4hr', 'm5hr', 'm6hr', 'm7hr', 'm8hr','m9hr','m10hr','m11hr','m12hr','m13hr','m14hr','m15hr','m16hr','m17hr','m18hr','m19hr','m20hr','m21hr','m22hr','m23hr','m24hr','m25hr','m26hr','m27hr'],
+     ['m1ar', 'm2ar', 'm3ar', 'm4ar', 'm5ar', 'm6ar', 'm7ar', 'm8ar','m9ar','m10ar','m11ar','m12ar','m13ar','m14ar','m15ar','m16ar','m17ar','m18ar','m19ar','m20ar','m21ar','m22ar','m23ar','m24ar','m25ar','m26ar','m27ar']
+        ];
+    game=[
+        ['m1hg', 'm4hg', 'm7hg', 'm10hg', 'm13hg', 'm16hg', 'm19hg', 'm22hg', 'm25hg'],
+        ['m1ag', 'm4ag', 'm7ag', 'm10ag', 'm13ag', 'm16ag', 'm19ag', 'm22ag', 'm25ag']
+   ];
+   points=[
+    ['m1hpts', 'm2hpts', 'm3hpts', 'm4hpts', 'm5hpts', 'm6hpts', 'm7hpts', 'm8hpts','m9hpts','m10hpts','m11hpts','m12hpts','m13hpts','m14hpts','m15hpts','m16hpts','m17hpts','m18hpts','m19hpts','m20hpts','m21hpts','m22hpts','m23hpts','m24hpts','m25hpts','m26hpts','m27hpts'],
+    ['m1apts', 'm2apts', 'm3apts', 'm4apts', 'm5apts', 'm6apts', 'm7apts', 'm8apts','m9apts','m10apts','m11apts','m12apts','m13apts','m14apts','m15apts','m16apts','m17apts','m18apts','m19apts','m20apts','m21apts','m22apts','m23apts','m24apts','m25apts','m26apts','m27apts']
+   ];
+   let hrtot=0;
+   let artot=0;
+   for (k = 0;k<=rubbers[0].length; k++){
+        if(sessionStorage.getItem(rubbers[0][k])!=null){
+            hrtot+=parseInt(sessionStorage.getItem(rubbers[0][k]));
+        }
+        if(sessionStorage.getItem(rubbers[1][k])!=null){
+            artot+=parseInt(sessionStorage.getItem(rubbers[1][k]));
+        }
+    }
+    let homeRubbersTotalElement = document.getElementById('hrtot');
+    if (homeRubbersTotalElement) {
+        homeRubbersTotalElement.innerText = hrtot;
+    }
+    let awayRubbersTotalElement = document.getElementById('artot');
+    if (awayRubbersTotalElement) {
+        awayRubbersTotalElement.innerText = artot;
+    }
     
-    console.log(Object(sessionStorage));
-    
-    /* if (sessionStorage.getItem(box) == 0) {
-        var m3apts = document.getElementById("m3apts");
-        if (m3apts) m3apts.disabled = false;
-    } else {
-        var m3apts = document.getElementById("m3apts");
-        if (m3apts) m3apts.disabled = true;
-    } */
-    
-
+    let hgtot=0;
+    let agtot=0;
+    for (k = 0;k<=game[1].length; k++){
+        if(sessionStorage.getItem(game[0][k])!=null){
+                hgtot+=parseInt(sessionStorage.getItem(game[0][k]));
+        }
+        if(sessionStorage.getItem(game[1][k])!=null){
+            agtot+=parseInt(sessionStorage.getItem(game[1][k]));
+        }
+    }
+    let homegamesTotalElement = document.getElementById('hgtot');
+    if (homegamesTotalElement) {
+        homegamesTotalElement.innerText = hgtot;
+    }
+    let awaygamesTotalElement = document.getElementById('agtot');
+    if (awaygamesTotalElement) {
+        awaygamesTotalElement.innerText = agtot;
+    }
+    let hptot=0;
+    let aptot=0;
+    for (k = 0;k<=points[0].length; k++){
+        console.log(k," ",sessionStorage.getItem(points[0][k]));
+        if(sessionStorage.getItem(points[0][k])!=null && sessionStorage.getItem(points[0][k])!=''){
+            hptot+=parseInt(sessionStorage.getItem(points[0][k]));
+        }
+        if(sessionStorage.getItem(points[1][k])!=null && sessionStorage.getItem(points[0][k])!=''){
+            aptot+=parseInt(sessionStorage.getItem(points[1][k]));
+        }
+    }
+    let homepointsTotalElement = document.getElementById('hptot');
+    if (homepointsTotalElement) {
+        homepointsTotalElement.innerText = hptot;
+    }
+    let awaypointsTotalElement = document.getElementById('aptot');
+    if (awaypointsTotalElement) {
+        awaypointsTotalElement.innerText = aptot;
+    }
+    sessionStorage.setItem('hptot', hptot);
+    sessionStorage.setItem('aptot', aptot);
+    sessionStorage.setItem('hrtot', hrtot);
+    sessionStorage.setItem('artot', artot);
+    sessionStorage.setItem('hgtot', hgtot);
+    sessionStorage.setItem('agtot', agtot);
+}
 
 </script>
   <script>
@@ -498,10 +475,12 @@ for ($k = 1;$k<=9; $k++){
 <td></td>
 <td></td>
 <td>Totals</td>
-<td id="homepointstotals"></td>
-<td id="awaypointstotals"></td>
-<td id="homegamestotals"></td>
-<td id="awaygamestotals"></td>
+<td id="hptot"><script>prepopres("hptot");</script></td>
+<td id="aptot"><script>prepopres("aptot");</script></td>
+<td id="hrtot"><script>prepopres("hrtot");</script></td>
+<td id="artot"><script>prepopres("artot");</script></td>
+<td id="hgtot"><script>prepopres("hgtot");</script></td>
+<td id="agtot"><script>prepopres("agtot");</script></td>
 </table>
 
 <input id="subres" type="submit" value="Submit"  style="display:none;">
@@ -514,18 +493,18 @@ for ($k = 1;$k<=9; $k++){
 ?>
 </div>
 
-<div id="but" style="display:none;">
+<!-- <div id="but" style="display:none;">
     <button  onclick="totalscores()">Calculate totals</button>
 </div>
 <script>
     //at end to allow page to fully populate
-    console.log(sessionStorage.counter);
+    //console.log(sessionStorage.counter);
     if (sessionStorage.counter==37) {
         document.getElementById("but").style.display='block';
         
     }else{
         document.getElementById("but").style.display='none';
     }
-</script>
+</script> -->
 </body>
 </html>
