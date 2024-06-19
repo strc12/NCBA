@@ -23,13 +23,13 @@ include_once ("connection.php");
         #adds new season if needed
         $stmt=$conn->prepare("UPDATE TblSeason SET current=0 WHERE current=1"); #Archive current season
         $stmt->execute();
-        $stmt1=$conn->prepare("INSERT INTO Tblseason (Season,current) VALUES (:season, :cur)");
+        $stmt1=$conn->prepare("INSERT INTO TblSeason (Season,current) VALUES (:season, :cur)");
         $stmt1->bindParam(':season', $seas);
         $stmt1->bindParam(':cur', $cur);
         $stmt1->execute();
         $_SESSION["Season"]=$seas;#updates current season session variable
 
-        $stmtA = $conn->prepare("SELECT * FROM tblleague");
+        $stmtA = $conn->prepare("SELECT * FROM TblLeague");
         $stmtA->execute();
         $leagues = $stmtA->fetchAll(\PDO::FETCH_ASSOC);
         
@@ -57,7 +57,7 @@ include_once ("connection.php");
                         if ($teams[$x]['ClubhasteamID']!=$teams[$y]['ClubhasteamID']){
                             
                             echo($teams[$x]['Name']." v ".($teams[$y]['Name'])."<br>");
-                            $stmt = $conn->prepare("INSERT INTO TblMatches (MatchID,HomeID, AwayID,FixtureDate,Season,DivisionID)VALUES(NULL,:Home,:Away,NULL,:season,:div)");
+                            $stmt = $conn->prepare("INSERT INTO TblMatches (MatchID,HomeID, AwayID,Fixturedate,Season,DivisionID)VALUES(NULL,:Home,:Away,NULL,:season,:div)");
                             $stmt->bindParam(':Home', $teams[$x]['ClubhasteamID']);
                             $stmt->bindParam(':Away', $teams[$y]['ClubhasteamID']);
                             $stmt->bindParam(':div', $division["DivisionID"]);

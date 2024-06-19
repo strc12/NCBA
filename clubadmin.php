@@ -37,7 +37,7 @@
         </thead>
         <tbody>');
     include_once('connection.php');
-	$stmt = $conn->prepare("SELECT * FROM Tblplayers WHERE ClubID=:cid  ORDER BY active DESC, Gender, Surname ASC, Forename ASC ");
+	$stmt = $conn->prepare("SELECT * FROM TblPlayers WHERE ClubID=:cid  ORDER BY active DESC, Gender, Surname ASC, Forename ASC ");
     $stmt->bindParam(':cid', $_SESSION["clubid"]);
 	$stmt->execute();
 	while ($row = $stmt->fetch(PDO::FETCH_ASSOC))

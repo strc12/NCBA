@@ -38,7 +38,7 @@
 <?php
 include_once ("connection.php");
 // Fetch items from the database
-$sql = "SELECT * FROM tblplayers WHERE PlayerID = :id";
+$sql = "SELECT * FROM TblPlayers WHERE PlayerID = :id";
         $stmt = $conn->prepare($sql);
         $stmt->execute([':id' => $_POST['id']]);
         $item = $stmt->fetch(PDO::FETCH_ASSOC);

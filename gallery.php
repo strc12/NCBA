@@ -26,7 +26,7 @@ could
   <?php
   $ori="Landscape";
   include_once('connection.php');
-  $stmt = $conn->prepare("SELECT * FROM tblimages  ORDER BY TYPE asc");
+  $stmt = $conn->prepare("SELECT * FROM TblImages  ORDER BY TYPE asc");
  # $stmt->bindParam(':ori', $ori);WHERE type =:ori
 	$stmt->execute();
 
