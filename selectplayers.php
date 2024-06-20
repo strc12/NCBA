@@ -77,8 +77,6 @@ include_once ("connection.php");
    
    while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
    {
-    print_r($row);
-    print_r($_SESSION);
        $_SESSION["curleague"]=$row["LeagueID"];
        $_SESSION["curmatch"]=$_POST["match"];
        $home=$row["hc"];
@@ -91,7 +89,7 @@ include_once ("connection.php");
    }
    $conn=null;
    echo$home."- ".$away;
-   #could make this more flexible fr format chagnes but hard coded for time being
+   #could make this more flexible for format changes but hard coded for time being
    
     echo'<form action ="scoresheet.php" method="POST" onsubmit="return validateForm()">' ;
     echo("<input type='hidden'  name='FixID' value=".$_SESSION["curmatch"].">");

@@ -311,7 +311,8 @@ try {
     m26h int(2),
     m26a int(2),
     m27h int(2),
-    m27a int(2))
+    m27a int(2),
+    resultsentered int(1))
     ");#all potential scores home and away (27 a side)
     #need to limit for Ladies and doubles
     

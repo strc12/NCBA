@@ -32,7 +32,7 @@
     INNER JOIN TblLeague as leag ON (DIVIS.LeagueID = leag.LEagueID) 
     INNER JOIN tblclub as awt ON away.ClubID=awt.ClubID 
     INNER JOIN tblclub as ht ON home.ClubID=ht.ClubID 
-    WHERE Season=:SEAS  AND awt.clubID=:club OR ht.clubid=:club ORDER BY ad ASC,fixturedate ASC " );
+    WHERE Season=:SEAS  and resultsentered=1 AND awt.clubID=:club OR ht.clubid=:club ORDER BY ad ASC,fixturedate ASC " );
 
     $stmt->bindParam(':club', $_SESSION["clubid"]);
     $stmt->bindParam(':SEAS', $_SESSION["Season"]);
@@ -49,10 +49,5 @@
     <input type="submit" value="Select match">
 </form>
 </div>
-<?php
-
-print_r($_SESSION);
-?>
-
 </body>
 </html>
