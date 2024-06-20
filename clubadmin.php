@@ -16,12 +16,56 @@
 
 </div>
 <h1>Clubs</h1>
+<?php
+include_once("connection.php");
+$stmt = $conn->prepare("SELECT * FROM TblClub WHERE ClubID = :id");
+$stmt->bindParam(':id', $_SESSION['clubid']);
+$stmt->execute();
+$club = $stmt->fetch(PDO::FETCH_ASSOC);
+?>
 <div class="container">
-  To add edit players in club
-  <br>
+<h1>Club Admin</h1>
+<h3>Club Information</h3>
+<hr>
+    
+    <form action="editclub.php" method="POST">
+        Clubname:<input type="text" name="clubname" value="<?php echo htmlspecialchars($club['Clubname']); ?> "disabled><br>
+        Location:<input type="text" name="location" value="<?php echo htmlspecialchars($club['Location']); ?>"><br>
+        website:<input type="text" name="website" value="<?php echo htmlspecialchars($club['Website']); ?>"><br>
+        contact name:<input type="text" name="contactname" value="<?php echo htmlspecialchars($club['Contactname']); ?>"><br>
+        contact number:<input type="text" name="contactnumber" value="<?php echo htmlspecialchars($club['Contactnumber']); ?>"><br>
+        contact email:<input type="text" name="contactemail" value="<?php echo htmlspecialchars($club['Contactemail']); ?>"><br>
+        <input type="checkbox" id="junior" name="junior" value="Junior" <?php if ($club['Junior']==1) echo 'checked'; ?>>
+        <label for="junior"> Junior</label><br>
+        <input type="checkbox" id="senior" name="senior" value="Senior" <?php if ($club['Junior']!=1) echo 'checked'; ?>>
+        <label for="senior"> Senior</label><br>
+        Clubnight(s) and times: <br>
+        <textarea name="clubnight" rows="4" cols="50"><?php echo htmlspecialchars($club['Clubnight']); ?></textarea>
+        <br>
+        <input type="submit" value="UpdateDetails">
+    </form>
+</div>
+<div class="container">
+<h3>Add player</h3>
+<hr>
+    
+    <form action="addplayer.php" method="POST">
+        Forename:<input type="text" name="forename"><br>
+        Surname:<input type="text" name="surname" ><br>
+        Gender:<br>
+        <input type="radio" id="M" name="gender" value="M">
+        <label for="M">M</label><br>
+        <input type="radio" id="F" name="gender" value="F">
+        <label for="F">F</label><br>
+        Date of Birth:<input type="text" name="contactname"> <br>
+        
+        <input type="submit" value="Add New Player">
+    </form>
+</div>
+<div class="container">
+  <h3>To edit players in club</h3>
   <hr>
 <?php
-
     echo('<div class="container mt-5">
     <h2 class="mb-4">Registered Players</h2>
     <table class="table table-striped table-hover">
@@ -55,7 +99,13 @@
             <td>
             <form action='editplayer.php' method='post'>
                         <input type='hidden' name='id' value='".$row["PlayerID"]."'>
-                        <button type='submit' class='btn btn-primary'>Edit</button>
+                        <button type='submit' ");
+            if($row['active']==1){
+                echo("class='btn btn-primary'");
+            }else{
+                echo("class='btn btn-danger'");
+            }
+            echo(">Edit</button>
                     </form>
             </td>");
             echo("</tr>");

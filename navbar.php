@@ -60,12 +60,8 @@
         <li class="nav-item">
           <a class="nav-link" href="admin.php">Admin only</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="clubadmin.php">Club Admin</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="Login.php">Club Login</a>
-        </li>
+        
+       
        
 <?php
 session_start();
@@ -75,10 +71,13 @@ echo('<li>
 <a class="nav-link">Hi '.$_SESSION['clubname'].'</a>
 </li> 
 <li>
-<a class="nav-link" href="changepassword.php">Change Password</a>
+  <a class="nav-link" href="changepassword.php">Change Password</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="clubadmin.php">Club Admin</a>
 </li>
 <li>
-<a class="nav-link" href="logout.php">Logout</a>
+  <a class="nav-link" href="logout.php">Logout</a>
 </li>');
 }else{
   echo('<li>
