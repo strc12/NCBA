@@ -27,15 +27,6 @@ include_once ("connection.php");
     ];
     $stmt->execute($params);
 
-
-?>
-<?php
-
-
-
-?>
-<?php
-include_once ("connection.php");
 $stmt=$conn->prepare("SELECT TblMatches.FixtureDate, 
 TblMatches.m1h,TblMatches.m1a,
 TblMatches.m2h,TblMatches.m2a,
@@ -118,64 +109,14 @@ echo("<br>");
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <link href="styles.css" rel="stylesheet">
   <script>
-        // removes session variable counter
-    //sessionStorage.removeItem("counter");
-    
-    /* function totalscores(){
-        var homegamestotal=0;
-        var awaygamestotal=0;
-        var homepointstotal=0;
-        var awaypointstotal=0;
-        
-        homepointstotal=parseInt(document.getElementById('m1hpts').value)+parseInt(document.getElementById('m2hpts').value)+parseInt(document.getElementById('m3hpts').value)+parseInt(document.getElementById('m3ahpts').value)+parseInt(document.getElementById('m4hpts').value)+parseInt(document.getElementById('m4ahpts').value
-        )+parseInt(document.getElementById('m5hpts').value)+parseInt(document.getElementById('m5ahpts').value)+parseInt(document.getElementById('m6hpts').value)+parseInt(document.getElementById('m6ahpts').value)+parseInt(document.getElementById('m7hpts').value)+parseInt(document.getElementById('m7ahpts').value
-        )+parseInt(document.getElementById('m8hpts').value)+parseInt(document.getElementById('m8ahpts').value)+parseInt(document.getElementById('m9hpts').value)+parseInt(document.getElementById('m9ahpts').value)+parseInt(document.getElementById('m10hpts').value)+parseInt(document.getElementById('m10ahpts').value);
-        console.log(homepointstotal);
-        awaypointstotal=parseInt(document.getElementById('m1apts').value)+parseInt(document.getElementById('m2apts').value)+parseInt(document.getElementById('m3apts').value)+parseInt(document.getElementById('m3aapts').value)+parseInt(document.getElementById('m4apts').value)+parseInt(document.getElementById('m4aapts').value
-        )+parseInt(document.getElementById('m5apts').value)+parseInt(document.getElementById('m5aapts').value)+parseInt(document.getElementById('m6apts').value)+parseInt(document.getElementById('m6aapts').value)+parseInt(document.getElementById('m7apts').value)+parseInt(document.getElementById('m7aapts').value
-        )+parseInt(document.getElementById('m8apts').value)+parseInt(document.getElementById('m8aapts').value)+parseInt(document.getElementById('m9apts').value)+parseInt(document.getElementById('m9aapts').value)+parseInt(document.getElementById('m10apts').value)+parseInt(document.getElementById('m10aapts').value);
-        console.log(awaypointstotal);
-        homegamestotal=parseInt(document.getElementById('m1h1').innerText)+parseInt(document.getElementById('m2h1').innerText)+parseInt(document.getElementById('m3h1').innerText)+parseInt(document.getElementById('m3ah1').innerText)+parseInt(document.getElementById('m4h1').innerText)+parseInt(document.getElementById('m4ah1').innerText
-        )+parseInt(document.getElementById('m5h1').innerText)+parseInt(document.getElementById('m5ah1').innerText)+parseInt(document.getElementById('m6h1').innerText)+parseInt(document.getElementById('m6ah1').innerText)+parseInt(document.getElementById('m7h1').innerText)+parseInt(document.getElementById('m7ah1').innerText
-        )+parseInt(document.getElementById('m8h1').innerText)+parseInt(document.getElementById('m8ah1').innerText)+parseInt(document.getElementById('m9h1').innerText)+parseInt(document.getElementById('m9ah1').innerText)+parseInt(document.getElementById('m10h1').innerText)+parseInt(document.getElementById('m10ah1').innerText);
-        console.log(homegamestotal);
-        console.log(document.getElementById('m1a1').innerText);
-        awaygamestotal=parseInt(document.getElementById('m1a1').innerText)+parseInt(document.getElementById('m2a1').innerText)+parseInt(document.getElementById('m3a1').innerText)+parseInt(document.getElementById('m3aa1').innerText)+parseInt(document.getElementById('m4a1').innerText)+parseInt(document.getElementById('m4aa1').innerText
-        )+parseInt(document.getElementById('m5a1').innerText)+parseInt(document.getElementById('m5aa1').innerText)+parseInt(document.getElementById('m6a1').innerText)+parseInt(document.getElementById('m6aa1').innerText)+parseInt(document.getElementById('m7a1').innerText)+parseInt(document.getElementById('m7aa1').innerText
-        )+parseInt(document.getElementById('m8a1').innerText)+parseInt(document.getElementById('m8aa1').innerText)+parseInt(document.getElementById('m9a1').innerText)+parseInt(document.getElementById('m9aa1').innerText)+parseInt(document.getElementById('m10a1').innerText)+parseInt(document.getElementById('m10aa1').innerText);
-        console.log(awaygamestotal);
-        document.getElementById('awaypointstotals').innerHTML=awaypointstotal;
-        document.getElementById('homepointstotals').innerHTML=homepointstotal;
-        document.getElementById('homegamestotals').innerHTML=homegamestotal;
-        document.getElementById('awaygamestotals').innerHTML=awaygamestotal;
-        document.getElementById("subres").style.display='block';
-        sessionStorage.clear();
-    } */
-
-   /*  function checkfilled(){
-    //alert (document.getElementById('m1h1').innerHTML);
-        if (document.getElementById('m1a1').innerText=='' || document.getElementById('m2a1').innerText=='' 
-        || document.getElementById('m3a1').innerText=='' || document.getElementById('m3aa1').innerText=='' 
-        || document.getElementById('m4a1').innerText=='' || document.getElementById('m4aa1').innerText==''
-        || document.getElementById('m5a1').innerText=='' || document.getElementById('m5aa1').innerText=='' 
-        || document.getElementById('m6a1').innerText=='' || document.getElementById('m6aa1').innerText=='' 
-        || document.getElementById('m7a1').innerText=='' || document.getElementById('m7aa1').innerText==''
-        || document.getElementById('m8a1').innerText=='' || document.getElementById('m8aa1').innerText=='' 
-        || document.getElementById('m9a1').innerText=='' || document.getElementById('m9aa1').innerText=='' 
-        || document.getElementById('m10a1').innerText=='' || document.getElementById('m10aa1').innerText==''
-        )
-        {
-            
-            return 1;
-        }else{
-        
-            return 0;
+        function onPageLoad() {
+            totals();
+            //
         }
-    } */
+
+        window.addEventListener('load', onPageLoad);
 function prepopulate(id){
     //fills in values if already entered and stored in the session variables
-    //console.log(Object.keys(sessionStorage));
-    //console.log(Object(sessionStorage));
     if(sessionStorage.getItem(id)) {
     document.getElementById(id).value = sessionStorage.getItem(id);
     } else {
@@ -187,12 +128,7 @@ function prepopulate(id){
     
 }
 function prepopres(id){
-    //console.log(Object.keys(sessionStorage));
-    //console.log(Object(sessionStorage));
-    /* if (sessionStorage.counter==null){
-    sessionStorage.counter=1;
-    } */
-    //console.log(id);
+   //fills in calcuated values that are stored in the session variables
     if(sessionStorage.getItem(id)) {
     document.getElementById(id).innerText = sessionStorage.getItem(id);
     } else {
@@ -201,104 +137,8 @@ function prepopres(id){
     document.getElementById(id).addEventListener('input', function() {
     sessionStorage.setItem(id, this.innerText);
     });  
-    //sessionStorage.counter=Number(sessionStorage.counter)+1;
     
 }
-function games(match1, match2, home, away, box) {
-    // Validate scores
-    var homeElement = document.getElementById(match1);
-    var awayElement = document.getElementById(match2);
-    $trd=box*3;//identifier for 3 boxes
-    if (!homeElement || !awayElement) {
-        console.error('Element not found');
-        return;
-    }
-    var homescore = parseInt(homeElement.value);
-    var awayscore = parseInt(awayElement.value);
-    if (isNaN(homescore) || isNaN(awayscore)) {
-        console.error('Invalids scores');
-        return;
-    }          
-    var homeElementDisplay = document.getElementById(home);
-    var awayElementDisplay = document.getElementById(away);
-    if (!homeElementDisplay || !awayElementDisplay) {
-        console.error('Home/Away elements not found');
-        return;
-    }
-    if (homescore > awayscore && (homescore >= 21 || awayscore >= 21)) {
-        homeElementDisplay.innerText = "1";
-        awayElementDisplay.innerText = "0";
-        sessionStorage.setItem(match1.slice(0, match1.length - 3) + "r", "1");
-        sessionStorage.setItem(match2.slice(0, match2.length - 3) + "r", "0");
-    } else if (homescore < awayscore && (homescore >= 21 || awayscore >= 21)) {
-        homeElementDisplay.innerText = "0";
-        awayElementDisplay.innerText = "1";
-        sessionStorage.setItem(match1.slice(0, match1.length - 3) + "r", "0");
-        sessionStorage.setItem(match2.slice(0, match2.length - 3) + "r", "1");
-    }
-    const homeresults = ["m"+($trd-2)+"hr", "m"+($trd-1)+"hr", "m"+$trd+"hr"];
-    const awayresults = ["m"+($trd-2)+"ar", "m"+($trd-1)+"ar", "m"+$trd+"ar"];
-    //console.log(awayresults);
-    function resultsdone(keys) {
-        let count = 0;
-
-        for (let key of keys) {
-            if (sessionStorage.getItem(key)) {
-                count++;
-            }
-        }
-        return count >= 2;
-    }
-    function getSessionStorageValues(keys) {
-        return keys.map(key => parseFloat(sessionStorage.getItem(key))).filter(value => !isNaN(value));
-    }
-    //console.log(Object(sessionStorage));
-    if (homeresults.length>=2) {
-        const homevalues = getSessionStorageValues(homeresults);
-        const awayvalues = getSessionStorageValues(awayresults);
-        //console.log('Home:',homevalues);
-        //console.log('Away:',awayvalues);
-        // Example calculation: sum of all values
-        const sumh = homevalues.reduce((acc, value) => acc + value, 0);
-        const suma = awayvalues.reduce((acc, value) => acc + value, 0);
-        //console.log()
-       // console.log('Sumh:', sumh);
-       // console.log('Suma:', suma);
-        if (sumh==2){
-            hg="m"+($trd-2)+"hg";
-            let element = document.getElementById(hg);
-            element.innerText=1;
-            ag="m"+($trd-2)+"ag";
-            let element1 = document.getElementById(ag);
-            element1.innerText=0;
-            sessionStorage.setItem(ag, "0");
-            sessionStorage.setItem(hg, "1");
-            //console.log(ag);
-           // console.log(hg);
-       
-        }else if (suma==2){
-            hg="m"+($trd-2)+"hg";
-            let element = document.getElementById(hg);
-            element.innerText=0;
-            ag="m"+($trd-2)+"ag";
-            let element1 = document.getElementById(ag);
-            element1.innerText=1;
-            sessionStorage.setItem(ag, "1");
-            sessionStorage.setItem(hg, "0");
-           
-        }
-
-
-    } 
-    totals();
-   // console.log(Object(sessionStorage));
-}
-
-    /*  if (typeof checkfilled === 'function' && checkfilled() != 1) {
-        document.getElementById("but").style.display = 'block';
-    } else {
-        document.getElementById("but").style.display = 'none';
-    }  */   
 
 </script>
   <script>
@@ -325,7 +165,7 @@ if ($_SESSION["curleague"]==3){
 }else{
     $tot=1;
 ?>
-<form action ="Confirmresults.php" method="POST">
+<form action ="Saveresults.php" method="POST">
 <?php echo("<input type='hidden'  name='FixID' value=".$_SESSION['curmatch'].">");?>
 <table style = "width:80%" class="table-bordered table-condensed">
 <tr>
@@ -378,14 +218,6 @@ for ($k = 1;$k<=9; $k++){
         onchange="totals()" 
         type="text" ><script>prepopulate("m<?php echo $v;?>apts");</script>
         </td>
-        <!-- <td><input autocomplete="off" id="m<?php echo $v;?>hpts" name="m<?php echo $v;?>hpts" 
-        onchange="games(this.id,document.getElementById('m<?php echo $v;?>apts').id,document.getElementById('m<?php echo $v;?>hr').id,document.getElementById('m<?php echo $v;?>ar').id,<?php echo $k;?>)" 
-        type="text" ><script>prepopulate("m<?php echo $v;?>hpts");</script>
-        </td>
-        <td><input autocomplete="off" id="m<?php echo $v;?>apts" name="m<?php echo $v;?>apts" 
-        onchange="games(document.getElementById('m<?php echo $v;?>hpts').id,this.id,document.getElementById('m<?php echo $v;?>hr').id,document.getElementById('m<?php echo $v;?>ar').id,<?php echo $k;?>)"
-        type="text" ><script>prepopulate("m<?php echo $v;?>apts");</script>
-        </td> -->
         <td id="m<?php echo $v;?>hr"><script>prepopres("m<?php echo $v;?>hr");</script></td>
         <td id="m<?php echo $v;?>ar"><script>prepopres("m<?php echo $v;?>ar");</script></td>
         <?php
@@ -415,7 +247,7 @@ for ($k = 1;$k<=9; $k++){
 <td id="agtot"><script>prepopres("agtot");</script></td>
 </table>
 
-<input id="subres" type="submit" value="Submit"  style="display:none;">
+<input id="subres" type="submit" value="Submit"  disabled=true>
 
 
 
@@ -440,23 +272,12 @@ for ($k = 1;$k<=9; $k++){
         ['m1hpts', 'm2hpts', 'm3hpts', 'm4hpts', 'm5hpts', 'm6hpts', 'm7hpts', 'm8hpts','m9hpts','m10hpts','m11hpts','m12hpts','m13hpts','m14hpts','m15hpts','m16hpts','m17hpts','m18hpts','m19hpts','m20hpts','m21hpts','m22hpts','m23hpts','m24hpts','m25hpts','m26hpts','m27hpts'],
         ['m1apts', 'm2apts', 'm3apts', 'm4apts', 'm5apts', 'm6apts', 'm7apts', 'm8apts','m9apts','m10apts','m11apts','m12apts','m13apts','m14apts','m15apts','m16apts','m17apts','m18apts','m19apts','m20apts','m21apts','m22apts','m23apts','m24apts','m25apts','m26apts','m27apts']
     ];
-    matches=[
-        ["m1hr","m2hr","m3hr"],
-        ["m1ar","m2ar","m3ar"],
-        ["m4hr","m5hr","m6hr"],
-        ["m4ar","m5ar","m6ar"],
-        ["m7hr","m8hr","m9hr"],
-        ["m7ar","m8ar","m9ar"],
-        ["m10hr","m11hr","m12hr"],
-        ["m10ar","m11ar","m12ar"],
-        ["m13hr","m14hr","m15hr"],
-        ["m13ar","m14ar","m15ar"]
-    ];
+    
     // calc rubber win/loss
     let hr=0;
     let ar=0;
     for (k = 0;k<=points[0].length; k++){
-        if(sessionStorage.getItem(points[0][k])>sessionStorage.getItem(points[1][k]) && sessionStorage.getItem(points[1][k])!='' ){
+        if(sessionStorage.getItem(points[0][k])>sessionStorage.getItem(points[1][k]) && sessionStorage.getItem(points[1][k])!=''&& sessionStorage.getItem(points[0][k])>=21 && sessionStorage.getItem(points[0][k])<=30){
             hr=1;
             ar=0;
             let homeRubbers = document.getElementById(rubbers[0][k]);
@@ -470,7 +291,7 @@ for ($k = 1;$k<=9; $k++){
             sessionStorage.setItem(rubbers[0][k], hr);
             sessionStorage.setItem(rubbers[1][k], ar);
             
-        }else if(sessionStorage.getItem(points[0][k])<sessionStorage.getItem(points[1][k]) && sessionStorage.getItem(points[0][k])!=''){
+        }else if(sessionStorage.getItem(points[0][k])<sessionStorage.getItem(points[1][k]) && sessionStorage.getItem(points[0][k])!='' && sessionStorage.getItem(points[1][k])>=21 && sessionStorage.getItem(points[1][k])<=30){
             hr=0;
             ar=1;
             let homeRubbers = document.getElementById(rubbers[0][k]);
@@ -502,23 +323,23 @@ for ($k = 1;$k<=9; $k++){
         let hg=0;
         let ag=0;
         for(d=0;d<=2;d++){
-            if(sessionStorage.getItem(rubbers[0][k+d])>sessionStorage.getItem(rubbers[1][k+d]) && (sessionStorage.getItem(rubbers[1][k+d])!='')){
+            if(sessionStorage.getItem(rubbers[0][3*k+d])>sessionStorage.getItem(rubbers[1][3*k+d]) && (sessionStorage.getItem(rubbers[1][3*k+d])!='')){
                 hg+=1;
-            }else if(sessionStorage.getItem(rubbers[0][k+d])<sessionStorage.getItem(rubbers[1][k+d]) && (sessionStorage.getItem(rubbers[0][k+d])!='')){
+                console.log("hg");
+            }else if(sessionStorage.getItem(rubbers[0][3*k+d])<sessionStorage.getItem(rubbers[1][3*k+d]) && (sessionStorage.getItem(rubbers[0][3*k+d])!='')){
                 ag+=1;
+                console.log("ag");
             }
         }
-        
-        if (hg>ag && hg==2){
-            alert("h",k);
+        if (hg>ag && hg>=2){
+  
             let homegames = document.getElementById(game[0][k]);
             homegames.innerText = 1;
             let awaygames = document.getElementById(game[1][k]);
             awaygames.innerText = 0;
             sessionStorage.setItem(game[0][k], 1);
             sessionStorage.setItem(game[1][k], 0);
-        }else if(hg<ag && ag==2){
-            alert("a",k);
+        }else if(hg<ag && ag>=2){
             let homegames = document.getElementById(game[0][k]);
             homegames.innerText = 0;
             let awaygames = document.getElementById(game[1][k]);
@@ -526,7 +347,6 @@ for ($k = 1;$k<=9; $k++){
             sessionStorage.setItem(game[0][k], 0);
             sessionStorage.setItem(game[1][k], 1);
         }else{
-            alert(k);
             let homegames = document.getElementById(game[0][k]);
             let awaygames = document.getElementById(game[1][k]);
             if(homegames){
@@ -535,14 +355,10 @@ for ($k = 1;$k<=9; $k++){
             if(awaygames){
                 awaygames.innerText = '';
             }
+            sessionStorage.removeItem(game[0][k]);
+            sessionStorage.removeItem(game[1][k]);
         }
-        
     }
-        
-    
-   
-    console.log("hr",hr);
-    console.log("ar",ar);
     let hrtot=0;
     let artot=0;
     //rubbers total
@@ -581,7 +397,7 @@ for ($k = 1;$k<=9; $k++){
     let hptot=0;
     let aptot=0;
     for (k = 0;k<=points[0].length; k++){
-        console.log(k," ",sessionStorage.getItem(points[0][k]));
+        //console.log(k," ",sessionStorage.getItem(points[0][k]));
         if(sessionStorage.getItem(points[0][k])!=null && sessionStorage.getItem(points[0][k])!=''){
             hptot+=parseInt(sessionStorage.getItem(points[0][k]));
         }
@@ -602,16 +418,14 @@ for ($k = 1;$k<=9; $k++){
     sessionStorage.setItem('artot', artot);
     sessionStorage.setItem('hgtot', hgtot);
     sessionStorage.setItem('agtot', agtot);
+    //hides button until 9 games entered
+    if (parseInt(sessionStorage.getItem('agtot'))+parseInt(sessionStorage.getItem('hgtot'))==9){
+        document.getElementById("subres").disabled = false;
+    }else{
+        document.getElementById("subres").disabled = true;
+    }
 }
 
-    //at end to allow page to fully populate
-    //console.log(sessionStorage.counter);
-   // if (sessionStorage.counter==37) {
-   //    document.getElementById("but").style.display='block';
-        
-   // }else{
-    //    document.getElementById("but").style.display='none';
-    //}-->
 </script>
 </body>
 </html>
