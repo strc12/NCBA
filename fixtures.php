@@ -1,7 +1,9 @@
 <?php
 #page to generate all fixtures - not visible
 if(session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
+    if(session_status() !== PHP_SESSION_ACTIVE) {
+        session_start();
+      }
   }
 #header("Location:index.php");
 include_once("setup.php");#to reset seasons every time whilst testing

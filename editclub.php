@@ -7,10 +7,30 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <link href="styles.css" rel="stylesheet">
   <script>
+    function showresult(str) {
+        if (str == "") {
+            document.getElementById("results").innerHTML = "";
+            return;
+        } else { 
+            if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            } else {
+                // code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("clubinfo").innerHTML = this.responseText;
+                }
+            };
+            xmlhttp.open("GET","clubadmin.php?q="+str,true);
+            xmlhttp.send();
+        }
+    }
 
 
-
-    document.addEventListener("DOMContentLoaded", function() {
+    /* document.addEventListener("DOMContentLoaded", function() {
         // Check if the current URL has a query string (indicating a GET request)
         if (window.location.search) {
             // Disable all form elements
@@ -19,7 +39,7 @@
             for (var i = 0; i < formToDisable.elements.length; i++) {
                 formToDisable.elements[i].disabled = true;
             }
-    }});
+    }}); */
 </script>
 
  </head>
@@ -32,7 +52,7 @@
 
 </div>
 <div class="Container">
-<h1>Team management</h1>
+<h1>Club management</h1>
 
 
 <?php
@@ -46,9 +66,10 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 
-    <h1>Select an Item to Edit</h1>
-    <form action="" method="get" id="clubselect">
-    <select name="id">
+    <h2>Select an Item to Edit</h2>
+    <!-- <form action="" method="get" id="clubselect"> -->
+    <select id="clubs" onchange="showresult(this.value)">
+    <option>Select Club</option>
     
             <?php foreach ($items as $item): ?>
                 <option value="<?php echo htmlspecialchars($item['clubID']) ?>" <?php echo (isset($_GET['clubID']) && $_GET['clubID'] == $item['clubID']) ? 'selected' : '' ?>>
@@ -57,51 +78,15 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php endforeach; ?>
         </select>
 
-     
-        <input type="submit" value="Edit" name="edity">
-    </form>
+    <!-- </form> -->
 
-    
-    <?php if (isset($_GET['id'])): ?>
-        <?php
-       
-        $id = $_GET['id'];
-        #echo($id);
-        $sql = "SELECT * FROM tblclub WHERE clubID = :id";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute([':id' => $id]);
-        $item = $stmt->fetch(PDO::FETCH_ASSOC);
-        #print_r($item);
-        if ($item):
-        ?>
-            <h2>Edit Item</h2>
-            <form action="updateclubdetails.php" method="post">
-                <input type="hidden" name="id" value="<?php echo htmlspecialchars($item['ClubID']) ?>">
-                <label for="Clubname">Name:</label>
-                <input type="text" name="Clubname" value="<?php echo htmlspecialchars($item['Clubname']) ?>"><br>
-                <label for="Location">Location:</label>
-                <textarea name="Location"><?php echo htmlspecialchars($item['Location']) ?></textarea><br>
-                <label for="Website">Website:</label>
-                <input type="text" name="Website" value="<?php echo htmlspecialchars($item['Website']) ?>"><br>
-                <label for="Contactname">Contact Name:</label>
-                <input type="text" name="Contactname" value="<?php echo htmlspecialchars($item['Contactname']) ?>"><br>
-                <label for="Contactnumber">Contact Number:</label>
-                <input type="text" name="Contactnumber" value="<?php echo htmlspecialchars($item['Contactnumber']) ?>"><br>
-                <label for="Contactemail">Contact E-mail:</label>
-                <input type="text" name="Contactemail" value="<?php echo htmlspecialchars($item['Contactemail']) ?>"><br>
-                <label for="Clubnight">Club Night details:</label>
-                <textarea name="Clubnight"><?php echo htmlspecialchars($item['Clubnight']) ?></textarea><br>
-                <label>
-                <input type="checkbox" name="Junior[]" value="1" <?php if ($item['Junior'] == 1 || $item['Junior'] == 2) { echo 'checked'; } else { echo ''; } ?>>
-                Junior section
-                <input type="checkbox" name="Junior[]" value="2"<?php if ($item['Junior'] == 0||$item['Junior'] == 2) { echo 'checked'; } else { echo ''; } ?>>
-                Senior section
-                </label><br>
-                <input type="submit" value="Update" name="update">
-            </form>
-        <?php else: ?>
-            <p>No item found.</p>
-        <?php endif; ?>
-    <?php endif; ?>
+<div id="clubinfo">
+
+</div>   
+  <script>
+$("#clubs").on("change", function(){
+    var selected=$(this).val();
+    $("#clubinfo").html("You selected: " + selected);
+  })</script>  
 </body>
 </html>

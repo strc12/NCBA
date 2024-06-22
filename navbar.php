@@ -1,3 +1,8 @@
+<?php
+if(session_status() !== PHP_SESSION_ACTIVE) {
+  session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,7 +69,8 @@
        
        
 <?php
-session_start();
+
+
 include_once("setseason.php");
 if(isset($_SESSION['clubname'])){
 echo('<li>

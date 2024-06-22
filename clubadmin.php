@@ -11,25 +11,46 @@
 <!--Navigation bar-->
 <div id="result">
     <?php
-    include_once("navbar.php");
+    if(session_status() !== PHP_SESSION_ACTIVE) {
+        session_start();
+    }
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // The request is using the POST method
+        
+        $id=$_SESSION['clubid'];
+    } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        if (empty($_GET)) {
+            // No query parameters are provided
+            
+            $id=$_SESSION['clubid'];
+            include_once("navbar.php");
+            
+        } else {
+            // Query parameters are provided
+            
+            $id=intval($_GET['q']);
+        }
+        // The request is using the GET method
+    }
+    
     ?>
 
 </div>
-<h1>Clubs</h1>
+
 <?php
 include_once("connection.php");
 $stmt = $conn->prepare("SELECT * FROM TblClub WHERE ClubID = :id");
-$stmt->bindParam(':id', $_SESSION['clubid']);
+$stmt->bindParam(':id', $id);
 $stmt->execute();
 $club = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 <div class="container">
-<h1>Club Admin</h1>
-<h3>Club Information</h3>
+<h2>Club Admin</h2>
 <hr>
     
-    <form action="editclub.php" method="POST">
-        Clubname:<input type="text" name="clubname" value="<?php echo htmlspecialchars($club['Clubname']); ?> "disabled><br>
+    <form action="updateclubdetails.php" method="POST">
+        <input type="hidden" name="id" value="<?php echo htmlspecialchars($club['ClubID']) ?>"> 
+        Clubname:<input type="text" name="clubname" value="<?php echo htmlspecialchars($club['Clubname']); ?> "><br>
         Location:<input type="text" name="location" value="<?php echo htmlspecialchars($club['Location']); ?>"><br>
         website:<input type="text" name="website" value="<?php echo htmlspecialchars($club['Website']); ?>"><br>
         contact name:<input type="text" name="contactname" value="<?php echo htmlspecialchars($club['Contactname']); ?>"><br>

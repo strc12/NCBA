@@ -2,7 +2,9 @@
     sessionStorage.clear(); 
 </script>
 <?php
-session_start();
+if(session_status() !== PHP_SESSION_ACTIVE) {
+        session_start();
+      }
 print_r($_POST);
 echo("<br>");
 print_r($_SESSION);

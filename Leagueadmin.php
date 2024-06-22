@@ -60,7 +60,7 @@ restrict access to Jermaine/Rob
   	<input type="submit" value="Add discipline">
 	</form>   
 
-<h1>Add Club info feed</h1>
+<h1>Add Club New Club</h1>
     
 <form action="addclub.php" method="POST">
   	Clubname:<input type="text" name="clubname"><br>
