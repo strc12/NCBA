@@ -1,4 +1,5 @@
 <?php
+#test
 header("Location:index.php");
 print_r($_POST);
 if(isset($_POST["junior"]) and isset($_POST["senior"])){
