@@ -5,7 +5,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 
 include_once ("connection.php");
 array_map("htmlspecialchars", $_POST);
-print_r($_POST);
+#print_r($_POST);
 
 
 

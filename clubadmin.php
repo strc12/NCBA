@@ -71,6 +71,7 @@ $club = $stmt->fetch(PDO::FETCH_ASSOC);
 <hr>
     
     <form action="addplayer.php" method="POST">
+        <input type="hidden" name="clubid" value="<?php echo htmlspecialchars($id); ?>">
         Forename:<input type="text" name="forename"><br>
         Surname:<input type="text" name="surname" ><br>
         Gender:<br>
@@ -78,7 +79,7 @@ $club = $stmt->fetch(PDO::FETCH_ASSOC);
         <label for="M">M</label><br>
         <input type="radio" id="F" name="gender" value="F">
         <label for="F">F</label><br>
-        Date of Birth:<input type="text" name="contactname"> <br>
+        Date of Birth:<input type="date" name="dob"> <br>
         
         <input type="submit" value="Add New Player">
     </form>
@@ -103,7 +104,7 @@ $club = $stmt->fetch(PDO::FETCH_ASSOC);
         <tbody>');
     include_once('connection.php');
 	$stmt = $conn->prepare("SELECT * FROM TblPlayers WHERE ClubID=:cid  ORDER BY active DESC, Gender, Surname ASC, Forename ASC ");
-    $stmt->bindParam(':cid', $_SESSION["clubid"]);
+    $stmt->bindParam(':cid', $id);
 	$stmt->execute();
 	while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 		{
@@ -119,6 +120,7 @@ $club = $stmt->fetch(PDO::FETCH_ASSOC);
             echo("</td>
             <td>
             <form action='editplayer.php' method='post'>
+                        <input type='hidden' name='clubid' value='.$id.'>
                         <input type='hidden' name='id' value='".$row["PlayerID"]."'>
                         <button type='submit' ");
             if($row['active']==1){

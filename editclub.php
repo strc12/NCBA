@@ -67,7 +67,6 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
     <h2>Select an Item to Edit</h2>
-    <!-- <form action="" method="get" id="clubselect"> -->
     <select id="clubs" onchange="showresult(this.value)">
     <option>Select Club</option>
     

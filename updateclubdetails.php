@@ -48,7 +48,7 @@ include_once ("connection.php");
       ':Contactnumber' => $Contactnumber, ':Junior' => $Junior]);
     echo("<script>
         alert('Details Updated');
-        
+        window.location.href='$redirect';
     </script>");#alert followed by redirect
       
       ?>
