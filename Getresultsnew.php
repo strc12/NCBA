@@ -75,7 +75,7 @@ INNER JOIN TblClub as hc ON ht.ClubID=hc.ClubID
 WHERE tblMatches.MatchID=:id" );
 $stmt->bindParam(':id', $_GET["q"]);
 $stmt->execute();
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
+$matchdata = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
 ?>
@@ -96,6 +96,42 @@ td,th{
     text-align:center;
 }
 </style>
+<script>
+        function onPageLoad() {
+            totals();
+            //
+        }
+
+        window.addEventListener('load', onPageLoad);
+        document.addEventListener("DOMContentLoaded", function() {
+        totals();
+        });
+function prepopulate(id){
+    //fills in values if already entered and stored in the session variables
+    if(sessionStorage.getItem(id)) {
+    document.getElementById(id).value = sessionStorage.getItem(id);
+    } else {
+    document.getElementById(id).value = '';
+    }
+    document.getElementById(id).addEventListener('input', function() {
+    sessionStorage.setItem(id, this.value);
+    }); 
+    
+}
+function prepopres(id){
+   //fills in calcuated values that are stored in the session variables
+    if(sessionStorage.getItem(id)) {
+    document.getElementById(id).innerText = sessionStorage.getItem(id);
+    } else {
+    document.getElementById(id).innerText = '';
+    }
+    document.getElementById(id).addEventListener('input', function() {
+    sessionStorage.setItem(id, this.innerText);
+    });  
+    
+}
+
+</script>
 </head>
 <body>
 
@@ -112,28 +148,28 @@ if ($_SESSION["curleague"]==3){
     echo("Ladies");
 }else{
     $tot=1;
-print_r($row);
+print_r($matchdata);
 ?>
 
 
 <table style = "width:80%" class="table-bordered table-condensed">
 <tr>
 <th rowspan="2">No</th>
-<th rowspan="2"><?php echo $row['HC']." ".$row['HT'];?></th>
+<th rowspan="2"><?php echo $matchdata['HC']." ".$matchdata['HT'];?></th>
 <th rowspan="2"> </th>
-<th rowspan="2"><?php echo $row['AWC']." ".$row['AWT'];?></th>
+<th rowspan="2"><?php echo $matchdata['AWC']." ".$matchdata['AWT'];?></th>
 <th colspan = "2">Points</th>
 <th colspan="2">Rubbers</th>
 <th colspan="2">Games</th>
 </tr>
 
 <tr>
-<td><?php echo $row['HC']." ".$row['HT'];?></td>
-<td><?php echo $row['AWC']." ".$row['AWT'];?></td>
-<td><?php echo $row['HC']." ".$row['HT'];?></td>
-<td><?php echo $row['AWC']." ".$row['AWT'];?></td>
-<td><?php echo $row['HC']." ".$row['HT'];?></td>
-<td><?php echo $row['AWC']." ".$row['AWT'];?></td>
+<td><?php echo $matchdata['HC']." ".$matchdata['HT'];?></td>
+<td><?php echo $matchdata['AWC']." ".$matchdata['AWT'];?></td>
+<td><?php echo $matchdata['HC']." ".$matchdata['HT'];?></td>
+<td><?php echo $matchdata['AWC']." ".$matchdata['AWT'];?></td>
+<td><?php echo $matchdata['HC']." ".$matchdata['HT'];?></td>
+<td><?php echo $matchdata['AWC']." ".$matchdata['AWT'];?></td>
 </tr>
 <?php
 $pairs = [
@@ -152,20 +188,20 @@ for ($k = 1;$k<=9; $k++){
 ?>
      <tr>
         <td rowspan="3"><?php echo $k;?></td>
-        <td rowspan="3"><?php echo $row[$pairs[$k][0]] . " " . $row[$pairs[$k][1]] . " & " . $row[$pairs[$k][2]] . " " . $row[$pairs[$k][3]];?></td>
+        <td rowspan="3"><?php echo $matchdata[$pairs[$k][0]] . " " . $matchdata[$pairs[$k][1]] . " & " . $matchdata[$pairs[$k][2]] . " " . $matchdata[$pairs[$k][3]];?></td>
         <td rowspan="3">v</td>
-        <td rowspan="3"><?php echo $row[$pairs[$k][4]] . " " . $row[$pairs[$k][5]] . " & " . $row[$pairs[$k][6]] . " " . $row[$pairs[$k][7]];?></td>
+        <td rowspan="3"><?php echo $matchdata[$pairs[$k][4]] . " " . $matchdata[$pairs[$k][5]] . " & " . $matchdata[$pairs[$k][6]] . " " . $matchdata[$pairs[$k][7]];?></td>
 <?php
     for ($j = 0;$j<=2; $j++){
         $v=3*$k-2+$j;
         ?>
-        <td><input autocomplete="off" id="m<?php echo $v;?>hpts" name="m<?php echo $v;?>hpts" 
+        <td id="m<?php echo $v;?>h" name="m<?php echo $v;?>h" 
        onchange="totals()" 
-        type="text" ><script>prepopulate("m<?php echo $v;?>hpts");</script>
+        ><?php echo ($matchdata["m{$v}h"])?>
         </td>
-        <td><input autocomplete="off" id="m<?php echo $v;?>apts" name="m<?php echo $v;?>apts" 
+        <td id="m<?php echo $v;?>a" name="m<?php echo $v;?>a" 
         onchange="totals()" 
-        type="text" ><script>prepopulate("m<?php echo $v;?>apts");</script>
+         ><?php echo ($matchdata["m{$v}a"])?>
         </td>
         <td id="m<?php echo $v;?>hr"><script>prepopres("m<?php echo $v;?>hr");</script></td>
         <td id="m<?php echo $v;?>ar"><script>prepopres("m<?php echo $v;?>ar");</script></td>
@@ -188,7 +224,7 @@ for ($k = 1;$k<=9; $k++){
 <td></td>
 <td></td>
 <td>Totals</td>
-<td id="hptot"><script>prepopres("hptot");</script></td>
+<td id="hptot"><script>totals();</script></td>
 <td id="aptot"><script>prepopres("aptot");</script></td>
 <td id="hrtot"><script>prepopres("hrtot");</script></td>
 <td id="artot"><script>prepopres("artot");</script></td>
@@ -196,7 +232,6 @@ for ($k = 1;$k<=9; $k++){
 <td id="agtot"><script>prepopres("agtot");</script></td>
 </table>
 
-<input id="subres" type="submit" value="Submit"  disabled=true>
 
 
 
@@ -209,6 +244,7 @@ for ($k = 1;$k<=9; $k++){
 
 <script>
     function totals(){
+        alert("£SDSDSS");
     rubbers = [
         ['m1hr', 'm2hr', 'm3hr', 'm4hr', 'm5hr', 'm6hr', 'm7hr', 'm8hr','m9hr','m10hr','m11hr','m12hr','m13hr','m14hr','m15hr','m16hr','m17hr','m18hr','m19hr','m20hr','m21hr','m22hr','m23hr','m24hr','m25hr','m26hr','m27hr'],
         ['m1ar', 'm2ar', 'm3ar', 'm4ar', 'm5ar', 'm6ar', 'm7ar', 'm8ar','m9ar','m10ar','m11ar','m12ar','m13ar','m14ar','m15ar','m16ar','m17ar','m18ar','m19ar','m20ar','m21ar','m22ar','m23ar','m24ar','m25ar','m26ar','m27ar']
@@ -222,7 +258,7 @@ for ($k = 1;$k<=9; $k++){
         ['m1apts', 'm2apts', 'm3apts', 'm4apts', 'm5apts', 'm6apts', 'm7apts', 'm8apts','m9apts','m10apts','m11apts','m12apts','m13apts','m14apts','m15apts','m16apts','m17apts','m18apts','m19apts','m20apts','m21apts','m22apts','m23apts','m24apts','m25apts','m26apts','m27apts']
     ];
     
-    // calc rubber win/loss
+    /* // calc rubber win/loss
     let hr=0;
     let ar=0;
     for (k = 0;k<=points[0].length; k++){
@@ -358,8 +394,142 @@ for ($k = 1;$k<=9; $k++){
     homepointsTotalElement.innerText = hptot;
     
     let awaypointsTotalElement = document.getElementById('aptot');
+    awaypointsTotalElement.innerText = aptot; */
+    alert("DFgsf");
+    const matchData = <?php echo json_encode($matchData); ?>;
+    console.log(Matchdata);
+    // Replace sessionStorage.getItem with matchData properties
+    let hr = 0;
+    let ar = 0;
+    console.log(matchData[homeKey],matchData[awayKey])
+    for (let k = 1; k <= 27; k++) {
+        const homeKey = `m${k}h`;
+        const awayKey = `m${k}a`;
+        console.log(matchData[homeKey],matchData[awayKey])
+        if (matchData[homeKey] > matchData[awayKey] && matchData[awayKey] !== '' && matchData[homeKey] >= 21 && matchData[homeKey] <= 30) {
+            hr = 1;
+            ar = 0;
+            let homeRubbers = document.getElementById(rubbers[0][k - 1]);
+            if (homeRubbers) {
+                homeRubbers.innerText = hr;
+            }
+            let awayRubbers = document.getElementById(rubbers[1][k - 1]);
+            if (awayRubbers) {
+                awayRubbers.innerText = ar;
+            }
+        } else if (matchData[homeKey] < matchData[awayKey] && matchData[homeKey] !== '' && matchData[awayKey] >= 21 && matchData[awayKey] <= 30) {
+            hr = 0;
+            ar = 1;
+            let homeRubbers = document.getElementById(rubbers[0][k - 1]);
+            if (homeRubbers) {
+                homeRubbers.innerText = hr;
+            }
+            let awayRubbers = document.getElementById(rubbers[1][k - 1]);
+            if (awayRubbers) {
+                awayRubbers.innerText = ar;
+            }
+        } else if (matchData[homeKey] !== '' || matchData[awayKey] !== '') {
+            let homeRubbers = document.getElementById(rubbers[0][k - 1]);
+            if (homeRubbers) {
+                homeRubbers.innerText = '';
+            }
+            let awayRubbers = document.getElementById(rubbers[1][k - 1]);
+            if (awayRubbers) {
+                awayRubbers.innerText = '';
+            }
+        }
+    }
+
+    // Calculate games won
+    for (let k = 0; k < game[0].length; k++) {
+        let hg = 0;
+        let ag = 0;
+        for (let d = 0; d <= 2; d++) {
+            const rubberKeyHome = `m${3 * k + d + 1}h`;
+            const rubberKeyAway = `m${3 * k + d + 1}a`;
+            if (matchData[rubberKeyHome] > matchData[rubberKeyAway] && matchData[rubberKeyAway] !== '') {
+                hg += 1;
+            } else if (matchData[rubberKeyHome] < matchData[rubberKeyAway] && matchData[rubberKeyHome] !== '') {
+                ag += 1;
+            }
+        }
+        if (hg > ag && hg >= 2) {
+            let homegames = document.getElementById(game[0][k]);
+            homegames.innerText = 1;
+            let awaygames = document.getElementById(game[1][k]);
+            awaygames.innerText = 0;
+        } else if (hg < ag && ag >= 2) {
+            let homegames = document.getElementById(game[0][k]);
+            homegames.innerText = 0;
+            let awaygames = document.getElementById(game[1][k]);
+            awaygames.innerText = 1;
+        } else {
+            let homegames = document.getElementById(game[0][k]);
+            let awaygames = document.getElementById(game[1][k]);
+            if (homegames) {
+                homegames.innerText = '';
+            }
+            if (awaygames) {
+                awaygames.innerText = '';
+            }
+        }
+    }
+
+    // Calculate rubbers total
+    let hrtot = 0;
+    let artot = 0;
+    for (let k = 1; k <= 27; k++) {
+        const homeKey = `m${k}h`;
+        const awayKey = `m${k}a`;
+        if (matchData[homeKey] != null) {
+            hrtot += parseInt(matchData[homeKey]);
+        }
+        if (matchData[awayKey] != null) {
+            artot += parseInt(matchData[awayKey]);
+        }
+    }
+    let homeRubbersTotalElement = document.getElementById('hrtot');
+    homeRubbersTotalElement.innerText = hrtot;
+    let awayRubbersTotalElement = document.getElementById('artot');
+    awayRubbersTotalElement.innerText = artot;
+
+    // Calculate games total
+    let hgtot = 0;
+    let agtot = 0;
+    for (let k = 0; k < game[1].length; k++) {
+        const gameKeyHome = `m${k + 1}h`;
+        const gameKeyAway = `m${k + 1}a`;
+        if (matchData[gameKeyHome] != null) {
+            hgtot += parseInt(matchData[gameKeyHome]);
+        }
+        if (matchData[gameKeyAway] != null) {
+            agtot += parseInt(matchData[gameKeyAway]);
+        }
+    }
+    let homegamesTotalElement = document.getElementById('hgtot');
+    homegamesTotalElement.innerText = hgtot;
+    let awaygamesTotalElement = document.getElementById('agtot');
+    awaygamesTotalElement.innerText = agtot;
+
+    // Calculate points total
+    let hptot = 0;
+    let aptot = 0;
+    for (let k = 1; k <= 27; k++) {
+        const homeKey = `m${k}h`;
+        const awayKey = `m${k}a`;
+        if (matchData[homeKey] != null && matchData[homeKey] !== '') {
+            hptot += parseInt(matchData[homeKey]);
+        }
+        if (matchData[awayKey] != null && matchData[awayKey] !== '') {
+            aptot += parseInt(matchData[awayKey]);
+        }
+    }
+    let homepointsTotalElement = document.getElementById('hptot');
+    homepointsTotalElement.innerText = hptot;
+    let awaypointsTotalElement = document.getElementById('aptot');
     awaypointsTotalElement.innerText = aptot;
-    
+
+
     //save for prepop
     sessionStorage.setItem('hptot', hptot);
     sessionStorage.setItem('aptot', aptot);
