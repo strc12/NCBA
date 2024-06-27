@@ -96,6 +96,39 @@ td,th{
     text-align:center;
 }
 </style>
+<script>
+        function onPageLoad() {
+            totals();
+            //
+        }
+
+        window.addEventListener('load', onPageLoad);
+function prepopulate(id){
+    //fills in values if already entered and stored in the session variables
+    if(sessionStorage.getItem(id)) {
+    document.getElementById(id).value = sessionStorage.getItem(id);
+    } else {
+    document.getElementById(id).value = '';
+    }
+    document.getElementById(id).addEventListener('input', function() {
+    sessionStorage.setItem(id, this.value);
+    }); 
+    
+}
+function prepopres(id){
+   //fills in calcuated values that are stored in the session variables
+    if(sessionStorage.getItem(id)) {
+    document.getElementById(id).innerText = sessionStorage.getItem(id);
+    } else {
+    document.getElementById(id).innerText = '';
+    }
+    document.getElementById(id).addEventListener('input', function() {
+    sessionStorage.setItem(id, this.innerText);
+    });  
+    
+}
+
+</script>
 </head>
 <body>
 
@@ -105,6 +138,7 @@ td,th{
 <div class="container-fluid" style="margin-top:40px">
 <h3>Scores</h3>
 <?php
+$_SESSION["curleague"]=1;
 if ($_SESSION["curleague"]==3){
     echo("doubles");
 
@@ -159,21 +193,46 @@ for ($k = 1;$k<=9; $k++){
     for ($j = 0;$j<=2; $j++){
         $v=3*$k-2+$j;
         ?>
-        <td><input autocomplete="off" id="m<?php echo $v;?>hpts" name="m<?php echo $v;?>hpts" 
+        <td id="m<?php echo $v;?>h" name="m<?php echo $v;?>h" 
        onchange="totals()" 
-        type="text" ><script>prepopulate("m<?php echo $v;?>hpts");</script>
+        ><?php echo $row["m{$v}h"];?>
         </td>
-        <td><input autocomplete="off" id="m<?php echo $v;?>apts" name="m<?php echo $v;?>apts" 
+        <td id="m<?php echo $v;?>a" name="m<?php echo $v;?>a" 
         onchange="totals()" 
-        type="text" ><script>prepopulate("m<?php echo $v;?>apts");</script>
+        type="text" ><?php echo $row["m{$v}a"];?>
         </td>
-        <td id="m<?php echo $v;?>hr"><script>prepopres("m<?php echo $v;?>hr");</script></td>
-        <td id="m<?php echo $v;?>ar"><script>prepopres("m<?php echo $v;?>ar");</script></td>
+        <td id="m<?php echo $v;?>hr"><?php 
+        if ($row["m{$v}a"]<$row["m{$v}h"]){
+            echo 1;
+        }else{
+            echo 0;
+        }
+        ?>
+        </td>
+        <td id="m<?php echo $v;?>ar"><?php 
+        if ($row["m{$v}a"]>$row["m{$v}h"]){
+            echo 1;
+        }else{
+            echo 0;
+        }
+        ?></td>
         <?php
             if ($j == 0) {
                 ?>
-                <td rowspan="3" id="m<?php echo $v;?>hg"><script>prepopres("m<?php echo $v;?>hg");</script></td>
-                <td rowspan="3" id="m<?php echo $v;?>ag"><script>prepopres("m<?php echo $v;?>ag");</script></td>
+                <td rowspan="3" id="m<?php echo $v;?>hg"><?php 
+            if ($row["m{$v}ag"]<$row["m{$v}hg"]){
+                echo 1;
+            }else{
+                echo 0;
+            }
+        ?></td>
+                <td rowspan="3" id="m<?php echo $v;?>ag"><?php 
+        if ($row["m{$v}ag"]<$row["m{$v}hg"]){
+            echo 1;
+        }else{
+            echo 0;
+        }
+        ?></td>
                 </tr>
         <?php
         }else{
@@ -196,11 +255,7 @@ for ($k = 1;$k<=9; $k++){
 <td id="agtot"><script>prepopres("agtot");</script></td>
 </table>
 
-<input id="subres" type="submit" value="Submit"  disabled=true>
 
-
-
-</form>
 <?php
 }
 ?>
@@ -218,10 +273,10 @@ for ($k = 1;$k<=9; $k++){
         ['m1ag', 'm4ag', 'm7ag', 'm10ag', 'm13ag', 'm16ag', 'm19ag', 'm22ag', 'm25ag']
     ];
     points=[
-        ['m1hpts', 'm2hpts', 'm3hpts', 'm4hpts', 'm5hpts', 'm6hpts', 'm7hpts', 'm8hpts','m9hpts','m10hpts','m11hpts','m12hpts','m13hpts','m14hpts','m15hpts','m16hpts','m17hpts','m18hpts','m19hpts','m20hpts','m21hpts','m22hpts','m23hpts','m24hpts','m25hpts','m26hpts','m27hpts'],
-        ['m1apts', 'm2apts', 'm3apts', 'm4apts', 'm5apts', 'm6apts', 'm7apts', 'm8apts','m9apts','m10apts','m11apts','m12apts','m13apts','m14apts','m15apts','m16apts','m17apts','m18apts','m19apts','m20apts','m21apts','m22apts','m23apts','m24apts','m25apts','m26apts','m27apts']
+        ['m1h', 'm2h', 'm3h', 'm4h', 'm5h', 'm6h', 'm7h', 'm8h','m9h','m10h','m11h','m12h','m13h','m14h','m15h','m16h','m17h','m18h','m19h','m20h','m21h','m22h','m23h','m24h','m25h','m26h','m27h'],
+        ['m1a', 'm2a', 'm3a', 'm4a', 'm5a', 'm6a', 'm7a', 'm8a','m9a','m10a','m11a','m12a','m13a','m14a','m15a','m16a','m17a','m18a','m19a','m20a','m21a','m22a','m23a','m24a','m25a','m26a','m27a']
     ];
-    
+    alert("FDGF");
     // calc rubber win/loss
     let hr=0;
     let ar=0;
