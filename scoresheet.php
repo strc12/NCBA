@@ -212,6 +212,7 @@ for ($k = 1;$k<=9; $k++){
     for ($j = 0;$j<=2; $j++){
         $v=3*$k-2+$j;
         ?>
+        <!-- points -->
         <td><input autocomplete="off" id="m<?php echo $v;?>hpts" name="m<?php echo $v;?>hpts" 
        onchange="totals()" 
         type="text" ><script>prepopulate("m<?php echo $v;?>hpts");</script>
@@ -220,11 +221,13 @@ for ($k = 1;$k<=9; $k++){
         onchange="totals()" 
         type="text" ><script>prepopulate("m<?php echo $v;?>apts");</script>
         </td>
+        <!-- rubbers -->
         <td id="m<?php echo $v;?>hr"><script>prepopres("m<?php echo $v;?>hr");</script></td>
         <td id="m<?php echo $v;?>ar"><script>prepopres("m<?php echo $v;?>ar");</script></td>
         <?php
             if ($j == 0) {
                 ?>
+                <!-- games -->
                 <td rowspan="3" id="m<?php echo $v;?>hg"><script>prepopres("m<?php echo $v;?>hg");</script></td>
                 <td rowspan="3" id="m<?php echo $v;?>ag"><script>prepopres("m<?php echo $v;?>ag");</script></td>
                 </tr>
