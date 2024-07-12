@@ -244,6 +244,19 @@ print_r($_SESSION);
 <?php
 if ($_SESSION["curleague"]==3){
     echo("Doubles");
+    $mixed=['Homemx1ID','Homemx2ID','Homemx3ID','Homemx1lID','Homemx2lID','Homemx3lID','Awaymx1ID','Awaymx2ID','Awaymx3ID','Awaymx1lID','Awaymx2lID','Awaymx3lID'];
+    foreach ($mixed as $x){
+    $mx=$_POST[$x];
+    echo($mx);
+    #need to find matching player names for mixed
+    $stmt=$conn->prepare("SELECT Forename, Surname from tblPlayers where PlayerID=:pid") ;
+    $stmt->bindParam(':pid',$mx );
+    $stmt->execute();
+    $rowt = $stmt->fetch(PDO::FETCH_ASSOC);
+    print_r($rowt);
+    $row[$x."f"]=$rowt["Forename"];
+    $row[$x."s"]=$rowt["Surname"];
+    }
 
 }else if ($_SESSION["curleague"]==4){
     echo("Ladies");
@@ -301,15 +314,15 @@ if ($_SESSION["curleague"]==2){
 }else if ($_SESSION["curleague"]==3){
     #doubles
     $pairs = [
-        1 => ['P1f', 'P1s', 'P4f', 'P4s', 'AP1f', 'AP1s', 'AP4f', 'AP4s'],
-        2 => ['P2f', 'P2s', 'P5f', 'P5s', 'AP2f', 'AP2s', 'AP5f', 'AP5s'],
-        3 => ['P3f', 'P3s', 'P6f', 'P6s', 'AP3f', 'AP3s', 'AP6f', 'AP6s'],
-        4 => ['P2f', 'P2s', 'P5f', 'P5s', 'AP1f', 'AP1s', 'AP4f', 'AP4s'],
-        5 => ['P3f', 'P3s', 'P6f', 'P6s', 'AP2f', 'AP2s', 'AP5f', 'AP5s'],
-        6 => ['P1f', 'P1s', 'P4f', 'P4s', 'AP3f', 'AP3s', 'AP6f', 'AP6s'],
-        7 => ['P3f', 'P3s', 'P6f', 'P6s', 'AP1f', 'AP1s', 'AP4f', 'AP4s'],
-        8 => ['P1f', 'P1s', 'P4f', 'P4s', 'AP2f', 'AP2s', 'AP5f', 'AP5s'],
-        9 => ['P2f', 'P2s', 'P5f', 'P5s', 'AP3f', 'AP3s', 'AP6f', 'AP6s']
+        1 => ['P1f', 'P1s', 'P2f', 'P2s', 'AP1f', 'AP1s', 'AP2f', 'AP2s'],
+        2 => ['P1f', 'P1s', 'P3f', 'P3s', 'AP1f', 'AP1s', 'AP3f', 'AP3s'],
+        3 => ['P2f', 'P2s', 'P3f', 'P3s', 'AP2f', 'AP2s', 'AP3f', 'AP3s'],
+        4 => ['P4f', 'P4s', 'P5f', 'P5s', 'AP4f', 'AP4s', 'AP5f', 'AP5s'],
+        5 => ['P4f', 'P4s', 'P6f', 'P6s', 'AP4f', 'AP4s', 'AP6f', 'AP6s'],
+        6 => ['P5f', 'P5s', 'P6f', 'P6s', 'AP5f', 'AP5s', 'AP6f', 'AP6s'],
+        7 => ['Homemx1IDf', 'Homemx1IDs', 'Homemx1lIDf', 'Homemx1lIDs', 'Awaymx1IDf', 'Awaymx1IDs', 'Awaymx1lIDf', 'Awaymx1lIDs'],
+        8 => ['Homemx2IDf', 'Homemx2IDs', 'Homemx2lIDf', 'Homemx2lIDs', 'Awaymx2IDf', 'Awaymx2IDs', 'Awaymx2lIDf', 'Awaymx2lIDs'],
+        9 => ['Homemx3IDf', 'Homemx3IDs', 'Homemx3lIDf', 'Homemx3lIDs', 'Awaymx3IDf', 'Awaymx3IDs', 'Awaymx3lIDf', 'Awaymx3lIDs']
     ];
 }else{
     #open
@@ -332,6 +345,7 @@ echo($nomatches);
 for ($k = 1;$k<=$nomatches; $k++){
 ?>
      <tr>
+        <!--names here-->
         <td rowspan="3"><?php echo $k;?></td>
         <td rowspan="3"><?php echo $row[$pairs[$k][0]] . " " . $row[$pairs[$k][1]] . " & " . $row[$pairs[$k][2]] . " " . $row[$pairs[$k][3]];?></td>
         <td rowspan="3">v</td>

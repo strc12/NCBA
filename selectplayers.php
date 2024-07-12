@@ -16,14 +16,18 @@
     
     function popdropdown($club,$sex,$position){
         include ('connection.php');//hides connection details
+        $char = 'x';
 
-        $stmt1=$conn->prepare("SELECT $position FROM tblmatches where MatchID = :mid");#looks up the field to see if alread set value
-        $stmt1->bindParam(':mid', $_SESSION["curmatch"]);
-        $stmt1->execute(); 
-        while ($row = $stmt1->fetch(PDO::FETCH_ASSOC)){
-            $playerID=($row[$position]);
+        $pos = strpos($position, $char);
+        
+        if ($pos!=5 ){
+            $stmt1=$conn->prepare("SELECT $position FROM tblmatches where MatchID = :mid");#looks up the field to see if already set value
+            $stmt1->bindParam(':mid', $_SESSION["curmatch"]);
+            $stmt1->execute(); 
+            while ($row = $stmt1->fetch(PDO::FETCH_ASSOC)){
+                $playerID=($row[$position]);
+            }
         }
-
         echo "<select name='$position' id='$position'>";
         
        
@@ -40,12 +44,12 @@
         } 
         echo "<option value='' selected disabled>Please select a Player...</option>";
     // GOING THROUGH THE DATA
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
-        {	if ($playerID == $row['PlayerID']) {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+         	if ($playerID == $row['PlayerID']) {
                 $selected = 'selected';
             } else {
                 $selected = '';
-            }
+            } 
                 //code for drop down list
                 echo '<option value="' . $row['PlayerID'] . '"' . $selected . '>' . $row['Forename'] ." ". $row['Surname'] .'</option>';
                 
@@ -96,7 +100,7 @@ include_once ("connection.php");
     echo("<input type='hidden'  name='FixID' value=".$_SESSION["curmatch"].">");
     ?>
     <h3>Players</h3><table style = "width:60%"  class="table-striped table-bordered table-condensed"><tr><th colspan="2"><?php echo($ht);?> Players</th><th colspan="2"><?php echo($at);?> Players</th></tr>
-    <?php if($_SESSION["curleague"]==4){
+    <?php if ($_SESSION["curleague"]==4){
     ?>
     <tr>
     <td>Lady 1</td>
@@ -197,6 +201,56 @@ include_once ("connection.php");
         <td>Lady 3</td>
         <td><?php popdropdown($away,'F','AwayP6ID');?></td>
         </tr>
+    <?php}
+    if($_SESSION["curleague"]==3){
+        ?>
+        <tr>
+        <td colspan="4" class ="text-center">Mixed pair 1</td>
+        </tr>
+
+        <tr>
+        <td>Player 1</td>
+        <td><?php popdropdown($home,'B','Homemx1ID');?></td>
+        <td>Player 1</td>
+        <td><?php popdropdown($away,'B','Awaymx1ID');?></td>
+        </tr>
+        <tr>
+        <td>Lady 1</td>
+        <td><?php popdropdown($home,'F','Homemx1lID');?></td>
+        <td>Lady 1</td>
+        <td><?php popdropdown($away,'F','Awaymx1lID');?></td>
+        </tr>
+        <tr>
+        <td colspan="4" class ="text-center">Mixed Pair 2</td>
+        </tr>
+        <tr>
+        <td>Player 2</td>
+        <td><?php popdropdown($home,'B','Homemx2ID');?></td>
+        <td>Player 2</td>
+        <td><?php popdropdown($away,'B','Awaymx2ID');?></td>
+        </tr>
+        <tr>
+        <td>Lady 2</td>
+        <td><?php popdropdown($home,'F','Homemx2lID');?></td>
+        <td>Lady 2</td>
+        <td><?php popdropdown($away,'F','Awaymx2lID');?></td>
+        </tr>
+        <tr>
+        <td colspan="4" class ="text-center">Mixed Pair 3</td>
+        </tr>
+        <tr>
+        <td>Player 3</td>
+        <td><?php popdropdown($home,'B','Homemx3ID');?></td>
+        <td>Player 3</td>
+        <td><?php popdropdown($away,'B','Awaymx3ID');?></td>
+        </tr>
+        <tr>
+        <td>Lady 3</td>
+        <td><?php popdropdown($home,'F','Homemx3lID');?></td>
+        <td>Lady 3</td>
+        <td><?php popdropdown($away,'F','Awaymx3lID');?></td>
+        </tr>
+
     <?php 
     } 
     ?>

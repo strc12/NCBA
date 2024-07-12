@@ -25,6 +25,7 @@
 <select id="matches" onchange="showresult(this.value)">
     <option>Select match</option>
    <?php
+
    include_once ("connection.php");
    if (isset($_SESSION["Clubid"])){
     $stmt = $conn->prepare("SELECT MatchID,HomeID, AwayID, Season, Fixturedate, tblmatches.DivisionID as DID, 
@@ -94,61 +95,67 @@ function showresult(str) {
 }
 
 function calculate() {
-    var nomatches=<?php 
-        if ($_SESSION["curleague"]==4){echo 6;}else{echo 9;}?>;
-    console.log("bob",nomatches);
     var homePointsTotal = 0;
     var homeRubbersTotal = 0;
     var awayPointsTotal = 0;
     var awayRubbersTotal = 0;
     var homeGamesTotal = 0;
     var awayGamesTotal = 0;
+    const element1 = document.querySelector('#m19h');
+        
+    if (element1) {
+        count=9;
+    }else{
+        count=6;
 
+    }
     // Iterate through each match
-    for (var i = 1; i <= nomatches; i++) {
+    for (var i = 1; i <= count; i++) {
         var homeRubbers = 0;
         var awayRubbers = 0;
         var homeGames = 0;
         var awayGames = 0;
+        
+            // Calculate rubbers and games for each match
+            for (var j = 0; j <= 2; j++) {
+                var v = 3 * i - 2 + j;
+                
+            
+                
+                var homeValue = parseFloat(document.getElementById('m' + v + 'hr').innerText);
+                var awayValue = parseFloat(document.getElementById('m' + v + 'ar').innerText);
+                //console.log(homeValue,awayValue);
+                if (!isNaN(homeValue) && !isNaN(awayValue)) {
+                    homeGames += homeValue;
+                    awayGames += awayValue;
+                }
 
-        // Calculate rubbers and games for each match
-        for (var j = 0; j <= 2; j++) {
-            var v = 3 * i - 2 + j;
-            var homeValue = parseFloat(document.getElementById('m' + v + 'hr').innerText);
-            var awayValue = parseFloat(document.getElementById('m' + v + 'ar').innerText);
-
-            if (!isNaN(homeValue) && !isNaN(awayValue)) {
-                homeGames += homeValue;
-                awayGames += awayValue;
+                if (homeValue > awayValue) {
+                    homeRubbers++;
+                } else if (homeValue < awayValue) {
+                    awayRubbers++;
+                }
+                
+                homePointsTotal += parseFloat(document.getElementById('m' + i + 'h').innerText);
+                awayPointsTotal += parseFloat(document.getElementById('m' + i + 'a').innerText);
             }
 
-            if (homeValue > awayValue) {
-                homeRubbers++;
-            } else if (homeValue < awayValue) {
-                awayRubbers++;
+            
+            homeRubbersTotal += homeRubbers;
+            awayRubbersTotal += awayRubbers;
+            
+
+            // Update match result display
+            if (homeRubbers > awayRubbers) {
+                document.getElementById('m' + i + 'hg').innerText = "1";
+                document.getElementById('m' + i + 'ag').innerText = "0";
+                homeGamesTotal += 1;
+            } else {
+                document.getElementById('m' + i + 'hg').innerText = "0";
+                document.getElementById('m' + i + 'ag').innerText = "1";
+                awayGamesTotal += 1;
             }
-            console.log(homeGames,awayGames, i,j)
-            homePointsTotal += parseFloat(document.getElementById('m' + i + 'h').innerText);
-            awayPointsTotal += parseFloat(document.getElementById('m' + i + 'a').innerText);
-        }
-
-        
-        homeRubbersTotal += homeRubbers;
-        awayRubbersTotal += awayRubbers;
-        
-
-        // Update match result display
-        if (homeRubbers > awayRubbers) {
-            document.getElementById('m' + i + 'hg').innerText = "1";
-            document.getElementById('m' + i + 'ag').innerText = "0";
-            homeGamesTotal += 1;
-        } else {
-            document.getElementById('m' + i + 'hg').innerText = "0";
-            document.getElementById('m' + i + 'ag').innerText = "1";
-            awayGamesTotal += 1;
-        }
     }
-
     // Update total displays
     document.getElementById('homePointsTotal').innerText = homePointsTotal;
     document.getElementById('homeRubbersTotal').innerText = homeRubbersTotal;
@@ -160,7 +167,7 @@ function calculate() {
 
 $(document).ready(function() {
     // Use jQuery to trigger the calculation when page loads
-    calculate();
+   // calculate();
 
     // Trigger calculation on change of match selection
     $("#matches").on("change", function(){
