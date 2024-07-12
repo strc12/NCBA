@@ -8,85 +8,165 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 include_once ("connection.php");
 // Check if the form is submitted to update the item
 $q=$_GET['q'];
-$stmt = $conn->prepare("SELECT TblMatches.FixtureDate, 
-TblMatches.m1h, TblMatches.m1a,
-TblMatches.m2h, TblMatches.m2a,
-TblMatches.m3h, TblMatches.m3a,
-TblMatches.m4h, TblMatches.m4a,
-TblMatches.m5h, TblMatches.m5a,
-TblMatches.m6h, TblMatches.m6a,
-TblMatches.m7h, TblMatches.m7a,
-TblMatches.m8h, TblMatches.m8a,
-TblMatches.m9h, TblMatches.m9a,
-TblMatches.m10h, TblMatches.m10a,
-TblMatches.m11h, TblMatches.m11a,
-TblMatches.m12h, TblMatches.m12a,
-TblMatches.m13h, TblMatches.m13a,
-TblMatches.m14h, TblMatches.m14a,
-TblMatches.m15h, TblMatches.m15a,
-TblMatches.m16h, TblMatches.m16a,
-TblMatches.m17h, TblMatches.m17a,
-TblMatches.m18h, TblMatches.m18a,
-TblMatches.m19h, TblMatches.m19a,
-TblMatches.m20h, TblMatches.m20a,
-TblMatches.m21h, TblMatches.m21a,
-TblMatches.m22h, TblMatches.m22a,
-TblMatches.m23h, TblMatches.m23a,
-TblMatches.m24h, TblMatches.m24a,
-TblMatches.m25h, TblMatches.m25a,
-TblMatches.m26h, TblMatches.m26a,
-TblMatches.m27h, TblMatches.m27a,
-TblMatches.HomeID as Home, TblMatches.AwayID as Away,  
-P1.Forename as P1f, P1.Surname as P1s, 
-P2.Forename as P2f, P2.Surname as P2s,
-P3.Forename as P3f, P3.Surname as P3s,
-P4.Forename as P4f, P4.Surname as P4s,
-P5.Forename as P5f, P5.Surname as P5s,
-P6.Forename as P6f, P6.Surname as P6s,
-AP1.Forename as AP1f, AP1.Surname as AP1s, 
-AP2.Forename as AP2f, AP2.Surname as AP2s,
-AP3.Forename as AP3f, AP3.Surname as AP3s,
-AP4.Forename as AP4f, AP4.Surname as AP4s,
-AP5.Forename as AP5f, AP5.Surname as AP5s,
-AP6.Forename as AP6f, AP6.Surname as AP6s,
-awc.Clubname as AWC, hc.Clubname as HC,
-awt.Name as AWT, ht.Name as HT
+echo($q);
+$stmt1=$conn->prepare("SELECT tblleague.LeagueID from  TblMatches 
+INNER JOIN tbldivision on tblmatches.DivisionID = tbldivision.DivisionID
+INNER JOIN tblleague on tblleague.LeagueID = tbldivision.LeagueID
+where MatchID=:mid");
+$stmt1->bindParam(':mid', $q);
+$stmt1->execute();
+$row = $stmt1->fetch(PDO::FETCH_ASSOC);
+print_r($row);
+$league=$row["LeagueID"];
+unset($_SESSION["curleague"]);
+$_SESSION["curleague"]=$league;
+echo("<br> lg".$_SESSION["curleague"]."<br>");
+if ($league==4){
+    #Ladies
+    
+    $stmt=$conn->prepare("SELECT TblMatches.FixtureDate, 
+    TblMatches.m1h,TblMatches.m1a,
+    TblMatches.m2h,TblMatches.m2a,
+    TblMatches.m3h,TblMatches.m3a,
+    TblMatches.m4h,TblMatches.m4a,
+    TblMatches.m5h,TblMatches.m5a,
+    TblMatches.m6h,TblMatches.m6a,
+    TblMatches.m7h,TblMatches.m7a,
+    TblMatches.m8h,TblMatches.m8a,
+    TblMatches.m9h,TblMatches.m9a,
+    TblMatches.m10h,TblMatches.m10a,
+    TblMatches.m11h,TblMatches.m11a,
+    TblMatches.m12h,TblMatches.m12a,
+    TblMatches.m13h,TblMatches.m13a,
+    TblMatches.m14h,TblMatches.m14a,
+    TblMatches.m15h,TblMatches.m15a,
+    TblMatches.m16h,TblMatches.m16a,
+    TblMatches.m17h,TblMatches.m17a,
+    TblMatches.m18h,TblMatches.m18a,
+    
+    TblMatches.HomeID as Home, TblMatches.AwayID as Away,  
+    P1.Forename as P1f, P1.Surname as P1s, 
+    P2.Forename as P2f, P2.Surname as P2s,
+    P3.Forename as P3f, P3.Surname as P3s,
+    P4.Forename as P4f, P4.Surname as P4s,
+    
+    AP1.Forename as AP1f, AP1.Surname as AP1s, 
+    AP2.Forename as AP2f, AP2.Surname as AP2s,
+    AP3.Forename as AP3f, AP3.Surname as AP3s,
+    AP4.Forename as AP4f, AP4.Surname as AP4s,
+    
+    awc.CLubname as AWC, hc.Clubname as HC,
+    awt.Name as AWT, ht.Name as HT
 
-FROM tblMatches 
-INNER JOIN TblPlayers as P1 on HomeP1ID = P1.PlayerID
-INNER JOIN TblPlayers as P2 on HomeP2ID = P2.PlayerID
-INNER JOIN TblPlayers as P3 on HomeP3ID = P3.PlayerID
-INNER JOIN TblPlayers as P4 on HomeP4ID = P4.PlayerID
-INNER JOIN TblPlayers as P5 on HomeP5ID = P5.PlayerID
-INNER JOIN TblPlayers as P6 on HomeP6ID = P6.PlayerID
-INNER JOIN TblPlayers as AP1 on AwayP1ID = AP1.PlayerID
-INNER JOIN TblPlayers as AP2 on AwayP2ID = AP2.PlayerID
-INNER JOIN TblPlayers as AP3 on AwayP3ID = AP3.PlayerID
-INNER JOIN TblPlayers as AP4 on AwayP4ID = AP4.PlayerID
-INNER JOIN TblPlayers as AP5 on AwayP5ID = AP5.PlayerID
-INNER JOIN TblPlayers as AP6 on AwayP6ID = AP6.PlayerID
-INNER JOIN TblClubhasteam as ht ON (TblMatches.HomeID = ht.ClubhasteamID) 
-INNER JOIN TblClubhasteam as awt ON (TblMatches.AwayID=awt.ClubhasTeamID) 
-INNER JOIN TblClub as awc ON awt.ClubID=awc.ClubID 
-INNER JOIN TblClub as hc ON ht.ClubID=hc.ClubID 
-WHERE tblMatches.MatchID=:id");
-$stmt->bindParam(':id', $q);
-$stmt->execute();
+    FROM tblMatches 
+    INNER JOIN  TblPlayers as P1 on HomeP1ID = P1.PlayerID
+    INNER JOIN  TblPlayers as P2 on HomeP2ID = P2.PlayerID
+    INNER JOIN  TblPlayers as P3 on HomeP3ID = P3.PlayerID
+    INNER JOIN  TblPlayers as P4 on HomeP4ID = P4.PlayerID
+    
+    INNER JOIN  TblPlayers as AP1 on AwayP1ID = AP1.PlayerID
+    INNER JOIN  TblPlayers as AP2 on AwayP2ID = AP2.PlayerID
+    INNER JOIN  TblPlayers as AP3 on AwayP3ID = AP3.PlayerID
+    INNER JOIN  TblPlayers as AP4 on AwayP4ID = AP4.PlayerID
+   
+    INNER JOIN TblClubhasteam as ht ON (TblMatches.HomeID = ht.ClubhasteamID) 
+    INNER JOIN TblClubhasteam as awt ON (TblMatches.AwayID=awt.ClubhasTeamID) 
+    INNER JOIN TblClub as awc ON awt.ClubID=awc.ClubID 
+    INNER JOIN TblClub as hc ON ht.ClubID=hc.ClubID 
+    WHERE tblMatches.MatchID=:id" );
+    $stmt->bindParam(':id', $q);
+    $stmt->execute();
+    }else{
+    
+    $stmt=$conn->prepare("SELECT TblMatches.FixtureDate, 
+    TblMatches.m1h,TblMatches.m1a,
+    TblMatches.m2h,TblMatches.m2a,
+    TblMatches.m3h,TblMatches.m3a,
+    TblMatches.m4h,TblMatches.m4a,
+    TblMatches.m5h,TblMatches.m5a,
+    TblMatches.m6h,TblMatches.m6a,
+    TblMatches.m7h,TblMatches.m7a,
+    TblMatches.m8h,TblMatches.m8a,
+    TblMatches.m9h,TblMatches.m9a,
+    TblMatches.m10h,TblMatches.m10a,
+    TblMatches.m11h,TblMatches.m11a,
+    TblMatches.m12h,TblMatches.m12a,
+    TblMatches.m13h,TblMatches.m13a,
+    TblMatches.m14h,TblMatches.m14a,
+    TblMatches.m15h,TblMatches.m15a,
+    TblMatches.m16h,TblMatches.m16a,
+    TblMatches.m17h,TblMatches.m17a,
+    TblMatches.m18h,TblMatches.m18a,
+    TblMatches.m19h,TblMatches.m19a,
+    TblMatches.m20h,TblMatches.m20a,
+    TblMatches.m21h,TblMatches.m21a,
+    TblMatches.m22h,TblMatches.m22a,
+    TblMatches.m23h,TblMatches.m23a,
+    TblMatches.m24h,TblMatches.m24a,
+    TblMatches.m25h,TblMatches.m25a,
+    TblMatches.m26h,TblMatches.m26a,
+    TblMatches.m27h,TblMatches.m27a,
+    TblMatches.HomeID as Home, TblMatches.AwayID as Away,  
+    P1.Forename as P1f, P1.Surname as P1s, 
+    P2.Forename as P2f, P2.Surname as P2s,
+    P3.Forename as P3f, P3.Surname as P3s,
+    P4.Forename as P4f, P4.Surname as P4s,
+    P5.Forename as P5f, P5.Surname as P5s,
+    P6.Forename as P6f, P6.Surname as P6s,
+    AP1.Forename as AP1f, AP1.Surname as AP1s, 
+    AP2.Forename as AP2f, AP2.Surname as AP2s,
+    AP3.Forename as AP3f, AP3.Surname as AP3s,
+    AP4.Forename as AP4f, AP4.Surname as AP4s,
+    AP5.Forename as AP5f, AP5.Surname as AP5s,
+    AP6.Forename as AP6f, AP6.Surname as AP6s,
+    awc.CLubname as AWC, hc.Clubname as HC,
+    awt.Name as AWT, ht.Name as HT
+
+    FROM tblMatches 
+    INNER JOIN  TblPlayers as P1 on HomeP1ID = P1.PlayerID
+    INNER JOIN  TblPlayers as P2 on HomeP2ID = P2.PlayerID
+    INNER JOIN  TblPlayers as P3 on HomeP3ID = P3.PlayerID
+    INNER JOIN  TblPlayers as P4 on HomeP4ID = P4.PlayerID
+    INNER JOIN  TblPlayers as P5 on HomeP5ID = P5.PlayerID
+    INNER JOIN  TblPlayers as P6 on HomeP6ID = P6.PlayerID
+    INNER JOIN  TblPlayers as AP1 on AwayP1ID = AP1.PlayerID
+    INNER JOIN  TblPlayers as AP2 on AwayP2ID = AP2.PlayerID
+    INNER JOIN  TblPlayers as AP3 on AwayP3ID = AP3.PlayerID
+    INNER JOIN  TblPlayers as AP4 on AwayP4ID = AP4.PlayerID
+    INNER JOIN  TblPlayers as AP5 on AwayP5ID = AP5.PlayerID
+    INNER JOIN  TblPlayers as AP6 on AwayP6ID = AP6.PlayerID
+    INNER JOIN TblClubhasteam as ht ON (TblMatches.HomeID = ht.ClubhasteamID) 
+    INNER JOIN TblClubhasteam as awt ON (TblMatches.AwayID=awt.ClubhasTeamID) 
+    INNER JOIN TblClub as awc ON awt.ClubID=awc.ClubID 
+    INNER JOIN TblClub as hc ON ht.ClubID=hc.ClubID 
+    WHERE tblMatches.MatchID=:id" );
+    $stmt->bindParam(':id', $q);
+    $stmt->execute();
+    echo($q);
+
+    }
+    
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
+print_r($row);
+
 ?>
 
 <body>
 <div class="container-fluid" style="margin-top:40px">
     <h3>Scores</h3>
     <?php
-    $_SESSION["curleague"] = 1;
-    if ($_SESSION["curleague"] == 3) {
-        echo("doubles");
-    } else if ($_SESSION["curleague"] == 4) {
+
+    if ($league==3){
+        echo("Doubles");
+    
+    }else if ($league==4){
         echo("Ladies");
-    } else {
-        $tot = 1;
-       # print_r($row);
+    }else if ($league==2){
+        echo("Mixed");
+    }else{
+        echo("Open");
+    }
+   
     ?>
     <table style="width:80%" class="table-bordered table-condensed">
         <tr>
@@ -107,6 +187,44 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
             <td><?php echo $row['AWC'] . " " . $row['AWT']; ?></td>
         </tr>
         <?php
+       if ($league==2){
+        #mixed
+        $pairs = [
+            1 => ['P1f', 'P1s', 'P4f', 'P4s', 'AP1f', 'AP1s', 'AP4f', 'AP4s'],
+            2 => ['P2f', 'P2s', 'P5f', 'P5s', 'AP2f', 'AP2s', 'AP5f', 'AP5s'],
+            3 => ['P3f', 'P3s', 'P6f', 'P6s', 'AP3f', 'AP3s', 'AP6f', 'AP6s'],
+            4 => ['P2f', 'P2s', 'P5f', 'P5s', 'AP1f', 'AP1s', 'AP4f', 'AP4s'],
+            5 => ['P3f', 'P3s', 'P6f', 'P6s', 'AP2f', 'AP2s', 'AP5f', 'AP5s'],
+            6 => ['P1f', 'P1s', 'P4f', 'P4s', 'AP3f', 'AP3s', 'AP6f', 'AP6s'],
+            7 => ['P3f', 'P3s', 'P6f', 'P6s', 'AP1f', 'AP1s', 'AP4f', 'AP4s'],
+            8 => ['P1f', 'P1s', 'P4f', 'P4s', 'AP2f', 'AP2s', 'AP5f', 'AP5s'],
+            9 => ['P2f', 'P2s', 'P5f', 'P5s', 'AP3f', 'AP3s', 'AP6f', 'AP6s']
+        ];
+    }else if ($league==4){
+        #Ladies
+        $pairs = [
+            1 => ['P1f', 'P1s', 'P2f', 'P2s', 'AP1f', 'AP1s', 'AP2f', 'AP2s'],
+            2 => ['P3f', 'P3s', 'P4f', 'P4s', 'AP3f', 'AP3s', 'AP4f', 'AP4s'],
+            3 => ['P1f', 'P1s', 'P4f', 'P4s', 'AP1f', 'AP1s', 'AP4f', 'AP4s'],
+            4 => ['P2f', 'P2s', 'P3f', 'P3s', 'AP2f', 'AP2s', 'AP3f', 'AP3s'],
+            5 => ['P2f', 'P2s', 'P4f', 'P4s', 'AP2f', 'AP2s', 'AP4f', 'AP4s'],
+            6 => ['P1f', 'P1s', 'P3f', 'P3s', 'AP1f', 'AP1s', 'AP3f', 'AP3s'] 
+        ];
+    }else if ($league==3){
+        #doubles
+        $pairs = [
+            1 => ['P1f', 'P1s', 'P4f', 'P4s', 'AP1f', 'AP1s', 'AP4f', 'AP4s'],
+            2 => ['P2f', 'P2s', 'P5f', 'P5s', 'AP2f', 'AP2s', 'AP5f', 'AP5s'],
+            3 => ['P3f', 'P3s', 'P6f', 'P6s', 'AP3f', 'AP3s', 'AP6f', 'AP6s'],
+            4 => ['P2f', 'P2s', 'P5f', 'P5s', 'AP1f', 'AP1s', 'AP4f', 'AP4s'],
+            5 => ['P3f', 'P3s', 'P6f', 'P6s', 'AP2f', 'AP2s', 'AP5f', 'AP5s'],
+            6 => ['P1f', 'P1s', 'P4f', 'P4s', 'AP3f', 'AP3s', 'AP6f', 'AP6s'],
+            7 => ['P3f', 'P3s', 'P6f', 'P6s', 'AP1f', 'AP1s', 'AP4f', 'AP4s'],
+            8 => ['P1f', 'P1s', 'P4f', 'P4s', 'AP2f', 'AP2s', 'AP5f', 'AP5s'],
+            9 => ['P2f', 'P2s', 'P5f', 'P5s', 'AP3f', 'AP3s', 'AP6f', 'AP6s']
+        ];
+    }else{
+        #open
         $pairs = [
             1 => ['P1f', 'P1s', 'P2f', 'P2s', 'AP1f', 'AP1s', 'AP2f', 'AP2s'],
             2 => ['P3f', 'P3s', 'P4f', 'P4s', 'AP3f', 'AP3s', 'AP4f', 'AP4s'],
@@ -118,7 +236,13 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
             8 => ['P1f', 'P1s', 'P2f', 'P2s', 'AP3f', 'AP3s', 'AP4f', 'AP4s'],
             9 => ['P3f', 'P3s', 'P4f', 'P4s', 'AP5f', 'AP5s', 'AP6f', 'AP6s']
         ];
-        for ($k = 1; $k <= 9; $k++) {
+    }
+    
+    #format of open and mixed? need alternative for Doubles/ladies
+    $nomatches=count($pairs);
+    $_SESSION["nomatches"]=$nomatches;
+    echo($nomatches);
+        for ($k = 1; $k <= $nomatches; $k++) {
         ?>
             <tr>
                 <td rowspan="3"><?php echo $k; ?></td>
@@ -167,7 +291,7 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
             <td id="awayGamesTotal"></td>
         </tr>
     </table>
-    <?php } ?>
+
 </div>
 
 </body>

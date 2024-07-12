@@ -67,9 +67,7 @@
 </select>
 </form>
 </div>
-<?php
 
-?>
 <div id="results"></div>
 <script>
 function showresult(str) {
@@ -96,6 +94,9 @@ function showresult(str) {
 }
 
 function calculate() {
+    var nomatches=<?php 
+        if ($_SESSION["curleague"]==4){echo 6;}else{echo 9;}?>;
+    console.log("bob",nomatches);
     var homePointsTotal = 0;
     var homeRubbersTotal = 0;
     var awayPointsTotal = 0;
@@ -104,7 +105,7 @@ function calculate() {
     var awayGamesTotal = 0;
 
     // Iterate through each match
-    for (var i = 1; i <= 9; i++) {
+    for (var i = 1; i <= nomatches; i++) {
         var homeRubbers = 0;
         var awayRubbers = 0;
         var homeGames = 0;

@@ -88,7 +88,8 @@ include_once ("connection.php");
        
    }
    $conn=null;
-   echo$home."- ".$away;
+   echo $ht."- ".$at."<br>";
+ 
    #could make this more flexible for format changes but hard coded for time being
    
     echo'<form action ="scoresheet.php" method="POST" onsubmit="return validateForm()">' ;
@@ -98,17 +99,17 @@ include_once ("connection.php");
     <?php if($_SESSION["curleague"]==4){
     ?>
     <tr>
-    <td>Player 1</td>
-    <td><?php popdropdown($home,'L','HomeP1ID');?></td>
-    <td>Player 1</td>
-    <td><?php popdropdown($away,'L','AwayP1ID');?></td>
+    <td>Lady 1</td>
+    <td><?php popdropdown($home,'F','HomeP1ID');?></td>
+    <td>Lady 1</td>
+    <td><?php popdropdown($away,'F','AwayP1ID');?></td>
     </tr>
 
     <tr>
-    <td>Player 2</td>
-    <td><?php popdropdown($home,'L','HomeP2ID');?></td>
-    <td>Player 2</td>
-    <td><?php popdropdown($away,'L','AwayP2ID');?></td>
+    <td>Lady 2</td>
+    <td><?php popdropdown($home,'F','HomeP2ID');?></td>
+    <td>Lady 2</td>
+    <td><?php popdropdown($away,'F','AwayP2ID');?></td>
     </tr>
 
    
@@ -162,16 +163,16 @@ include_once ("connection.php");
     }else if($_SESSION["curleague"]==4){
         ?>
         <tr>
-        <td>Player 3</td>
+        <td>Lady 3</td>
         <td><?php popdropdown($home,'F','HomeP3ID');?></td>
-        <td>Player 3</td>
+        <td>Lady 3</td>
         <td><?php popdropdown($away,'F','AwayP3ID');?></td>
         </tr>
 
         <tr>
-        <td>Player 4</td>
+        <td>Lady 4</td>
         <td><?php popdropdown($home,'F','HomeP4ID');?></td>
-        <td>Player 4</td>
+        <td>Lady 4</td>
         <td><?php popdropdown($away,'F','AwayP4ID');?></td>
         </tr>
     <?php 
