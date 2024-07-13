@@ -8,7 +8,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 include_once ("connection.php");
 // Check if the form is submitted to update the item
 $q=$_GET['q'];
-echo($q);
+
 $stmt1=$conn->prepare("SELECT tblleague.LeagueID from  TblMatches 
 INNER JOIN tbldivision on tblmatches.DivisionID = tbldivision.DivisionID
 INNER JOIN tblleague on tblleague.LeagueID = tbldivision.LeagueID
@@ -16,11 +16,10 @@ where MatchID=:mid");
 $stmt1->bindParam(':mid', $q);
 $stmt1->execute();
 $row = $stmt1->fetch(PDO::FETCH_ASSOC);
-print_r($row);
+;
 $league=$row["LeagueID"];
-unset($_SESSION["curleague"]);
-$_SESSION["curleague"]=$league;
-echo("<br> lg".$_SESSION["curleague"]."<br>");
+/* unset($_SESSION["curleague"]);
+$_SESSION["curleague"]=$league; */
 if ($league==4){
     #Ladies
     
@@ -142,12 +141,11 @@ if ($league==4){
     WHERE tblMatches.MatchID=:id" );
     $stmt->bindParam(':id', $q);
     $stmt->execute();
-    echo($q);
 
     }
     
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
-print_r($row);
+
 
 ?>
 
@@ -241,7 +239,7 @@ print_r($row);
     #format of open and mixed? need alternative for Doubles/ladies
     $nomatches=count($pairs);
     $_SESSION["nomatches"]=$nomatches;
-    echo($nomatches);
+    
         for ($k = 1; $k <= $nomatches; $k++) {
         ?>
             <tr>
