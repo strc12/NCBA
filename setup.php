@@ -154,7 +154,7 @@ try {
     (NULL,1,3,'ADA',1),
     (NULL,1,4,'AMX1',1),
     (NULL,3,4,'WMX1',1),
-    (NULL,2,3,'BDA',1),
+    (NULL,2,3,'BDB',1),
     (NULL,1,5,'BMX2',1),
     (NULL,1,5,'BMX3',1),
     (NULL,3,5,'WMX2',1),

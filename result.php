@@ -136,11 +136,12 @@ function calculate() {
                     awayRubbers++;
                 }
                 
-                homePointsTotal += parseFloat(document.getElementById('m' + i + 'h').innerText);
-                awayPointsTotal += parseFloat(document.getElementById('m' + i + 'a').innerText);
+                homePointsTotal += parseFloat(document.getElementById('m' + v + 'h').innerText);
+                awayPointsTotal += parseFloat(document.getElementById('m' + v + 'a').innerText);
+                
             }
 
-            
+         
             homeRubbersTotal += homeRubbers;
             awayRubbersTotal += awayRubbers;
             
