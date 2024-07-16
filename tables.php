@@ -73,7 +73,7 @@ foreach ($data as $row) {
 
 // Output the organized data and process matches
 foreach ($leagues as $league) {
-    echo "<h3>" . htmlspecialchars($league['Name']) . "</h3>";
+    echo "<h2>" . htmlspecialchars($league['Name']) . "</h2>";
 
     foreach ($league['Divisions'] as $division) {
         echo "<h4>" . htmlspecialchars($division['Name']) . "</h4>";
@@ -224,10 +224,27 @@ foreach ($leagues as $league) {
                 if ($totgames>$totgameslost){
                     $points+=2;     
                 }
+                
             }
             
-            
+            $stmt = $conn->prepare("
+                SELECT * FROM Tblclubhasteam
+                
+                WHERE ClubhasteamID = :id 
+            ");
 
+            $stmt->bindParam(':id', $tid);
+            $stmt->execute();
+            while ($dock = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                
+            if ($dock["dock"]==1){
+                $points=$points-1;
+                $docked=1;
+            }else{
+                $docked=0;
+            }
+        }
+           
             $teamres = [
                 'name' => $team["ClubName"]." ".$team["TeamName"],
                 'played' => $countm,
@@ -237,23 +254,31 @@ foreach ($leagues as $league) {
                 'rubberslost' => $totrubberslost,
                 'pointsfor' => $totpts,
                 'pointsagainst' => $totptsagainst,
-                'points'=>$points
+                'points'=>$points,
+                'dock'=>$docked
             ];
-
+          
             $leagueA[] = $teamres;
         }
-
         uasort($leagueA, 'cmp'); // Sort the results
 
         // Display the results in a table
-        echo "<table style='width:60%' class='table-bordered table-condensed'>";
-        echo "<thead class='thead-dark'><th>Team</th><th>Played</th><th>Games won</th><th>Games lost</th><th>Rubbers won</th><th>Rubbers lost</th><th>Points for</th><th>Points against</th><th>Points</th></thead>";
+        echo "<table style='width:80%' class='table table-bordered table-danger table-condensed table-striped text-center'>";
+        echo "<thead class='thead-dark'><th>Team</th><th>Played</th><th>Games won</th><th>Games lost</th><th>Rubbers won</th><th>Rubbers lost</th><th>Points for</th><th>Points against</th><th>Points</th><th>Points docked</th></thead>";
         foreach ($leagueA as $team) {
-            echo "<tr><td>" . htmlspecialchars($team['name']) . "</td><td>" . $team['played'] . "</td><td>" . $team['gameswon'] . "</td><td>" . $team['gameslost'] . "</td><td>" . $team['rubberswon'] . "</td><td>" . $team['rubberslost'] . "</td><td>" . $team['pointsfor'] . "</td><td>" . $team['pointsagainst'] . "</td><td>" . $team['points'] . "</td></tr>";
+            echo "<tr><td>" . htmlspecialchars($team['name']) . "</td><td>" . $team['played'] . "</td><td>" . $team['gameswon'] . "</td><td>" . $team['gameslost'] . "</td><td>" . $team['rubberswon'] . "</td><td>" . $team['rubberslost'] . "</td><td>" . $team['pointsfor'] . "</td><td>" . $team['pointsagainst'] . "</td><td>" . $team['points'] . "</td>";
+            if ($team['dock']==1){
+                echo("<td>*</td>");
+            }else{
+                echo("<td></td>");    
+            }
+            echo"</tr>";
         }
         echo "</table><br>";
-    }
-    echo "<br>";
+       
+    }   
+    
+
 }
 
 
