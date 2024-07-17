@@ -85,6 +85,16 @@ echo '</div>';
 			echo("<a href='.$path.' target='_blank'><h3>".$row["title"].' </h3></a><br>');
      
 		}
+    echo("<h2>Other Documents </h2><hr>");
+    $stmt = $conn->prepare("SELECT * FROM TblDocs WHERE type='Other'");
+    $stmt->execute();
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+      {
+        
+              $path="/documents/".$row["filename"];
+        echo("<a href='.$path.' target='_blank'><h3>".$row["title"].' </h3></a><br>');
+       
+      }
 ?>   
 
 
