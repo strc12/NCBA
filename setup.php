@@ -139,7 +139,8 @@ try {
     ClubID INT(4) NOT NULL,
     DivisionID VARCHAR(50) NOT NULL,
     Name VARCHAR(200) NOT NULL,
-    current INT(1) DEFAULT 1)");
+    current INT(1) DEFAULT 1,
+    dock INT(1) DEFAULT 0)");
     $stmt1->execute();
     $stmt1->closeCursor();
     

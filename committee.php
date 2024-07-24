@@ -30,7 +30,7 @@
 $numResults = count($results);
 
 // Define number of columns per row
-$columnsPerRow = 4; // Change this to your desired number of columns
+$columnsPerRow = 3; // Change this to your desired number of columns
 
 // Calculate the Bootstrap column class
 $bootstrapColClass = 12 / $columnsPerRow;

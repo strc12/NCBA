@@ -25,11 +25,11 @@
 	$stmt->execute();
 	while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 		{
-      echo("<h3 class='text-center'>".$row["Clubname"]."</h3>");
+      echo("<h4 class='text-center'>".$row["Clubname"]."</h4>");
       echo('<div class="container mt-5 ">
       <div class="table-container ">
           <table class="table text-center table-borderless">
-              <tbody>
+             
                   <tr>
                       <td>Venue<br>'.$row["Location"].'</td>
                       <td colspan="2">Clubnight<br>'.$row["Clubnight"].'</td>
@@ -57,11 +57,11 @@
                       echo("<a href='".$row['Website']."'><img src='./images/Web.png' class='imsmall'></a>");
                       echo('</td>
                   </tr>
-              </tbody>
+             
           </table>
       </div>
   </div>');
-     echo("<br><br>");
+     echo("<hr>");
 		}
    
 ?>   

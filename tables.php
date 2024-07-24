@@ -235,13 +235,12 @@ foreach ($leagues as $league) {
 
             $stmt->bindParam(':id', $tid);
             $stmt->execute();
+            $docked = 0;
             while ($dock = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 
             if ($dock["dock"]==1){
                 $points=$points-1;
                 $docked=1;
-            }else{
-                $docked=0;
             }
         }
            
