@@ -14,7 +14,7 @@ if ($_FILES["comm"]["name"]==""){
 	$name=$string.".jpg";
 }
 print($name);
-	$stmt = $conn->prepare("INSERT INTO TblCommittee(ComitteeID,Name,Post, Pic)
+	$stmt = $conn->prepare("INSERT INTO TblCommittee(CommitteeID,Name,Post, Pic)
     VALUES (NULL,:name,:post,:pic)");
     $stmt->bindParam(':name', $_POST["name"]);
     $stmt->bindParam(':post', $_POST["post"]);

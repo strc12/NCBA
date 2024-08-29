@@ -15,7 +15,7 @@
     ?>
 
 </div>
-
+<div class="container-fluid">
 <?php
 
 
@@ -298,6 +298,7 @@ function cmp($a, $b){
    }
    
 ?>
+</div>
 </div>
 
 </body>

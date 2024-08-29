@@ -16,7 +16,7 @@
 
 </div>
 <h1>Clubs</h1>
-<div class="container">
+<div class="container-fluid">
   
   <hr>
 <?php
@@ -26,19 +26,19 @@
 	while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 		{
       echo("<h4 class='text-center'>".$row["Clubname"]."</h4>");
-      echo('<div class="container mt-5 ">
+      echo('<div class="container mt-2 ">
       <div class="table-container ">
           <table class="table text-center table-borderless">
              
                   <tr>
-                      <td>Venue<br>'.$row["Location"].'</td>
-                      <td colspan="2">Clubnight<br>'.$row["Clubnight"].'</td>
+                      <td ><span class="fw-bold">Venue</span><br>'.$row["Location"].'</td>
+                      <td colspan="2" ><span class="fw-bold">Clubnight</span><br>'.$row["Clubnight"].'</td>
                       
                   </tr>
                   <tr>
-                      <td>Contact Name<br>'.$row["Contactname"].'</td>
-                      <td>Contact Number<br>'.$row["Contactnumber"].'</td>
-                      <td>Email<br>'.$row["Contactemail"].'</td>
+                      <td><span class="fw-bold">Contact Name</span><br>'.$row["Contactname"].'</td>
+                      <td><span class="fw-bold">Contact Number</span><br>'.$row["Contactnumber"].'</td>
+                      <td><span class="fw-bold">Email</span><br>'.$row["Contactemail"].'</td>
                   </tr>
                   <tr >
                       <td >');

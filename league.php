@@ -15,40 +15,40 @@
     ?>
 
 </div>
+<div class="container-fluid">
+  <h1>League composition</h1>
+  <?php
+  $stmtA = $conn->prepare("SELECT * FROM TblLeague");
+  $stmtA->execute();
+  $leagues = $stmtA->fetchAll(\PDO::FETCH_ASSOC);
 
-<h1>League composition</h1>
-<?php
-$stmtA = $conn->prepare("SELECT * FROM TblLeague");
-$stmtA->execute();
-$leagues = $stmtA->fetchAll(\PDO::FETCH_ASSOC);
-
-foreach ( $leagues as $league){
-    echo("<h3>".$league["Name"]."</h3>");
-    
-    $stmtb = $conn->prepare("SELECT * FROM TblDivision WHERE LeagueID=:div ");
-    $stmtb->bindParam(':div', $league["LeagueID"]);
-    $stmtb->execute();
-    $divisions = $stmtb->fetchAll(\PDO::FETCH_ASSOC);
-    #print_r($divisions);
-    foreach($divisions as $division){
-      echo("<h4>".$division["Name"]."</h4>");
-      $stmt1 = $conn->prepare("SELECT TblClub.Clubname as CN, TblClubhasteam.name as TN , TblClubhasteam.DivisionID as TD FROM TblClub 
-      INNER JOIN TblClubhasteam  ON TblClub.ClubID=TblClubhasteam.ClubID 
-      WHERE TblClubhasteam.DivisionID=:Division 
-      AND TblClubhasteam.current=1" );
-      $stmt1->bindParam(':Division', $division["DivisionID"]);
-      $stmt1->execute();
-      while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC))
-      {
-          #print_r($row1);
-          echo($row1["CN"]." - ".$row1["TN"]."<br>");
+  foreach ( $leagues as $league){
+      echo("<h3>".$league["Name"]."</h3>");
+      
+      $stmtb = $conn->prepare("SELECT * FROM TblDivision WHERE LeagueID=:div ");
+      $stmtb->bindParam(':div', $league["LeagueID"]);
+      $stmtb->execute();
+      $divisions = $stmtb->fetchAll(\PDO::FETCH_ASSOC);
+      #print_r($divisions);
+      foreach($divisions as $division){
+        echo("<h4>".$division["Name"]."</h4>");
+        $stmt1 = $conn->prepare("SELECT TblClub.Clubname as CN, TblClubhasteam.name as TN , TblClubhasteam.DivisionID as TD FROM TblClub 
+        INNER JOIN TblClubhasteam  ON TblClub.ClubID=TblClubhasteam.ClubID 
+        WHERE TblClubhasteam.DivisionID=:Division 
+        AND TblClubhasteam.current=1" );
+        $stmt1->bindParam(':Division', $division["DivisionID"]);
+        $stmt1->execute();
+        while ($row1 = $stmt1->fetch(PDO::FETCH_ASSOC))
+        {
+            #print_r($row1);
+            echo($row1["CN"]." - ".$row1["TN"]."<br>");
+        }
+        echo("<br>");
       }
       echo("<br>");
-    }
-    echo("<br>");
-}
-   
-?>
+  }
+    
+  ?>
 </div>
 
 

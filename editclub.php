@@ -51,7 +51,7 @@
     ?>
 
 </div>
-<div class="Container">
+<div class="Container-fluid">
 <h1>Club management</h1>
 
 

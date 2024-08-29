@@ -31,7 +31,7 @@
     ?>
 
 </div>
-<div class="Container">
+<div class="Container-fluid">
 <h1>Player management</h1>
 
 
@@ -42,7 +42,7 @@ $sql = "SELECT * FROM TblPlayers WHERE PlayerID = :id";
         $stmt = $conn->prepare($sql);
         $stmt->execute([':id' => $_POST['id']]);
         $item = $stmt->fetch(PDO::FETCH_ASSOC);
-        print_r($item);
+
         if ($item["active"]==1){
         $active=True;
         }else{

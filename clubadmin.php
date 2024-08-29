@@ -44,7 +44,7 @@ $stmt->bindParam(':id', $id);
 $stmt->execute();
 $club = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
-<div class="container">
+<div class="container-fluid">
 <h2>Club Admin</h2>
 <hr>
     
@@ -66,7 +66,7 @@ $club = $stmt->fetch(PDO::FETCH_ASSOC);
         <input type="submit" value="UpdateDetails">
     </form>
 </div>
-<div class="container">
+<div class="container-fluid">
 <h3>Add player</h3>
 <hr>
     
@@ -84,8 +84,8 @@ $club = $stmt->fetch(PDO::FETCH_ASSOC);
         <input type="submit" value="Add New Player">
     </form>
 </div>
-<div class="container">
-  <h3>To edit players in club</h3>
+<div class="container-fluid">
+  <h3>Edit players in club</h3>
   <hr>
 <?php
     echo('<div class="container mt-5">

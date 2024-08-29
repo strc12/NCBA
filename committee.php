@@ -16,7 +16,7 @@
 
 </div>
 
-<div class="container">
+<div class="container-fluid">
 <h1>Committee</h1>
 <H2>Meet the committee</h2><br>
 <div class="row">
@@ -30,7 +30,7 @@
 $numResults = count($results);
 
 // Define number of columns per row
-$columnsPerRow = 3; // Change this to your desired number of columns
+$columnsPerRow = 4; // Change this to your desired number of columns
 
 // Calculate the Bootstrap column class
 $bootstrapColClass = 12 / $columnsPerRow;
@@ -53,7 +53,7 @@ foreach ($results as $result) {
     // Customize the content as per your database fields
     echo '<h5 class="card-title text-center">' . htmlspecialchars($result['Name']) . '</h5>';
     echo '<p class="card-text text-center">' . htmlspecialchars($result['Post']) . '</p>';
-    echo '<img src="./comm/'.htmlspecialchars($result['Pic']).'" class="card-img-top img-fluid">';
+    echo '<img src="./comm/'.htmlspecialchars($result['Pic']).'" class="card-img-top img-fluid" style="width: 100%; height: 300px; object-fit: cover;">';
     echo '</div>';
     echo '</div>';
     echo '</div>';
@@ -70,7 +70,7 @@ echo '</div>';
 echo '</div>';
 ?>
 <br>
-<div class="container">
+<div class="container-fluid">
   <h2>Minutes of meetings</h2>
   <br>
   <hr>

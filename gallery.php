@@ -16,12 +16,10 @@
     ?>
 
 </div>
-<h1>Gallery</h1>
-? easy if images all the same orientation/size...<br>
-could make an interface for Admin to upload more photos and just keep x most current visible?<br>
-could 
-<!-- Carousel wrapper -->
+
+
 <div class="container-fluid">
+<h1>Photo Gallery</h1>
 <div class="row">
   <?php
   $ori="Landscape";
