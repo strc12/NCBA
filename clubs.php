@@ -17,18 +17,53 @@
 </div>
 <h1>Clubs</h1>
 <div class="container">
-  Can tidy this up to be in prettier format - do we need other details held?
-  <br>
+  
   <hr>
 <?php
     include_once('connection.php');
-	$stmt = $conn->prepare("SELECT * FROM TblClub");
+	$stmt = $conn->prepare("SELECT * FROM TblClub ORDER BY Clubname ASC");
 	$stmt->execute();
 	while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 		{
-			echo("<h3>".$row["Clubname"].' </h3>'.$row["Location"].'<br> '.$row["Clubnight"]."<br><br>");
-     
+      echo("<h4 class='text-center'>".$row["Clubname"]."</h4>");
+      echo('<div class="container mt-5 ">
+      <div class="table-container ">
+          <table class="table text-center table-borderless">
+             
+                  <tr>
+                      <td>Venue<br>'.$row["Location"].'</td>
+                      <td colspan="2">Clubnight<br>'.$row["Clubnight"].'</td>
+                      
+                  </tr>
+                  <tr>
+                      <td>Contact Name<br>'.$row["Contactname"].'</td>
+                      <td>Contact Number<br>'.$row["Contactnumber"].'</td>
+                      <td>Email<br>'.$row["Contactemail"].'</td>
+                  </tr>
+                  <tr >
+                      <td >');
+                      if (!empty($row['Instagram'])){
+      
+                      $ig=ltrim($row['Instagram'],'@');
+                      echo("<a href='https://www.instagram.com/".$ig."'><img src='./images/Instagram_Logo_2023.png' class='imsmall'></a>");
+                          };
+                      echo('</td>
+                      <td>');
+                      if (!empty($row['Facebook'])){
+                      echo("<a href='".$row['Facebook']."'><img src='./images/Facebook_Logo_2023.png' class='imsmall'></a>");
+                      }
+                    echo('</td>
+                      <td>');
+                      echo("<a href='".$row['Website']."'><img src='./images/Web.png' class='imsmall'></a>");
+                      echo('</td>
+                  </tr>
+             
+          </table>
+      </div>
+  </div>');
+     echo("<hr>");
 		}
+   
 ?>   
 
 

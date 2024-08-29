@@ -77,6 +77,26 @@ restrict access to Jermaine/Rob
     Clubnight(s) and times:<input type="text" name="clubnight"><br>
   	<input type="submit" value="Add Club">
 	</form>
- 
+
+<h1>Dock Points</h1>
+    
+    <form action="dockpoints.php" method="POST">
+    <select name="teamtodock">
+        <?php
+         include_once('connection.php');
+         $stmt = $conn->prepare("SELECT tblclubhasteam.ClubhasteamID as teamID, tblclubhasteam.Name as team, tblclub.Clubname as club FROM tblclubhasteam
+         INNER JOIN tblclub ON (tblclub.ClubID = tblclubhasteam.ClubID)
+         ORDER BY club ASC, team ASC ");
+         $stmt->execute();
+         while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+             {
+                 echo("<option value='".$row["teamID"]."'>".$row["club"]." ".$row["team"]."</options>");
+          
+             }
+        
+        ?>
+          </select><br>
+  	<input type="submit" value="Dock point">
+      </form>
 </body>
 </html>

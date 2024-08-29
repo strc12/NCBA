@@ -49,6 +49,8 @@ try {
     Clubname VARCHAR(20) NOT NULL,
     Location LONGTEXT NOT NULL,
     Website VARCHAR(200),
+    Instagram VARCHAR(200),
+    Facebook VARCHAR (500),
     Contactname VARCHAR(200) NOT NULL,
     Contactnumber VARCHAR(200),
     Clubnight LONGTEXT NOT NULL,
@@ -60,10 +62,10 @@ try {
     $stmt1->closeCursor();
     
     $hashed_password = password_hash("password", PASSWORD_DEFAULT);
-    $stmt5 = $conn->prepare("INSERT INTO TblClub(ClubID,Clubname,location,Website,Contactname,Contactnumber,Clubnight,Contactemail,password,junior)VALUES 
-    (NULL,'Apollo BC','Moulton School, Moulton','www.apollo.co.uk','Bob','0798989899','Wednesday 3:70-9:30pm','x@y.com',:pw,0),
-    (NULL,'Bugbrooke BC','Campion School & Language College, Kislingbury Rd, Bugbrooke, NN7 3QG','www.apollo.co.uk','Bob','0798989899','Thursday - 7.30 - 9.30pm','x@y.com',:pw,1),
-    (NULL,'Wellingborough BC','Monday Venue is Manor School in Raunds, Mountbatten Way, NN9 6PA, Wednesday Venue is Sharnbrook Academy, School Approach, Odell Road, Sharnbrook, MK44 1JL','www.wellingboroughbc.co.uk','Rachael Maywood','07709470567','Jnrs Monday 6-8pm,Snrs Monday 8-10pm, Snrs Wednesday 7.30-9.30pm','info@wellingboroughbc.co.uk',:pw,2)
+    $stmt5 = $conn->prepare("INSERT INTO TblClub(ClubID,Clubname,location,Instagram, Facebook,Website,Contactname,Contactnumber,Clubnight,Contactemail,password,junior)VALUES 
+    (NULL,'Apollo BC','Moulton School, Moulton','www.apollo.co.uk','@ApolloBC','https://www.facebook.com/people/Mereway-Badminton-Club-Northampton/100057474728458/ ','Bob','0798989899','Wednesday 3:70-9:30pm','x@y.com',:pw,0),
+    (NULL,'Bugbrooke BC','Campion School & Language College, Kislingbury Rd, Bugbrooke, NN7 3QG',NULL,NULL,'www.apollo.co.uk','Bob','0798989899','Thursday - 7.30 - 9.30pm','x@y.com',:pw,1),
+    (NULL,'Wellingborough BC','Monday Venue is Manor School in Raunds, Mountbatten Way, NN9 6PA, Wednesday Venue is Sharnbrook Academy, School Approach, Odell Road, Sharnbrook, MK44 1JL',NULL,NULL,'www.wellingboroughbc.co.uk','Rachael Maywood','07709470567','Jnrs Monday 6-8pm,Snrs Monday 8-10pm, Snrs Wednesday 7.30-9.30pm','info@wellingboroughbc.co.uk',:pw,2)
     ");
     $stmt5->bindParam(':pw', $hashed_password);
     $stmt5->execute();
@@ -137,7 +139,8 @@ try {
     ClubID INT(4) NOT NULL,
     DivisionID VARCHAR(50) NOT NULL,
     Name VARCHAR(200) NOT NULL,
-    current INT(1) DEFAULT 1)");
+    current INT(1) DEFAULT 1,
+    dock INT(1) DEFAULT 0)");
     $stmt1->execute();
     $stmt1->closeCursor();
     
@@ -154,7 +157,7 @@ try {
     (NULL,1,3,'ADA',1),
     (NULL,1,4,'AMX1',1),
     (NULL,3,4,'WMX1',1),
-    (NULL,2,3,'BDA',1),
+    (NULL,2,3,'BDB',1),
     (NULL,1,5,'BMX2',1),
     (NULL,1,5,'BMX3',1),
     (NULL,3,5,'WMX2',1),

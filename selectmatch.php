@@ -54,10 +54,10 @@
         $stmt->bindParam(':SEAS', $_SESSION["Season"]); 
     }
     $stmt->execute();
-    print_r($row);
+    
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
     {
-        echo("<option value=".$row["MatchID"].'>'.$row["resultsentered"]." - ".$row["HC"]." ".$row["HN"]." v ".$row["AWC"]." ".$row["AWN"]." ".$row["ad"]." - ".date("d M y",(strtotime($row["Fixturedate"])))." ~ ".$row["LN"]." ".$row["DIVN"]."</option><br>");
+        echo("<option value=".$row["MatchID"].'>'.$row["HC"]." ".$row["HN"]." v ".$row["AWC"]." ".$row["AWN"]." ".$row["ad"]." - ".date("d M y",(strtotime($row["Fixturedate"])))." ~ ".$row["LN"]." ".$row["DIVN"]."</option><br>");
     }
     $conn=null;
     ?>
@@ -66,8 +66,11 @@
     <input type="submit" value="Select match">
 </form>
 <?php
-print_r($_SESSION);
+
 ?>
 </div>
 </body>
+<script>
+    sessionStorage.clear(); 
+</script>
 </html>
