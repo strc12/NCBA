@@ -19,6 +19,7 @@
 <h1 class = "text-center">Photo Gallery</h1>
 <!-- Carousel wrapper -->
 <div class="container-fluid">
+<h1>Photo Gallery</h1>
 <div class="row">
   <?php
   $ori="Landscape";

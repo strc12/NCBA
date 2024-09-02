@@ -26,7 +26,7 @@ include_once ("connection.php");
     $stmt->execute($params);
     echo("<script>
         alert('Player Details Updated');
-        window.location.href='clubadmin.php';
+        window.location.href='editclub.php';
     </script>");#alert followed by redirect
       
       ?>

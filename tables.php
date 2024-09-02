@@ -299,6 +299,7 @@ function cmp($a, $b){
    
 ?>
 </div>
+</div>
 
 </body>
 </html>

@@ -16,7 +16,7 @@
 
 </div>
 
-<div class="container">
+<div class="container-fluid">
 <h1>Committee</h1>
 <H2>Meet the committee</h2><br>
 <div class="row">
@@ -30,7 +30,7 @@
 $numResults = count($results);
 
 // Define number of columns per row
-$columnsPerRow = 3; // Change this to your desired number of columns
+$columnsPerRow = 4; // Change this to your desired number of columns
 
 // Calculate the Bootstrap column class
 $bootstrapColClass = 12 / $columnsPerRow;
@@ -77,7 +77,7 @@ echo '</div>';
 echo '</div>';
 ?>
 <br>
-<div class="container">
+<div class="container-fluid">
   <h2>Minutes of meetings</h2>
   <br>
   <hr>

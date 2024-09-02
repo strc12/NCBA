@@ -25,21 +25,54 @@
   <hr>
 <?php
     include_once('connection.php');
-	$stmt = $conn->prepare("SELECT * FROM TblClub WHERE junior <>0");
+	$stmt = $conn->prepare("SELECT * FROM TblClub WHERE junior <>0 ORDER BY Clubname ASC ");
 	$stmt->execute();
 	while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
 		{
-			echo("<h3>".$row["Clubname"].' </h3>'.$row["Location"].'<br> '.$row["Clubnight"]."<br><br>");
-     
+      echo("<h4 class='text-center'>".$row["Clubname"]."</h4>");
+      echo('<div class="container mt-2 ">
+      <div class="table-container ">
+          <table class="table text-center table-borderless">
+             
+                  <tr>
+                      <td ><span class="fw-bold">Venue</span><br>'.$row["Location"].'</td>
+                      <td colspan="2" ><span class="fw-bold">Clubnight</span><br>'.$row["Clubnight"].'</td>
+                      
+                  </tr>
+                  <tr>
+                      <td><span class="fw-bold">Contact Name</span><br>'.$row["Contactname"].'</td>
+                      <td><span class="fw-bold">Contact Number</span><br>'.$row["Contactnumber"].'</td>
+                      <td><span class="fw-bold">Email</span><br>'.$row["Contactemail"].'</td>
+                  </tr>
+                  <tr >
+                      <td >');
+                      if (!empty($row['Instagram'])){
+      
+                      $ig=ltrim($row['Instagram'],'@');
+                      echo("<a href='https://www.instagram.com/".$ig."'><img src='./images/Instagram_Logo_2023.png' class='imsmall'></a>");
+                          };
+                      echo('</td>
+                      <td>');
+                      if (!empty($row['Facebook'])){
+                      echo("<a href='".$row['Facebook']."'><img src='./images/Facebook_Logo_2023.png' class='imsmall'></a>");
+                      }
+                    echo('</td>
+                      <td>');
+                      echo("<a href='".$row['Website']."'><img src='./images/Web.png' class='imsmall'></a>");
+                      echo('</td>
+                  </tr>
+             
+          </table>
+      </div>
+  </div>');
+     echo("<hr>");
 		}
+   
 ?>   
 
 
 
 </div>
-Do we want county setup here too?<br>
-What other info??
-
 
 </body>
 </html>
