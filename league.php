@@ -15,7 +15,7 @@
     ?>
 
 </div>
-
+<div class="container-fluid">
 <h1>League composition</h1>
 <?php
 $stmtA = $conn->prepare("SELECT * FROM TblLeague");

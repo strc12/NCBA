@@ -15,88 +15,163 @@
     ?>
 
 </div>
-<h1>League Admin for creating/editing leagues/Divisions/Clubs</h1>
-restrict access to Jermaine/Rob
+<div class="container mt-5">
+        <h1 class="text-center mb-4">League Admin for Creating/Editing Leagues/Divisions/Clubs</h1>
 
-<a href="editclub.php"><h2>Edit club data</h2></a>
+        <!-- Access Restriction Message -->
+        <div class="alert alert-warning" role="alert">
+            Restricted Access: Only Jermaine and Rob
+        </div>
 
-<h1>Divisions</h1>
-?add list of current divisions here?
-  <form action="addDivision.php" method="POST" >
-    Select League to add division to
-    <select name="typeofleague">
-        <?php
-         include_once('connection.php');
-         $stmt = $conn->prepare("SELECT * FROM TblLEague");
-         $stmt->execute();
-         while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
-             {
-                 echo("<option value='".$row["LeagueID"]."'>".$row["Name"]."</options>");
-          
-             }
-        
-        ?>
-          </select><br>
-    New Division name:<input type="text" name="Divisionname"><br>
-  	<input type="submit" value="Add division to league">
-	</form>
-    <h1>Divisions</h1>
-  <form action="addLeague.php" method="POST" >
-    Current disciplines are
-        <?php
-         include_once('connection.php');
-         $stmt = $conn->prepare("SELECT * FROM TblLeague");
-         $stmt->execute();
-         while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
-             {
-                 echo("<p>".$row["Name"]."-".$row["Details"]."</p>");
-          
-             }
-        
-        ?>
-    
-    New Discipline name:<input type="text" name="LeagueName"><br>
-    New Discipline Details:<input type="text" name="Details"><br>
-  	<input type="submit" value="Add discipline">
-	</form>   
+        <!-- Tabs Navigation -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="edit-club-tab" data-bs-toggle="tab" href="#edit-club" role="tab" aria-controls="edit-club" aria-selected="true">Edit Club Data</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="add-division-tab" data-bs-toggle="tab" href="#add-division" role="tab" aria-controls="add-division" aria-selected="false">Add Division</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="add-discipline-tab" data-bs-toggle="tab" href="#add-discipline" role="tab" aria-controls="add-discipline" aria-selected="false">Add Discipline</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="add-club-tab" data-bs-toggle="tab" href="#add-club" role="tab" aria-controls="add-club" aria-selected="false">Add Club</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="dock-points-tab" data-bs-toggle="tab" href="#dock-points" role="tab" aria-controls="dock-points" aria-selected="false">Dock Points</a>
+            </li>
+        </ul>
 
-<h1>Add Club New Club</h1>
-    
-<form action="addclub.php" method="POST">
-  	Clubname:<input type="text" name="clubname"><br>
-    Location:<input type="text" name="location"><br>
-    website:<input type="text" name="website"><br>
-    contactname:<input type="text" name="contactname"><br>
-    contactnumber:<input type="text" name="contactnumber"><br>
-    contactemail:<input type="text" name="contactemail"><br>
-    password:<input type="password" name="password"><br>
-    <input type="checkbox" id="junior" name="junior" value="Junior">
-    <label for="junior"> Junior</label><br>
-    <input type="checkbox" id="senior" name="senior" value="Senior">
-    <label for="senior"> Senior</label><br>
-    Clubnight(s) and times:<input type="text" name="clubnight"><br>
-  	<input type="submit" value="Add Club">
-	</form>
+        <!-- Tabs Content -->
+        <div class="tab-content mt-3" id="myTabContent">
+            <!-- Edit Club Data Tab -->
+            <div class="tab-pane fade show active" id="edit-club" role="tabpanel" aria-labelledby="edit-club-tab">
+                <a href="editclub.php" class="btn btn-secondary">Edit Club Data</a>
+            </div>
 
-<h1>Dock Points</h1>
-    
-    <form action="dockpoints.php" method="POST">
-    <select name="teamtodock">
-        <?php
-         include_once('connection.php');
-         $stmt = $conn->prepare("SELECT tblclubhasteam.ClubhasteamID as teamID, tblclubhasteam.Name as team, tblclub.Clubname as club FROM tblclubhasteam
-         INNER JOIN tblclub ON (tblclub.ClubID = tblclubhasteam.ClubID)
-         ORDER BY club ASC, team ASC ");
-         $stmt->execute();
-         while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
-             {
-                 echo("<option value='".$row["teamID"]."'>".$row["club"]." ".$row["team"]."</options>");
-          
-             }
-        
-        ?>
-          </select><br>
-  	<input type="submit" value="Dock point">
-      </form>
+            <!-- Add Division Tab -->
+            <div class="tab-pane fade" id="add-division" role="tabpanel" aria-labelledby="add-division-tab">
+                <h2 class="my-4">Add Division</h2>
+                <form action="addDivision.php" method="POST">
+                    <div class="mb-3">
+                        <label for="typeofleague" class="form-label">Select League to Add Division To</label>
+                        <select id="typeofleague" name="typeofleague" class="form-select">
+                            <?php
+                                include_once('connection.php');
+                                $stmt = $conn->prepare("SELECT * FROM TblLEague");
+                                $stmt->execute();
+                                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                    echo "<option value='".$row["LeagueID"]."'>".$row["Name"]."</option>";
+                                }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Divisionname" class="form-label">New Division Name</label>
+                        <input type="text" id="Divisionname" name="Divisionname" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Division to League</button>
+                </form>
+            </div>
+
+            <!-- Add Discipline Tab -->
+            <div class="tab-pane fade" id="add-discipline" role="tabpanel" aria-labelledby="add-discipline-tab">
+                <h2 class="my-4">Add Discipline</h2>
+                <div class="mb-3">
+                    <h4>Current Disciplines:</h4>
+                    <?php
+                        include_once('connection.php');
+                        $stmt = $conn->prepare("SELECT * FROM TblLeague");
+                        $stmt->execute();
+                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            echo "<p>".$row["Name"]." - ".$row["Details"]."</p>";
+                        }
+                    ?>
+                </div>
+                <form action="addLeague.php" method="POST">
+                    <div class="mb-3">
+                        <label for="LeagueName" class="form-label">New Discipline Name</label>
+                        <input type="text" id="LeagueName" name="LeagueName" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Details" class="form-label">New Discipline Details</label>
+                        <input type="text" id="Details" name="Details" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Discipline</button>
+                </form>
+            </div>
+
+            <!-- Add Club Tab -->
+            <div class="tab-pane fade" id="add-club" role="tabpanel" aria-labelledby="add-club-tab">
+                <h2 class="my-4">Add New Club</h2>
+                <form action="addclub.php" method="POST">
+                    <div class="mb-3">
+                        <label for="clubname" class="form-label">Club Name</label>
+                        <input type="text" id="clubname" name="clubname" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Location</label>
+                        <input type="text" id="location" name="location" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="website" class="form-label">Website</label>
+                        <input type="text" id="website" name="website" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactname" class="form-label">Contact Name</label>
+                        <input type="text" id="contactname" name="contactname" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactnumber" class="form-label">Contact Number</label>
+                        <input type="text" id="contactnumber" name="contactnumber" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactemail" class="form-label">Contact Email</label>
+                        <input type="email" id="contactemail" name="contactemail" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" name="password" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <input type="checkbox" id="junior" name="junior" value="Junior">
+                        <label for="junior"> Junior</label>
+                    </div>
+                    <div class="mb-3">
+                        <input type="checkbox" id="senior" name="senior" value="Senior">
+                        <label for="senior"> Senior</label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="clubnight" class="form-label">Clubnight(s) and Times</label>
+                        <input type="text" id="clubnight" name="clubnight" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Club</button>
+                </form>
+            </div>
+
+            <!-- Dock Points Tab -->
+            <div class="tab-pane fade" id="dock-points" role="tabpanel" aria-labelledby="dock-points-tab">
+                <h2 class="my-4">Dock Points</h2>
+                <form action="dockpoints.php" method="POST">
+                    <div class="mb-3">
+                        <label for="teamtodock" class="form-label">Select Team to Dock Points</label>
+                        <select id="teamtodock" name="teamtodock" class="form-select">
+                            <?php
+                                include_once('connection.php');
+                                $stmt = $conn->prepare("SELECT tblclubhasteam.ClubhasteamID as teamID, tblclubhasteam.Name as team, tblclub.Clubname as club FROM tblclubhasteam
+                                INNER JOIN tblclub ON (tblclub.ClubID = tblclubhasteam.ClubID)
+                                ORDER BY club ASC, team ASC ");
+                                $stmt->execute();
+                                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                    echo "<option value='".$row["teamID"]."'>".$row["club"]." ".$row["team"]."</option>";
+                                }
+                            ?>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Dock Point</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <title>NSCBA</title>
   <meta charset="utf-8">
@@ -7,6 +9,16 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <link href="styles.css" rel="stylesheet">
   <style>
+    #result {
+            z-index: 1;
+            position: relative; /* Ensure it's positioned relative to its parent */
+        }
+
+        /* Ensure container has a higher z-index */
+        .container-fluid {
+            z-index: 2; /* Higher than navbar */
+            position: relative; /* Establish stacking context */
+        }
         td, th {
             text-align: center;
         }
@@ -20,6 +32,7 @@
     ?>
 
 </div>
+    <br>
 <div class="container-fluid">
 <label>Fixture: </label>
 <select id="matches" onchange="showresult(this.value)">

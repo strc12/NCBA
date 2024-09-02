@@ -15,64 +15,116 @@
     ?>
 
 </div>
-<a href="editclub.php"><h2>Edit club data</h2></a>
-<h1>Admin for adding to website</h1>
-<p> need to have ability to edit here too and separate into different parts</p>
-<h1>Images</h1>
-  <form action="addimages.php" method="POST" enctype="multipart/form-data">
-    Type of image - note images will be cropped to default aspect ratio for these types of image
-    <select name="typeofdoc">
-      <option value="Square">Square</option>
-      <option value="Portrait">Portrait</option>
-      <option value="Landscape">Landscape</option>
-      <option value="Panorama">Panorama</option>
-    </select><br>
-    Description <input type="test" id="desc" name="desc"><br> 
-    Date <input type="date" id="dateofupload" name="dateofupload"><br>
-    image: <input type="file" id="imagey" name="imagey" accept=".jpg, .jpeg"><br>
-  	<input type="submit" value="Add gallery image">
-	</form>
-<h1>Add social media feed</h1>
-<form action="addmedia.php" method="POST">
-  	Embed code:<input type="text" name="embedcode"><br>
-    Type:<input type="text" name="type"><br>	
-  	<input type="submit" value="Add Media">
-	</form>
-  <h1>Add Club info feed</h1>
-    
-<form action="addclub.php" method="POST">
-  	Clubname:<input type="text" name="clubname"><br>
-    Location:<input type="text" name="location"><br>
-    website:<input type="text" name="website"><br>
-    contactname:<input type="text" name="contactname"><br>
-    contactnumber:<input type="text" name="contactnumber"><br>
-    contactemail:<input type="text" name="contactemail"><br>
-    password:<input type="password" name="password"><br>
-    <input type="checkbox" id="junior" name="junior" value="Junior">
-    <label for="junior"> Junior</label><br>
-    <input type="checkbox" id="senior" name="senior" value="Senior">
-    <label for="senior"> Senior</label><br>
-    Clubnight(s) and times:<input type="text" name="clubnight"><br>
-  	<input type="submit" value="Add Club">
-	</form>
-  <h1>Documents</h1>
-  <form action="adddocument.php" method="POST" enctype="multipart/form-data">
-    Title of document:<input type="text" name="title"><br>
-    <select name="typeofdoc">
-    <option value="Minutes">Minutes</option>
-    <option value="Agenda">Agenda</option>
-    <option value="Other">Other</option>
-</select>
-    File: <input type="file" id="doc" name="doc" accept="documents/*"><br>
-    Date <input type="date" id="dateofupload" name="dateofupload">
-  	<input type="submit" value="Add Document">
-	</form>
-  <h1>Committee</h1>
-  <form action="addcommittee.php" method="POST" enctype="multipart/form-data">
-  	Name:<input type="text" name="name"><br>
-    Post <input type="text" id="post" name="post">
-    image: <input type="file" id="comm" name="comm" accept=".jpg, .jpeg"><br>
-  	<input type="submit" value="Add committee member">
-	</form>
+<div class="container mt-5">
+        <h1 class="text-center mb-4">Admin Page for Adding to Website</h1>
+        
+        <!-- Tabs Navigation -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="images-tab" data-bs-toggle="tab" href="#images" role="tab" aria-controls="images" aria-selected="true">Images</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="social-media-tab" data-bs-toggle="tab" href="#social-media" role="tab" aria-controls="social-media" aria-selected="false">Social Media Feed</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="documents-tab" data-bs-toggle="tab" href="#documents" role="tab" aria-controls="documents" aria-selected="false">Documents</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="committee-tab" data-bs-toggle="tab" href="#committee" role="tab" aria-controls="committee" aria-selected="false">Committee</a>
+            </li>
+        </ul>
+
+        <!-- Tabs Content -->
+        <div class="tab-content mt-3" id="myTabContent">
+            <!-- Images Tab -->
+            <div class="tab-pane fade show active" id="images" role="tabpanel" aria-labelledby="images-tab">
+                <form action="addimages.php" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="typeofdoc" class="form-label">Type of Image</label>
+                        <select id="typeofdoc" name="typeofdoc" class="form-select">
+                            <option value="Square">Square</option>
+                            <option value="Portrait">Portrait</option>
+                            <option value="Landscape">Landscape</option>
+                            <option value="Panorama">Panorama</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="desc" class="form-label">Description</label>
+                        <input type="text" id="desc" name="desc" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="dateofupload" class="form-label">Date</label>
+                        <input type="date" id="dateofupload" name="dateofupload" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="imagey" class="form-label">Image</label>
+                        <input type="file" id="imagey" name="imagey" class="form-control" accept=".jpg, .jpeg, .jfif">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Gallery Image</button>
+                </form>
+            </div>
+
+            <!-- Social Media Feed Tab -->
+            <div class="tab-pane fade" id="social-media" role="tabpanel" aria-labelledby="social-media-tab">
+                <form action="addmedia.php" method="POST">
+                    <div class="mb-3">
+                        <label for="embedcode" class="form-label">Embed Code</label>
+                        <input type="text" id="embedcode" name="embedcode" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Type</label>
+                        <input type="text" id="type" name="type" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Media</button>
+                </form>
+            </div>
+
+            <!-- Documents Tab -->
+            <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
+                <form action="adddocument.php" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Title of Document</label>
+                        <input type="text" id="title" name="title" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="typeofdoc" class="form-label">Type of Document</label>
+                        <select id="typeofdoc" name="typeofdoc" class="form-select">
+                            <option value="Minutes">Minutes</option>
+                            <option value="Agenda">Agenda</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="doc" class="form-label">File</label>
+                        <input type="file" id="doc" name="doc" class="form-control" accept="documents/*">
+                    </div>
+                    <div class="mb-3">
+                        <label for="dateofupload" class="form-label">Date</label>
+                        <input type="date" id="dateofupload" name="dateofupload" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Document</button>
+                </form>
+            </div>
+
+            <!-- Committee Tab -->
+            <div class="tab-pane fade" id="committee" role="tabpanel" aria-labelledby="committee-tab">
+                <form action="addcommittee.php" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" id="name" name="name" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="post" class="form-label">Post</label>
+                        <input type="text" id="post" name="post" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="comm" class="form-label">Image</label>
+                        <input type="file" id="comm" name="comm" class="form-control" accept=".jpg, .jpeg">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Committee Member</button>
+                </form>
+            </div>
+        </div>
+</div>
 </body>
 </html>

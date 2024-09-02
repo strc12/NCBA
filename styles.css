@@ -18,12 +18,12 @@ body{
    
     height:80%;
 }
-.card-img-top {
+/* .card-img-top {
     
     width: 80%;
     height: 30vw;
     object-fit: cover;
-}
+} */
 .imsmall{
     width:50px;
 }

@@ -16,9 +16,7 @@
 
 </div>
 <h1>Seniors</h1>
-<?php
-print_r($_SESSION);
-?>
+
 What info in here???
 
 </body>

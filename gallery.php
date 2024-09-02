@@ -16,17 +16,14 @@
     ?>
 
 </div>
-<h1>Gallery</h1>
-? easy if images all the same orientation/size...<br>
-could make an interface for Admin to upload more photos and just keep x most current visible?<br>
-could 
+<h1 class = "text-center">Photo Gallery</h1>
 <!-- Carousel wrapper -->
 <div class="container-fluid">
 <div class="row">
   <?php
   $ori="Landscape";
   include_once('connection.php');
-  $stmt = $conn->prepare("SELECT * FROM TblImages  ORDER BY TYPE asc");
+  $stmt = $conn->prepare("SELECT * FROM TblImages  ORDER BY  dateadded desc");
  # $stmt->bindParam(':ori', $ori);WHERE type =:ori
 	$stmt->execute();
 

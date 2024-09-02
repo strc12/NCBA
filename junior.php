@@ -15,8 +15,10 @@
     ?>
 
 </div>
-<h1>Juniors</h1>
+<div class="container-fluid">
+<h1 class="text-center">Juniors</h1>
 <h2>Junior Clubs</h2>
+</div>
 <div class="container">
   Can tidy this up to be in prettier format - do we need other details held?
   <br>

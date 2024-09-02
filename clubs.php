@@ -15,8 +15,10 @@
     ?>
 
 </div>
+<div class="container-fluid">
 <h1>Clubs</h1>
-<div class="container">
+</div>
+<div class="container-fluid">
   
   <hr>
 <?php

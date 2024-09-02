@@ -44,101 +44,137 @@ $stmt->bindParam(':id', $id);
 $stmt->execute();
 $club = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
-<div class="container">
-<h2>Club Admin</h2>
-<hr>
-    
-    <form action="updateclubdetails.php" method="POST">
-        <input type="hidden" name="id" value="<?php echo htmlspecialchars($club['ClubID']) ?>"> 
-        Clubname:<input type="text" name="clubname" value="<?php echo htmlspecialchars($club['Clubname']); ?> "><br>
-        Location:<input type="text" name="location" value="<?php echo htmlspecialchars($club['Location']); ?>"><br>
-        website:<input type="text" name="website" value="<?php echo htmlspecialchars($club['Website']); ?>"><br>
-        contact name:<input type="text" name="contactname" value="<?php echo htmlspecialchars($club['Contactname']); ?>"><br>
-        contact number:<input type="text" name="contactnumber" value="<?php echo htmlspecialchars($club['Contactnumber']); ?>"><br>
-        contact email:<input type="text" name="contactemail" value="<?php echo htmlspecialchars($club['Contactemail']); ?>"><br>
-        <input type="checkbox" id="junior" name="junior" value="Junior" <?php if ($club['Junior']==1) echo 'checked'; ?>>
-        <label for="junior"> Junior</label><br>
-        <input type="checkbox" id="senior" name="senior" value="Senior" <?php if ($club['Junior']!=1) echo 'checked'; ?>>
-        <label for="senior"> Senior</label><br>
-        Clubnight(s) and times: <br>
-        <textarea name="clubnight" rows="4" cols="50"><?php echo htmlspecialchars($club['Clubnight']); ?></textarea>
-        <br>
-        <input type="submit" value="UpdateDetails">
-    </form>
-</div>
-<div class="container">
-<h3>Add player</h3>
-<hr>
-    
-    <form action="addplayer.php" method="POST">
-        <input type="hidden" name="clubid" value="<?php echo htmlspecialchars($id); ?>">
-        Forename:<input type="text" name="forename"><br>
-        Surname:<input type="text" name="surname" ><br>
-        Gender:<br>
-        <input type="radio" id="M" name="gender" value="M">
-        <label for="M">M</label><br>
-        <input type="radio" id="F" name="gender" value="F">
-        <label for="F">F</label><br>
-        Date of Birth:<input type="date" name="dob"> <br>
-        
-        <input type="submit" value="Add New Player">
-    </form>
-</div>
-<div class="container">
-  <h3>To edit players in club</h3>
-  <hr>
-<?php
-    echo('<div class="container mt-5">
-    <h2 class="mb-4">Registered Players</h2>
-    <table class="table table-striped table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">DOB</th>
-                <th scope="col">Gender</th>
-                <th scope="col">Member</th>
-                <th scope="col">Edit</th>
-                
-            </tr>
-        </thead>
-        <tbody>');
-    include_once('connection.php');
-	$stmt = $conn->prepare("SELECT * FROM TblPlayers WHERE ClubID=:cid  ORDER BY active DESC, Gender, Surname ASC, Forename ASC ");
-    $stmt->bindParam(':cid', $id);
-	$stmt->execute();
-	while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
-		{
-            echo("<tr>");
-			echo("<td>".$row["Forename"].' '.$row["Surname"].' </td><td>'.$row["DOB"].'</td> <td>'.$row["Gender"]."</td>
-            <td>");
-            if($row["active"]==1){
-                echo("Member");
-            }else{
-                echo("Non-Member");
-            }
+<div class="container mt-5">
+        <h2 class="text-center mb-4">Club Admin</h2>
 
-            echo("</td>
-            <td>
-            <form action='editplayer.php' method='post'>
-                        <input type='hidden' name='clubid' value='.$id.'>
-                        <input type='hidden' name='id' value='".$row["PlayerID"]."'>
-                        <button type='submit' ");
-            if($row['active']==1){
-                echo("class='btn btn-primary'");
-            }else{
-                echo("class='btn btn-danger'");
-            }
-            echo(">Edit</button>
-                    </form>
-            </td>");
-            echo("</tr>");
-		}
-    echo("</table>");
-?>   
+        <!-- Tabs Navigation -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="update-club-tab" data-bs-toggle="tab" href="#update-club" role="tab" aria-controls="update-club" aria-selected="true">Update Club Details</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="add-player-tab" data-bs-toggle="tab" href="#add-player" role="tab" aria-controls="add-player" aria-selected="false">Add Player</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="edit-players-tab" data-bs-toggle="tab" href="#edit-players" role="tab" aria-controls="edit-players" aria-selected="false">Edit Players</a>
+            </li>
+        </ul>
 
+        <!-- Tabs Content -->
+        <div class="tab-content mt-3" id="myTabContent">
+            <!-- Update Club Details Tab -->
+            <div class="tab-pane fade show active" id="update-club" role="tabpanel" aria-labelledby="update-club-tab">
+                <form action="updateclubdetails.php" method="POST">
+                    <input type="hidden" name="id" value="<?php echo htmlspecialchars($club['ClubID']); ?>">
+                    <div class="mb-3">
+                        <label for="clubname" class="form-label">Club Name</label>
+                        <input type="text" id="clubname" name="clubname" class="form-control" value="<?php echo htmlspecialchars($club['Clubname']); ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Location</label>
+                        <input type="text" id="location" name="location" class="form-control" value="<?php echo htmlspecialchars($club['Location']); ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="website" class="form-label">Website</label>
+                        <input type="text" id="website" name="website" class="form-control" value="<?php echo htmlspecialchars($club['Website']); ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactname" class="form-label">Contact Name</label>
+                        <input type="text" id="contactname" name="contactname" class="form-control" value="<?php echo htmlspecialchars($club['Contactname']); ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactnumber" class="form-label">Contact Number</label>
+                        <input type="text" id="contactnumber" name="contactnumber" class="form-control" value="<?php echo htmlspecialchars($club['Contactnumber']); ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="contactemail" class="form-label">Contact Email</label>
+                        <input type="text" id="contactemail" name="contactemail" class="form-control" value="<?php echo htmlspecialchars($club['Contactemail']); ?>">
+                    </div>
+                    <div class="mb-3">
+                        <input type="checkbox" id="junior" name="junior" value="Junior" <?php if ($club['Junior'] == 1) echo 'checked'; ?>>
+                        <label for="junior"> Junior</label>
+                    </div>
+                    <div class="mb-3">
+                        <input type="checkbox" id="senior" name="senior" value="Senior" <?php if ($club['Junior'] != 1) echo 'checked'; ?>>
+                        <label for="senior"> Senior</label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="clubnight" class="form-label">Clubnight(s) and Times</label>
+                        <textarea id="clubnight" name="clubnight" class="form-control" rows="4"><?php echo htmlspecialchars($club['Clubnight']); ?></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Details</button>
+                </form>
+            </div>
 
+            <!-- Add Player Tab -->
+            <div class="tab-pane fade" id="add-player" role="tabpanel" aria-labelledby="add-player-tab">
+                <h3 class="my-4">Add Player</h3>
+                <form action="addplayer.php" method="POST">
+                    <input type="hidden" name="clubid" value="<?php echo htmlspecialchars($id); ?>">
+                    <div class="mb-3">
+                        <label for="forename" class="form-label">Forename</label>
+                        <input type="text" id="forename" name="forename" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="surname" class="form-label">Surname</label>
+                        <input type="text" id="surname" name="surname" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Gender</label><br>
+                        <input type="radio" id="M" name="gender" value="M">
+                        <label for="M">M</label><br>
+                        <input type="radio" id="F" name="gender" value="F">
+                        <label for="F">F</label>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dob" class="form-label">Date of Birth</label>
+                        <input type="date" id="dob" name="dob" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add New Player</button>
+                </form>
+            </div>
 
-</div>
+            <!-- Edit Players Tab -->
+            <div class="tab-pane fade" id="edit-players" role="tabpanel" aria-labelledby="edit-players-tab">
+                <h3 class="my-4">Edit Players in Club</h3>
+                <?php
+                    echo '<div class="table-responsive">
+                        <h4 class="mb-4">Registered Players</h4>
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">DOB</th>
+                                    <th scope="col">Gender</th>
+                                    <th scope="col">Member</th>
+                                    <th scope="col">Edit</th>
+                                </tr>
+                            </thead>
+                            <tbody>';
+                    include_once('connection.php');
+                    $stmt = $conn->prepare("SELECT * FROM TblPlayers WHERE ClubID=:cid ORDER BY active DESC, Gender, Surname ASC, Forename ASC");
+                    $stmt->bindParam(':cid', $id);
+                    $stmt->execute();
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        echo '<tr>
+                            <td>'.$row["Forename"].' '.$row["Surname"].'</td>
+                            <td>'.$row["DOB"].'</td>
+                            <td>'.$row["Gender"].'</td>
+                            <td>'.($row["active"] == 1 ? 'Member' : 'Non-Member').'</td>
+                            <td>
+                                <form action="editplayer.php" method="post">
+                                    <input type="hidden" name="clubid" value="'.$id.'">
+                                    <input type="hidden" name="id" value="'.$row["PlayerID"].'">
+                                    <button type="submit" class="btn '.($row['active'] == 1 ? 'btn-primary' : 'btn-danger').'">Edit</button>
+                                </form>
+                            </td>
+                        </tr>';
+                    }
+                    echo '</tbody></table></div>';
+                ?>
+            </div>
+        </div>
+    </div>
 
 
 </body>

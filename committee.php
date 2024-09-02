@@ -48,15 +48,22 @@ foreach ($results as $result) {
 
     // Generate the column content
     echo '<div class="col-md-' . $bootstrapColClass . '">';
-    echo '<div class="card ">';
-    echo '<div class="card-body mx-auto">';
-    // Customize the content as per your database fields
-    echo '<h5 class="card-title text-center">' . htmlspecialchars($result['Name']) . '</h5>';
-    echo '<p class="card-text text-center">' . htmlspecialchars($result['Post']) . '</p>';
-    echo '<img src="./comm/'.htmlspecialchars($result['Pic']).'" class="card-img-top img-fluid">';
-    echo '</div>';
-    echo '</div>';
-    echo '</div>';
+echo '<div class="card">';
+
+// Center the image inside the card using utility classes
+echo '<div class="d-flex justify-content-center align-items-center" style="width: 100%;">';
+echo '<img src="./comm/' . htmlspecialchars($result['Pic']) . '" class="card-img-top img-fluid  m-5" ">';
+echo '</div>';
+
+echo '<div class="card-body text-center">'; // Center align text inside card-body
+// Customize the content as per your database fields
+echo '<h5 class="card-title">' . htmlspecialchars($result['Name']) . '</h5>';
+echo '<p class="card-text">' . htmlspecialchars($result['Post']) . '</p>';
+echo '</div>'; // Close card-body
+echo '</div>'; // Close card
+echo '</div>'; // Close column
+
+    
 
     $count++;
 }
