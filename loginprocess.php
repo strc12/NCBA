@@ -10,7 +10,7 @@ $username = $_POST['clubname'];
 $password = $_POST['password'];
 
 // Check in TBLADMIN first
-$adminStmt = $conn->prepare("SELECT * FROM tbladmin WHERE username = :username");
+$adminStmt = $conn->prepare("SELECT * FROM TblAdmin WHERE Username = :username");
 $adminStmt->bindParam(':username', $username);
 $adminStmt->execute();
 

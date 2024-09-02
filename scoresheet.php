@@ -27,7 +27,7 @@ if ($_SESSION["curleague"]==4){
         ':id'=> $_SESSION["curmatch"]
     ];
     $stmt->execute($params);
-    $stmt=$conn->prepare("SELECT TblMatches.FixtureDate, 
+    $stmt=$conn->prepare("SELECT TblMatches.Fixturedate, 
     TblMatches.m1h,TblMatches.m1a,
     TblMatches.m2h,TblMatches.m2a,
     TblMatches.m3h,TblMatches.m3a,
@@ -73,10 +73,10 @@ if ($_SESSION["curleague"]==4){
     INNER JOIN  TblPlayers as AP4 on AwayP4ID = AP4.PlayerID
    
     INNER JOIN TblClubhasteam as ht ON (TblMatches.HomeID = ht.ClubhasteamID) 
-    INNER JOIN TblClubhasteam as awt ON (TblMatches.AwayID=awt.ClubhasTeamID) 
+    INNER JOIN TblClubhasteam as awt ON (TblMatches.AwayID=awt.ClubhasteamID) 
     INNER JOIN TblClub as awc ON awt.ClubID=awc.ClubID 
     INNER JOIN TblClub as hc ON ht.ClubID=hc.ClubID 
-    WHERE tblMatches.MatchID=:id" );
+    WHERE TblMatches.MatchID=:id" );
     $stmt->bindParam(':id', $_SESSION['curmatch']);
     $stmt->execute();
     }else{
@@ -100,7 +100,7 @@ if ($_SESSION["curleague"]==4){
         ':id'=> $_SESSION["curmatch"]
     ];
     $stmt->execute($params);
-    $stmt=$conn->prepare("SELECT TblMatches.FixtureDate, 
+    $stmt=$conn->prepare("SELECT TblMatches.Fixturedate, 
     TblMatches.m1h,TblMatches.m1a,
     TblMatches.m2h,TblMatches.m2a,
     TblMatches.m3h,TblMatches.m3a,
@@ -144,7 +144,7 @@ if ($_SESSION["curleague"]==4){
     awc.CLubname as AWC, hc.Clubname as HC,
     awt.Name as AWT, ht.Name as HT
 
-    FROM tblMatches 
+    FROM TblMatches 
     INNER JOIN  TblPlayers as P1 on HomeP1ID = P1.PlayerID
     INNER JOIN  TblPlayers as P2 on HomeP2ID = P2.PlayerID
     INNER JOIN  TblPlayers as P3 on HomeP3ID = P3.PlayerID
@@ -158,10 +158,10 @@ if ($_SESSION["curleague"]==4){
     INNER JOIN  TblPlayers as AP5 on AwayP5ID = AP5.PlayerID
     INNER JOIN  TblPlayers as AP6 on AwayP6ID = AP6.PlayerID
     INNER JOIN TblClubhasteam as ht ON (TblMatches.HomeID = ht.ClubhasteamID) 
-    INNER JOIN TblClubhasteam as awt ON (TblMatches.AwayID=awt.ClubhasTeamID) 
+    INNER JOIN TblClubhasteam as awt ON (TblMatches.AwayID=awt.ClubhasteamID) 
     INNER JOIN TblClub as awc ON awt.ClubID=awc.ClubID 
     INNER JOIN TblClub as hc ON ht.ClubID=hc.ClubID 
-    WHERE tblMatches.MatchID=:id" );
+    WHERE TblMatches.MatchID=:id" );
     $stmt->bindParam(':id', $_SESSION['curmatch']);
     $stmt->execute();
     }

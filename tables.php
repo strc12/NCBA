@@ -83,7 +83,7 @@ foreach ($leagues as $league) {
         foreach ($division['Teams'] as $team) {
             $tid = $team["TeamID"];
             $stmt = $conn->prepare("
-                SELECT TblMatches.FixtureDate, 
+                SELECT TblMatches.Fixturedate, 
                 TblMatches.m1h, TblMatches.m1a,
                 TblMatches.m2h, TblMatches.m2a,
                 TblMatches.m3h, TblMatches.m3a,
@@ -116,7 +116,7 @@ foreach ($leagues as $league) {
                 awt.Name as AWT, ht.Name as HT
                 FROM TblMatches 
                 INNER JOIN TblClubhasteam as ht ON (TblMatches.HomeID = ht.ClubhasteamID) 
-                INNER JOIN TblClubhasteam as awt ON (TblMatches.AwayID = awt.ClubhasTeamID) 
+                INNER JOIN TblClubhasteam as awt ON (TblMatches.AwayID = awt.ClubhasteamID) 
                 INNER JOIN TblClub as awc ON awt.ClubID = awc.ClubID 
                 INNER JOIN TblClub as hc ON ht.ClubID = hc.ClubID 
                 WHERE (TblMatches.HomeID = :id OR TblMatches.AwayID = :id) AND resultsentered = 1
@@ -228,7 +228,7 @@ foreach ($leagues as $league) {
             }
             
             $stmt = $conn->prepare("
-                SELECT * FROM Tblclubhasteam
+                SELECT * FROM TblClubhasteam
                 
                 WHERE ClubhasteamID = :id 
             ");

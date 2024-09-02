@@ -9,21 +9,21 @@ include_once ("connection.php");
 // Check if the form is submitted to update the item
 $q=$_GET['q'];
 
-$stmt1=$conn->prepare("SELECT tblleague.LeagueID from  TblMatches 
-INNER JOIN tbldivision on tblmatches.DivisionID = tbldivision.DivisionID
-INNER JOIN tblleague on tblleague.LeagueID = tbldivision.LeagueID
+$stmt1=$conn->prepare("SELECT TblLeague.LeagueID from  TblMatches 
+INNER JOIN TblDivision on TblMatches.DivisionID = TblDivision.DivisionID
+INNER JOIN TblLeague on TblLeague.LeagueID = TblDivision.LeagueID
 where MatchID=:mid");
 $stmt1->bindParam(':mid', $q);
 $stmt1->execute();
 $row = $stmt1->fetch(PDO::FETCH_ASSOC);
-;
+echo("Df");
 $league=$row["LeagueID"];
 /* unset($_SESSION["curleague"]);
 $_SESSION["curleague"]=$league; */
 if ($league==4){
     #Ladies
     
-    $stmt=$conn->prepare("SELECT TblMatches.FixtureDate, 
+    $stmt=$conn->prepare("SELECT TblMatches.Fixturedate, 
     TblMatches.m1h,TblMatches.m1a,
     TblMatches.m2h,TblMatches.m2a,
     TblMatches.m3h,TblMatches.m3a,
@@ -69,15 +69,15 @@ if ($league==4){
     INNER JOIN  TblPlayers as AP4 on AwayP4ID = AP4.PlayerID
    
     INNER JOIN TblClubhasteam as ht ON (TblMatches.HomeID = ht.ClubhasteamID) 
-    INNER JOIN TblClubhasteam as awt ON (TblMatches.AwayID=awt.ClubhasTeamID) 
+    INNER JOIN TblClubhasteam as awt ON (TblMatches.AwayID=awt.ClubhasteamID) 
     INNER JOIN TblClub as awc ON awt.ClubID=awc.ClubID 
     INNER JOIN TblClub as hc ON ht.ClubID=hc.ClubID 
-    WHERE tblMatches.MatchID=:id" );
+    WHERE TblMatches.MatchID=:id" );
     $stmt->bindParam(':id', $q);
     $stmt->execute();
     }else{
     
-    $stmt=$conn->prepare("SELECT TblMatches.FixtureDate, 
+    $stmt=$conn->prepare("SELECT TblMatches.Fixturedate, 
     TblMatches.m1h,TblMatches.m1a,
     TblMatches.m2h,TblMatches.m2a,
     TblMatches.m3h,TblMatches.m3a,
@@ -135,10 +135,10 @@ if ($league==4){
     INNER JOIN  TblPlayers as AP5 on AwayP5ID = AP5.PlayerID
     INNER JOIN  TblPlayers as AP6 on AwayP6ID = AP6.PlayerID
     INNER JOIN TblClubhasteam as ht ON (TblMatches.HomeID = ht.ClubhasteamID) 
-    INNER JOIN TblClubhasteam as awt ON (TblMatches.AwayID=awt.ClubhasTeamID) 
+    INNER JOIN TblClubhasteam as awt ON (TblMatches.AwayID=awt.ClubhasteamID) 
     INNER JOIN TblClub as awc ON awt.ClubID=awc.ClubID 
     INNER JOIN TblClub as hc ON ht.ClubID=hc.ClubID 
-    WHERE tblMatches.MatchID=:id" );
+    WHERE TblMatches.MatchID=:id" );
     $stmt->bindParam(':id', $q);
     $stmt->execute();
 

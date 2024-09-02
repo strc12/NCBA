@@ -26,7 +26,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
         $pos = strpos($position, $char);
         
         if ($pos!=5 ){
-            $stmt1=$conn->prepare("SELECT $position FROM tblmatches where MatchID = :mid");#looks up the field to see if already set value
+            $stmt1=$conn->prepare("SELECT $position FROM TblMatches where MatchID = :mid");#looks up the field to see if already set value
             $stmt1->bindParam(':mid', $_SESSION["curmatch"]);
             $stmt1->execute(); 
             while ($row = $stmt1->fetch(PDO::FETCH_ASSOC)){
@@ -37,11 +37,11 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
         
        
         if ($sex=="B"){
-            $stmt=$conn->prepare("SELECT Forename, Surname, Gender, PlayerID,active FROM tblplayers where ClubID = :cid AND active=1 Order By Gender DESC, Surname ASC, Forename ASC");
+            $stmt=$conn->prepare("SELECT Forename, Surname, Gender, PlayerID,active FROM TblPlayers where ClubID = :cid AND active=1 Order By Gender DESC, Surname ASC, Forename ASC");
             $stmt->bindParam(':cid', $club);
             $stmt->execute();  
         }else{
-            $stmt=$conn->prepare("SELECT Forename, Surname, Gender, PlayerID FROM tblplayers where ClubID = :cid AND Gender= :sex AND active=1 Order By  Surname ASC, Forename ASC");
+            $stmt=$conn->prepare("SELECT Forename, Surname, Gender, PlayerID FROM TblPlayers where ClubID = :cid AND Gender= :sex AND active=1 Order By  Surname ASC, Forename ASC");
             $stmt->bindParam(':cid', $club);
             $stmt->bindParam(':sex', $sex);
             $stmt->execute();  
@@ -68,17 +68,17 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 <?php
 
 include_once ("connection.php");
-   $stmt = $conn->prepare("SELECT leag.Name as leagn, leag.LeagueID, tblmatches.DivisionID, DIVIS.Name as divn,
+   $stmt = $conn->prepare("SELECT leag.Name as leagn, leag.LeagueID, TblMatches.DivisionID, DIVIS.Name as divn,
    cla.ClubID as awc, clh.ClubID as hc, cla.Clubname as awcn, clh.Clubname as hcn,
    hteam.Name as htn,  ateam.Name as awtn
-   from tblmatches
-   INNER JOIN Tbldivision as DIVIS ON (tblmatches.DivisionID = DIVIS.DivisionID) 
+   from TblMatches
+   INNER JOIN TblDivision as DIVIS ON (TblMatches.DivisionID = DIVIS.DivisionID) 
    INNER JOIN TblLeague as leag ON (DIVIS.LeagueID = leag.LEagueID) 
-   INNER JOIN tblclubhasteam as hteam On(hteam.clubhasteamID =tblmatches.HomeID)
-   INNER JOIN tblclubhasteam as ateam On(ateam.clubhasteamID =tblmatches.AwayID)
-   INNER JOIN tblclub as clh on (clh.clubID= hteam.clubID)
-   INNER JOIN tblclub as cla on (cla.clubID= ateam.clubID)
-   WHERE Season=:SEAS  AND tblmatches.matchID=:match" );
+   INNER JOIN TblClubhasteam as hteam On(hteam.ClubhasteamID =TblMatches.HomeID)
+   INNER JOIN TblClubhasteam as ateam On(ateam.ClubhasteamID =TblMatches.AwayID)
+   INNER JOIN TblClub as clh on (clh.ClubID= hteam.ClubID)
+   INNER JOIN TblClub as cla on (cla.ClubID= ateam.ClubID)
+   WHERE Season=:SEAS  AND TblMatches.MatchID=:match" );
 
    $stmt->bindParam(':match', $_POST["match"]);
    $stmt->bindParam(':SEAS', $_SESSION["Season"]);

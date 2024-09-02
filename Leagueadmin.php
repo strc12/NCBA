@@ -58,7 +58,7 @@
                         <select id="typeofleague" name="typeofleague" class="form-select">
                             <?php
                                 include_once('connection.php');
-                                $stmt = $conn->prepare("SELECT * FROM TblLEague");
+                                $stmt = $conn->prepare("SELECT * FROM TblLeague");
                                 $stmt->execute();
                                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                     echo "<option value='".$row["LeagueID"]."'>".$row["Name"]."</option>";
@@ -158,8 +158,8 @@
                         <select id="teamtodock" name="teamtodock" class="form-select">
                             <?php
                                 include_once('connection.php');
-                                $stmt = $conn->prepare("SELECT tblclubhasteam.ClubhasteamID as teamID, tblclubhasteam.Name as team, tblclub.Clubname as club FROM tblclubhasteam
-                                INNER JOIN tblclub ON (tblclub.ClubID = tblclubhasteam.ClubID)
+                                $stmt = $conn->prepare("SELECT TblClubhasteam.ClubhasteamID as teamID, TblClubhasteam.Name as team, TblClub.Clubname as club FROM TblClubhasteam
+                                INNER JOIN TblClub ON (TblClub.ClubID = TblClubhasteam.ClubID)
                                 ORDER BY club ASC, team ASC ");
                                 $stmt->execute();
                                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {

@@ -26,29 +26,29 @@
     include_once ("connection.php");
     
     if (isset($_SESSION["clubid"])){
-    $stmt = $conn->prepare("SELECT MatchID,HomeID, AwayID, Season, Fixturedate, tblmatches.DivisionID as DID, 
+    $stmt = $conn->prepare("SELECT MatchID,HomeID, AwayID, Season, Fixturedate, TblMatches.DivisionID as DID, 
     leag.name as LN, awt.Clubname as AWC, ht.Clubname as HC, home.DivisionID as hd, away.Name as AWN, home.Name as HN, 
-    away.DivisionID as ad , DIVIS.Name as DIVN ,resultsentered FROM tblmatches 
-    INNER JOIN tblclubhasteam as home ON (Tblmatches.HomeID = home.ClubhasteamID) 
-    INNER JOIN tblclubhasteam as away ON (Tblmatches.AwayID=away.ClubhasteamID) 
-    INNER JOIN Tbldivision as DIVIS ON (tblmatches.DivisionID = DIVIS.DivisionID) 
-    INNER JOIN TblLeague as leag ON (DIVIS.LeagueID = leag.LEagueID) 
-    INNER JOIN tblclub as awt ON away.ClubID=awt.ClubID 
-    INNER JOIN tblclub as ht ON home.ClubID=ht.ClubID 
-    WHERE Season=:SEAS  and resultsentered is Null AND (awt.clubID=:club OR ht.clubid=:club) ORDER BY Fixturedate DESC, ad ASC " );
+    away.DivisionID as ad , DIVIS.Name as DIVN ,resultsentered FROM TblMatches 
+    INNER JOIN TblClubhasteam as home ON (TblMatches.HomeID = home.ClubhasteamID) 
+    INNER JOIN TblClubhasteam as away ON (TblMatches.AwayID=away.ClubhasteamID) 
+    INNER JOIN TblDivision as DIVIS ON (TblMatches.DivisionID = DIVIS.DivisionID) 
+    INNER JOIN TblLeague as leag ON (DIVIS.LeagueID = leag.LeagueID) 
+    INNER JOIN TblClub as awt ON away.ClubID=awt.ClubID 
+    INNER JOIN TblClub as ht ON home.ClubID=ht.ClubID 
+    WHERE Season=:SEAS  and resultsentered is Null AND (awt.ClubID=:club OR ht.Clubid=:club) ORDER BY Fixturedate DESC, ad ASC " );
 
     $stmt->bindParam(':club', $_SESSION["clubid"]);
     $stmt->bindParam(':SEAS', $_SESSION["Season"]);
     }else{
-        $stmt = $conn->prepare("SELECT MatchID,HomeID, AwayID, Season, Fixturedate, tblmatches.DivisionID as DID, 
+        $stmt = $conn->prepare("SELECT MatchID,HomeID, AwayID, Season, Fixturedate, TblMatches.DivisionID as DID, 
         leag.name as LN, awt.Clubname as AWC, ht.Clubname as HC, home.DivisionID as hd, away.Name as AWN, home.Name as HN, 
-        away.DivisionID as ad , DIVIS.Name as DIVN ,resultsentered FROM tblmatches 
-        INNER JOIN tblclubhasteam as home ON (Tblmatches.HomeID = home.ClubhasteamID) 
-        INNER JOIN tblclubhasteam as away ON (Tblmatches.AwayID=away.ClubhasteamID) 
-        INNER JOIN Tbldivision as DIVIS ON (tblmatches.DivisionID = DIVIS.DivisionID) 
-        INNER JOIN TblLeague as leag ON (DIVIS.LeagueID = leag.LEagueID) 
-        INNER JOIN tblclub as awt ON away.ClubID=awt.ClubID 
-        INNER JOIN tblclub as ht ON home.ClubID=ht.ClubID 
+        away.DivisionID as ad , DIVIS.Name as DIVN ,resultsentered FROM TblMatches 
+        INNER JOIN TblClubhasteam as home ON (TblMatches.HomeID = home.ClubhasteamID) 
+        INNER JOIN TblClubhasteam as away ON (TblMatches.AwayID=away.ClubhasteamID) 
+        INNER JOIN TblDivision as DIVIS ON (TblMatches.DivisionID = DIVIS.DivisionID) 
+        INNER JOIN TblLeague as leag ON (DIVIS.LeagueID = leag.LeagueID) 
+        INNER JOIN TblClub as awt ON away.ClubID=awt.ClubID 
+        INNER JOIN TblClub as ht ON home.ClubID=ht.ClubID 
         WHERE Season=:SEAS and resultsentered is Null  ORDER BY Fixturedate DESC, ad ASC " );
            
         $stmt->bindParam(':SEAS', $_SESSION["Season"]); 
