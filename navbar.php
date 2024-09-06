@@ -89,6 +89,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown3">
               <li><a class="dropdown-item" href="selectmatch.php">Enter scores</a></li>
               <li><a class="dropdown-item" href="clubadmin.php">Club Admin</a></li>
+              <li><a class="dropdown-item" href="fixturedates.php">Enter fixture dates</a></li>
             </ul>
           </li>
           <li class="nav-item">

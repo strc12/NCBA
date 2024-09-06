@@ -1,5 +1,13 @@
 
 <?php
+if(session_status() !== PHP_SESSION_ACTIVE) {
+  session_start();
+}
+print_r($_SESSION);
+if (!isset($_SESSION['adloggedin']))
+{
+    header("Location:index.php");
+}
 #header("Location:admin.php");
 print_r($_POST);
 try{

@@ -1,5 +1,12 @@
 <?php
-#test
+if(session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+  }
+  if (!isset($_SESSION['adloggedin']))
+  {
+      header("Location:index.php");
+  }
+
 header("Location:index.php");
 print_r($_POST);
 if(isset($_POST["junior"]) and isset($_POST["senior"])){

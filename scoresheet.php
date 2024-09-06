@@ -2,7 +2,7 @@
 if(session_status() !== PHP_SESSION_ACTIVE) {
         session_start();
       }
-print_r($_POST);
+
 //print_r($_SESSION);
 
 include_once ("connection.php");
@@ -170,8 +170,7 @@ if ($_SESSION["curleague"]==4){
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
 //print_r($row);
-echo("<br>");
-print_r($_SESSION);
+
 
 ?>
 <!DOCTYPE HTML>

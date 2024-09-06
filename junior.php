@@ -20,7 +20,7 @@
 <h2>Junior Clubs</h2>
 </div>
 <div class="container">
-  Can tidy this up to be in prettier format - do we need other details held?
+  Do we need other details held?
   <br>
   <hr>
 <?php
