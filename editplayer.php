@@ -36,9 +36,12 @@
 
 
 <?php
+if(session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+  }
 include_once ("connection.php");
 // Fetch items from the database
-$sql = "SELECT * FROM TblPlayers WHERE PlayerID = :id";
+$sql = "SELECT *, CLUB.Clubname as CN FROM TblPlayers INNER JOIN TblClub as CLUB on (TblPlayers.ClubID=CLUB.ClubID)WHERE PlayerID = :id";
         $stmt = $conn->prepare($sql);
         $stmt->execute([':id' => $_POST['id']]);
         $item = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -48,8 +51,9 @@ $sql = "SELECT * FROM TblPlayers WHERE PlayerID = :id";
         }else{
             $active=False;
         }
-        echo($item['active'])
+echo("<h3>Current Club - ".$item["CN"]."</h3>"); 
 ?>
+
 <form action="updateplayerdetails.php" method="post">
                 <input type="hidden" name="id" value="<?php echo htmlspecialchars($item['ClubID']) ?>">
             

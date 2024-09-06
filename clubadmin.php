@@ -24,15 +24,16 @@
             
             $id=$_SESSION['clubid'];
             include_once("navbar.php");
-            
+            echo("admin");
         } else {
             // Query parameters are provided
-            
+            echo("not");
             $id=intval($_GET['q']);
         }
         // The request is using the GET method
     }
-    
+    print_r($_SESSION);
+    echo($id);
     ?>
 
 </div>

@@ -9,7 +9,7 @@
   <script>
     function showresult(str) {
         if (str == "") {
-            document.getElementById("results").innerHTML = "";
+            document.getElementById("clubinfo").innerHTML = "";
             return;
         } else { 
             if (window.XMLHttpRequest) {
@@ -59,7 +59,7 @@
 include_once ("connection.php");
 
 // Fetch items from the database
-$sql = "SELECT clubID, clubname FROM tblclub";
+$sql = "SELECT ClubID, Clubname FROM TblClub";
 $stmt = $conn->query($sql);
 $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -71,8 +71,8 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <option>Select Club</option>
     
             <?php foreach ($items as $item): ?>
-                <option value="<?php echo htmlspecialchars($item['clubID']) ?>" <?php echo (isset($_GET['clubID']) && $_GET['clubID'] == $item['clubID']) ? 'selected' : '' ?>>
-                    <?php echo htmlspecialchars($item['clubname']) ?>
+                <option value="<?php echo htmlspecialchars($item['ClubID']) ?>" <?php echo (isset($_GET['ClubID']) && $_GET['ClubID'] == $item['ClubID']) ? 'selected' : '' ?>>
+                    <?php echo htmlspecialchars($item['Clubname']) ?>
                 </option>
             <?php endforeach; ?>
         </select>
