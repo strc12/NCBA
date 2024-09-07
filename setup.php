@@ -222,17 +222,18 @@ try {
     CREATE TABLE TblDivision 
     (DivisionID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(50) NOT NULL,
-    LeagueID INT(4) NOT NULL)");
+    LeagueID INT(4) NOT NULL,
+    Divisionrank INT(1) NOT NULL");
     $stmt1->execute();
     $stmt1->closeCursor();
 
     $stmt5 = $conn->prepare("INSERT INTO TblDivision(DivisionID,Name,LeagueID)VALUES 
-    (NULL,'1st',1),
-    (NULL,'2nd',1),
-    (NULL,'1st',3),
-    (NULL,'1st',2),
-    (NULL,'2nd',2),
-    (NULL,'1st',4)
+    (NULL,'1st',1,1),
+    (NULL,'2nd',1,2),
+    (NULL,'1st',3,1),
+    (NULL,'1st',2,1),
+    (NULL,'2nd',2,2),
+    (NULL,'1st',4,1)
     
 
     ");#type picked from tblleague 

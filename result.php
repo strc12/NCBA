@@ -8,6 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <link href="styles.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="images/favicon.png">
   <style>
     #result {
             z-index: 1;
@@ -16,7 +17,7 @@
 
         /* Ensure container has a higher z-index */
         .container-fluid {
-            z-index: 2; /* Higher than navbar */
+            z-index: 0; /* Higher than navbar */
             position: relative; /* Establish stacking context */
         }
         td, th {
@@ -34,6 +35,8 @@
 </div>
     <br>
 <div class="container-fluid">
+<h2 class="text-center">View Results</h2>
+
 <label>Fixture: </label>
 <select id="matches" >
     <option>Select match</option>

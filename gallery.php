@@ -7,6 +7,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bs5-lightbox@1.8.3/dist/index.bundle.min.js"></script>
   <link href="styles.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="images/favicon.png">
 </head>
 <body>
 <!--Navigation bar-->

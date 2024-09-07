@@ -26,9 +26,10 @@ include_once ("connection.php");
     if (isset($_SESSION['adloggedin'])) {
         // Use the value from the session variable if it is set
         $redirectUrl = $_SESSION['editclub'];
+        echo("£");
     }
     echo("<script>
-        alert('Player Details Updated');
+        alert('Player Details Updated'.$redirectUrl);
         window.location.href='$redirectUrl';
     </script>");#alert followed by redirect
       
