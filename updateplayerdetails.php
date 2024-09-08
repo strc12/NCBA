@@ -1,5 +1,8 @@
 
 <?php
+if(session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+  }
 include_once ("connection.php");
 // Check if the form is submitted to update the item
 
@@ -10,8 +13,8 @@ include_once ("connection.php");
     $act=1;
    
    }
-   echo($act);
-    $sql = "UPDATE tblplayers SET Forename = :forename, Surname = :surname, Gender = :gender, DOB = :dob, active = :act
+   #echo($act);
+    $sql = "UPDATE TblPlayers SET Forename = :forename, Surname = :surname, Gender = :gender, DOB = :dob, active = :act
      WHERE PlayerID = :id";
     $stmt = $conn->prepare($sql);
     $params=[
@@ -22,11 +25,19 @@ include_once ("connection.php");
         ':act'=>$act,
         ':id'=>$_POST['playerid']
     ];
-    print_r($params);
+    #print_r($params);
     $stmt->execute($params);
+    $stmt->execute($params);
+    // Determine the redirect URL based on the session variable
+    $redirectUrl = 'clubadmin.php';  // Default redirect URL
+    print_r($_SESSION);
+    if (isset($_SESSION['adloggedin'])) {
+        // Use the value from the session variable if it is set
+        $redirectUrl = $_SESSION['editclub'];
+    }
     echo("<script>
         alert('Player Details Updated');
-        window.location.href='editclub.php';
+        window.location.href='$redirectUrl';
     </script>");#alert followed by redirect
       
       ?>

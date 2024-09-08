@@ -6,6 +6,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <link href="styles.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="images/favicon.png">
 </head>
 <body>
 <!--Navigation bar-->
@@ -20,7 +21,7 @@
 <h2>Junior Clubs</h2>
 </div>
 <div class="container">
-  Can tidy this up to be in prettier format - do we need other details held?
+  Do we need other details held?
   <br>
   <hr>
 <?php

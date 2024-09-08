@@ -73,6 +73,7 @@ foreach ($data as $row) {
 }
 
 // Output the organized data and process matches
+echo("<h1>END OF SEASON LEAGUES</h1>");
 foreach ($leagues as $league) {
     echo "<h2>" . htmlspecialchars($league['Name']) . "</h2>";
 
@@ -255,7 +256,8 @@ foreach ($leagues as $league) {
                 'pointsfor' => $totpts,
                 'pointsagainst' => $totptsagainst,
                 'points'=>$points,
-                'dock'=>$docked
+                'dock'=>$docked,
+                'id'=>$team["TeamID"]
             ];
           
             $leagueA[] = $teamres;
@@ -263,18 +265,56 @@ foreach ($leagues as $league) {
         uasort($leagueA, 'cmp'); // Sort the results
 
         // Display the results in a table
+        #print_r($leagueA);
+        
         echo "<table style='width:80%' class='table table-bordered table-danger table-condensed table-striped text-center'>";
-        echo "<thead class='thead-dark'><th>Team</th><th>Played</th><th>Games won</th><th>Games lost</th><th>Rubbers won</th><th>Rubbers lost</th><th>Points for</th><th>Points against</th><th>Points</th><th>Points docked</th></thead>";
+        echo "<thead class='thead-dark'>
+                <tr>
+                    <th>Promote</th> <!-- New header for the checkbox -->
+                    <th>Relegate</th> <!-- New header for the checkbox -->
+                    <th>Team</th>
+                    <th>Played</th>
+                    <th>Games won</th>
+                    <th>Games lost</th>
+                    <th>Rubbers won</th>
+                    <th>Rubbers lost</th>
+                    <th>Points for</th>
+                    <th>Points against</th>
+                    <th>Points</th>
+                    <th>Points docked</th>
+                </tr>
+              </thead>";
+        echo "<tbody>"; // Start the body of the table
+        echo("<form action='promoterelegate.php' method='POST'>");
         foreach ($leagueA as $team) {
-            echo "<tr><td>" . htmlspecialchars($team['name']) . "</td><td>" . $team['played'] . "</td><td>" . $team['gameswon'] . "</td><td>" . $team['gameslost'] . "</td><td>" . $team['rubberswon'] . "</td><td>" . $team['rubberslost'] . "</td><td>" . $team['pointsfor'] . "</td><td>" . $team['pointsagainst'] . "</td><td>" . $team['points'] . "</td>";
-            if ($team['dock']==1){
-                echo("<td>*</td>");
-            }else{
-                echo("<td></td>");    
+            echo "<tr>";
+            // Add a checkbox for each row with a unique name or id
+            echo "<td><input type='checkbox' name='promote_team[]' value='" . htmlspecialchars($team['id']) . "'></td>"; 
+            echo "<td><input type='checkbox' name='relegate_team[]' value='" . htmlspecialchars($team['id']) . "'></td>";
+            echo "<td>" . htmlspecialchars($team['name']) . "</td>";
+            echo "<td>" . $team['played'] . "</td>";
+            echo "<td>" . $team['gameswon'] . "</td>";
+            echo "<td>" . $team['gameslost'] . "</td>";
+            echo "<td>" . $team['rubberswon'] . "</td>";
+            echo "<td>" . $team['rubberslost'] . "</td>";
+            echo "<td>" . $team['pointsfor'] . "</td>";
+            echo "<td>" . $team['pointsagainst'] . "</td>";
+            echo "<td>" . $team['points'] . "</td>";
+        
+            // Handle the "Points docked" column with conditional content
+            if ($team['dock'] == 1) {
+                echo "<td>*</td>";
+            } else {
+                echo "<td></td>";    
             }
-            echo"</tr>";
+           
+            echo "</tr>";
         }
+        
+        echo "</tbody>"; // End the body of the table
         echo "</table><br>";
+        echo('<input type="submit" class="btn btn-primary" value="Promote/relegate division">');
+        echo("</form>");
        
     }   
     

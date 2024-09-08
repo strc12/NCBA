@@ -1,3 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>NSCBA</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <link href="styles.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <style>
+    #result {
+            z-index: 1;
+            position: relative; /* Ensure it's positioned relative to its parent */
+        }
+
+        /* Ensure container has a higher z-index */
+        .container-fluid {
+            z-index: 2; /* Higher than navbar */
+            position: relative; /* Establish stacking context */
+        }
+        td, th {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<!--Navigation bar-->
+<div id="result">
+    <?php
+    include_once("navbar.php");
+    ?>
+
+</div>
 <?php
 include ("setseason.php");
 if(session_status() !== PHP_SESSION_ACTIVE) {
@@ -149,7 +184,7 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
 ?>
 
-<body>
+
 <div class="container-fluid" style="margin-top:40px">
     <h3>Scores</h3>
     <?php
@@ -291,6 +326,84 @@ $row = $stmt->fetch(PDO::FETCH_ASSOC);
     </table>
 
 </div>
+<script>
+    function calculate() {
+    var homePointsTotal = 0;
+    var homeRubbersTotal = 0;
+    var awayPointsTotal = 0;
+    var awayRubbersTotal = 0;
+    var homeGamesTotal = 0;
+    var awayGamesTotal = 0;
+    const element1 = document.querySelector('#m19h');
+        
+    if (element1) {
+        count=9;
+    }else{
+        count=6;
 
+    }
+    // Iterate through each match
+    for (var i = 1; i <= count; i++) {
+        var homeRubbers = 0;
+        var awayRubbers = 0;
+        var homeGames = 0;
+        var awayGames = 0;
+        
+            // Calculate rubbers and games for each match
+            for (var j = 0; j <= 2; j++) {
+                var v = 3 * i - 2 + j;
+                
+            
+                
+                var homeValue = parseFloat(document.getElementById('m' + v + 'hr').innerText);
+                var awayValue = parseFloat(document.getElementById('m' + v + 'ar').innerText);
+                //console.log(homeValue,awayValue);
+                if (!isNaN(homeValue) && !isNaN(awayValue)) {
+                    homeGames += homeValue;
+                    awayGames += awayValue;
+                }
+
+                if (homeValue > awayValue) {
+                    homeRubbers++;
+                } else if (homeValue < awayValue) {
+                    awayRubbers++;
+                }
+                
+                homePointsTotal += parseFloat(document.getElementById('m' + v + 'h').innerText);
+                awayPointsTotal += parseFloat(document.getElementById('m' + v + 'a').innerText);
+                
+            }
+
+         
+            homeRubbersTotal += homeRubbers;
+            awayRubbersTotal += awayRubbers;
+            
+
+            // Update match result display
+            if (homeRubbers > awayRubbers) {
+                document.getElementById('m' + i + 'hg').innerText = "1";
+                document.getElementById('m' + i + 'ag').innerText = "0";
+                homeGamesTotal += 1;
+            } else {
+                document.getElementById('m' + i + 'hg').innerText = "0";
+                document.getElementById('m' + i + 'ag').innerText = "1";
+                awayGamesTotal += 1;
+            }
+            console.log(homeGamesTotal, awayGamesTotal);
+    }
+    // Update total displays
+    document.getElementById('homePointsTotal').innerText = homePointsTotal;
+    document.getElementById('homeRubbersTotal').innerText = homeRubbersTotal;
+    document.getElementById('awayPointsTotal').innerText = awayPointsTotal;
+    document.getElementById('awayRubbersTotal').innerText = awayRubbersTotal;
+    document.getElementById('homeGamesTotal').innerText = homeGamesTotal;
+    document.getElementById('awayGamesTotal').innerText = awayGamesTotal;
+}
+$(document).ready(function() {
+    // Use jQuery to trigger the calculation when page loads
+    calculate();
+});
+
+</script>
 </body>
 </html>

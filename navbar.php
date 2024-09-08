@@ -8,6 +8,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="images/favicon.png">
   <title>Navigation Menu</title>
   <style>
     .navbar-nav.ms-auto {
@@ -23,7 +24,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 <nav class="navbar navbar-expand-sm bg-light navbar-light fixed-top">
   <div class="container-fluid">
     <a class="navbar-brand" href="index.php">
-      <img src="images/NCB.jpg" alt="" width="50" class="d-inline-block align-text-middle">
+      <img src="images/favicon.png" alt="" width="50" class="d-inline-block align-text-middle">
       NSCBA
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -89,6 +90,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown3">
               <li><a class="dropdown-item" href="selectmatch.php">Enter scores</a></li>
               <li><a class="dropdown-item" href="clubadmin.php">Club Admin</a></li>
+              <li><a class="dropdown-item" href="fixturedates.php">Enter fixture dates</a></li>
             </ul>
           </li>
           <li class="nav-item">

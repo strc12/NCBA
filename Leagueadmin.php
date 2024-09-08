@@ -1,3 +1,4 @@
+<html>
 <head>
   <title>NSCBA</title>
   <meta charset="utf-8">
@@ -6,6 +7,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <link href="styles.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="images/favicon.png">
 </head>
 <body>
 <!--Navigation bar-->
@@ -39,6 +41,9 @@
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="dock-points-tab" data-bs-toggle="tab" href="#dock-points" role="tab" aria-controls="dock-points" aria-selected="false">Dock Points</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="setupseason-tab" data-bs-toggle="tab" href="#setupseason" role="tab" aria-controls="setupseason" aria-selected="false">Setup Season</a>
             </li>
         </ul>
 
@@ -169,6 +174,16 @@
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Dock Point</button>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="setupseason" role="tabpanel" aria-labelledby="setupseason-tab">
+                <h2 class="my-4">Setup season</h2>
+                <form action="setupseason.php" method="POST">
+                    <div class="mb-3">
+                        <p>This wil archive the old data, perform the promotions/relegations and then create all the fixtures ready to be populated by dates</p>
+                                
+                    </div>
+                    <button type="submit" class="btn btn-primary">Go to relegations and promotions page</button>
                 </form>
             </div>
         </div>

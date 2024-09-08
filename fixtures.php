@@ -6,7 +6,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
       }
   }
 #header("Location:index.php");
-include_once("setup.php");#to reset seasons every time whilst testing
+#include_once("setup.php");#to reset seasons every time whilst testing
 include_once("setseason.php");
 
 include_once ("connection.php");

@@ -6,6 +6,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <link href="styles.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="images/favicon.png">
   <script>
 
 
@@ -36,9 +37,12 @@
 
 
 <?php
+if(session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+  }
 include_once ("connection.php");
 // Fetch items from the database
-$sql = "SELECT * FROM TblPlayers WHERE PlayerID = :id";
+$sql = "SELECT *, CLUB.Clubname as CN FROM TblPlayers INNER JOIN TblClub as CLUB on (TblPlayers.ClubID=CLUB.ClubID)WHERE PlayerID = :id";
         $stmt = $conn->prepare($sql);
         $stmt->execute([':id' => $_POST['id']]);
         $item = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -48,8 +52,9 @@ $sql = "SELECT * FROM TblPlayers WHERE PlayerID = :id";
         }else{
             $active=False;
         }
-        echo($item['active'])
+echo("<h3>Current Club - ".$item["CN"]."</h3>"); 
 ?>
+
 <form action="updateplayerdetails.php" method="post">
                 <input type="hidden" name="id" value="<?php echo htmlspecialchars($item['ClubID']) ?>">
             

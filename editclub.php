@@ -6,10 +6,11 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <link href="styles.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="images/favicon.png">
   <script>
     function showresult(str) {
         if (str == "") {
-            document.getElementById("results").innerHTML = "";
+            document.getElementById("clubinfo").innerHTML = "";
             return;
         } else { 
             if (window.XMLHttpRequest) {
@@ -27,6 +28,7 @@
             xmlhttp.open("GET","clubadmin.php?q="+str,true);
             xmlhttp.send();
         }
+       
     }
 
 
@@ -59,7 +61,7 @@
 include_once ("connection.php");
 
 // Fetch items from the database
-$sql = "SELECT clubID, clubname FROM tblclub";
+$sql = "SELECT ClubID, Clubname FROM TblClub";
 $stmt = $conn->query($sql);
 $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -71,8 +73,8 @@ $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <option>Select Club</option>
     
             <?php foreach ($items as $item): ?>
-                <option value="<?php echo htmlspecialchars($item['clubID']) ?>" <?php echo (isset($_GET['clubID']) && $_GET['clubID'] == $item['clubID']) ? 'selected' : '' ?>>
-                    <?php echo htmlspecialchars($item['clubname']) ?>
+                <option value="<?php echo htmlspecialchars($item['ClubID']) ?>" <?php echo (isset($_GET['ClubID']) && $_GET['ClubID'] == $item['ClubID']) ? 'selected' : '' ?>>
+                    <?php echo htmlspecialchars($item['Clubname']) ?>
                 </option>
             <?php endforeach; ?>
         </select>

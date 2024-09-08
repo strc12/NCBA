@@ -10,4 +10,5 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 			$_SESSION["Season"]=$row["Season"];
      
 		}
+
     ?>
