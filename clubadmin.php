@@ -25,16 +25,16 @@
             
             $id=$_SESSION['clubid'];
             include_once("navbar.php");
-            echo("admin");
+            #echo("admin");
         } else {
             // Query parameters are provided
-            echo("not");
+            #echo("not");
             $id=intval($_GET['q']);
         }
         // The request is using the GET method
     }
-    print_r($_SESSION);
-    echo($id);
+    #print_r($_SESSION);
+    #echo($id);
     ?>
 
 </div>
@@ -59,6 +59,9 @@ $club = $stmt->fetch(PDO::FETCH_ASSOC);
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="edit-players-tab" data-bs-toggle="tab" href="#edit-players" role="tab" aria-controls="edit-players" aria-selected="false">Edit Players</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="edit-teams-tab" data-bs-toggle="tab" href="#edit-teams" role="tab" aria-controls="edit-teams" aria-selected="false">Manage teams</a>
             </li>
         </ul>
 
@@ -168,6 +171,51 @@ $club = $stmt->fetch(PDO::FETCH_ASSOC);
                                     <input type="hidden" name="clubid" value="'.$id.'">
                                     <input type="hidden" name="id" value="'.$row["PlayerID"].'">
                                     <button type="submit" class="btn '.($row['active'] == 1 ? 'btn-primary' : 'btn-danger').'">Edit</button>
+                                </form>
+                            </td>
+                        </tr>';
+                    }
+                    echo '</tbody></table></div>';
+                ?>
+            </div>
+            <!-- Manage teams Tab -->
+            <div class="tab-pane fade" id="edit-teams" role="tabpanel" aria-labelledby="edit-teams-tab">
+                <h3 class="my-4">Edit teams</h3>
+                                <?php
+                    echo '<div class="table-responsive">
+                        <h4 class="mb-4">Current teams</h4>
+                        <h5>Note Admin will need to OK any team changes before they become final</h5>
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">League</th>
+                                    <th scope="col">Division</th>
+                                    <th scope="col">Active</th>
+                                </tr>
+                            </thead>
+                            <tbody>';
+                    include_once('connection.php');
+                    $stmt = $conn->prepare("SELECT 
+                    TblClubhasteam.name as TN, TblDivision.Divisionrank as DR, 
+                    TblLeague.name as LN , TblClub.Clubname as CN, TblClubhasteam.current as current
+                    FROM TblClubhasteam 
+                    INNER JOIN TblDivision on (TblDivision.DivisionID=TblClubhasteam.DivisionID)
+                    INNER JOIN TblLeague on (TblLeague.LeagueID = TblDivision.LeagueID)
+                    INNER JOIN TblClub on (TblCLub.ClubID = TblClubhasteam.ClubID)
+                    WHERE TblClubhasteam.ClubID=:cid ");
+                    $stmt->bindParam(':cid', $id);
+                    $stmt->execute();
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        #print_r($row);
+                        echo '<tr>
+                            <td>'.$row["CN"].' '.$row["TN"].'</td>
+                            <td>'.$row["LN"].'</td>
+                            <td>'.$row["DR"].'</td>
+                            <td>
+                                <form action="editplayer.php" method="post">
+                                    <input type="hidden" name="clubid" value="'.$id.'">
+                                    <button type="submit" class="btn '.($row['current'] == 1 ? 'btn-primary' : 'btn-danger').'">Edit</button>
                                 </form>
                             </td>
                         </tr>';

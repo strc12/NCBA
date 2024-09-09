@@ -8,6 +8,30 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <link href="styles.css" rel="stylesheet">
   <link rel="icon" type="image/png" href="images/favicon.png">
+  <script>
+    function showresult(str) {
+        if (str == "") {
+            document.getElementById("clubinfo").innerHTML = "";
+            return;
+        } else { 
+            if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            } else {
+                // code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById("clubinfo").innerHTML = this.responseText;
+                }
+            };
+            xmlhttp.open("GET","clubadmin.php?q="+str,true);
+            xmlhttp.send();
+        }
+       
+    }
+</script>
 </head>
 <body>
 <!--Navigation bar-->
@@ -30,6 +54,7 @@
             <li class="nav-item" role="presentation">
                 <a class="nav-link active" id="edit-club-tab" data-bs-toggle="tab" href="#edit-club" role="tab" aria-controls="edit-club" aria-selected="true">Edit Club Data</a>
             </li>
+            
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="add-division-tab" data-bs-toggle="tab" href="#add-division" role="tab" aria-controls="add-division" aria-selected="false">Add Division</a>
             </li>
@@ -45,15 +70,55 @@
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="setupseason-tab" data-bs-toggle="tab" href="#setupseason" role="tab" aria-controls="setupseason" aria-selected="false">Setup Season</a>
             </li>
+           
         </ul>
 
         <!-- Tabs Content -->
         <div class="tab-content mt-3" id="myTabContent">
             <!-- Edit Club Data Tab -->
             <div class="tab-pane fade show active" id="edit-club" role="tabpanel" aria-labelledby="edit-club-tab">
-                <a href="editclub.php" class="btn btn-secondary">Edit Club Data</a>
-            </div>
+                
+                <h2 class="my-4">Club management</h2>
+                <form action="enterteam.php" method="POST">
+                    <div class="mb-3">
+                        
+                        <?php
+                        include_once ("connection.php");
 
+                        // Fetch items from the database
+                        $sql = "SELECT ClubID, Clubname FROM TblClub";
+                        $stmt = $conn->query($sql);
+                        $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                        ?>
+
+
+                            <h2>Select an club to manage</h2>
+                            <select id="clubs" onchange="showresult(this.value)">
+                            <option>Select Club to edit</option>
+                            
+                                    <?php foreach ($items as $item): ?>
+                                        <option value="<?php echo htmlspecialchars($item['ClubID']) ?>" <?php echo (isset($_GET['ClubID']) && $_GET['ClubID'] == $item['ClubID']) ? 'selected' : '' ?>>
+                                            <?php echo htmlspecialchars($item['Clubname']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+
+                            <!-- </form> -->
+
+                        <div id="clubinfo">
+
+                        </div>   
+                        <script>
+                        $("#clubs").on("change", function(){
+                            var selected=$(this).val();
+                            $("#clubinfo").html("You selected: " + selected);
+                        })</script>      
+                                
+                    </div>
+                    
+                </form>
+            </div>
             <!-- Add Division Tab -->
             <div class="tab-pane fade" id="add-division" role="tabpanel" aria-labelledby="add-division-tab">
                 <h2 class="my-4">Add Division</h2>
@@ -180,12 +245,13 @@
                 <h2 class="my-4">Setup season</h2>
                 <form action="setupseason.php" method="POST">
                     <div class="mb-3">
-                        <p>This wil archive the old data, perform the promotions/relegations and then create all the fixtures ready to be populated by dates</p>
+                        <p>This will archive the old data, perform the promotions/relegations and then create all the fixtures ready to be populated by dates</p>
                                 
                     </div>
                     <button type="submit" class="btn btn-primary">Go to relegations and promotions page</button>
                 </form>
             </div>
+
         </div>
     </div>
 </body>
