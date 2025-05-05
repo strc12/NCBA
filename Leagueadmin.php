@@ -79,7 +79,7 @@
             <div class="tab-pane fade show active" id="edit-club" role="tabpanel" aria-labelledby="edit-club-tab">
                 
                 <h2 class="my-4">Club management</h2>
-                <form action="enterteam.php" method="POST">
+                <form action="updateclubdetails.php" method="POST">
                     <div class="mb-3">
                         
                         <?php
@@ -175,48 +175,123 @@
             <div class="tab-pane fade" id="add-club" role="tabpanel" aria-labelledby="add-club-tab">
                 <h2 class="my-4">Add New Club</h2>
                 <form action="addclub.php" method="POST">
+                    <!-- Club Name -->
                     <div class="mb-3">
                         <label for="clubname" class="form-label">Club Name</label>
                         <input type="text" id="clubname" name="clubname" class="form-control">
                     </div>
+
+                    <!-- Location -->
                     <div class="mb-3">
                         <label for="location" class="form-label">Location</label>
                         <input type="text" id="location" name="location" class="form-control">
                     </div>
-                    <div class="mb-3">
-                        <label for="website" class="form-label">Website</label>
-                        <input type="text" id="website" name="website" class="form-control">
-                    </div>
+
+                    <!-- Contact Person -->
                     <div class="mb-3">
                         <label for="contactname" class="form-label">Contact Name</label>
                         <input type="text" id="contactname" name="contactname" class="form-control">
                     </div>
+
                     <div class="mb-3">
                         <label for="contactnumber" class="form-label">Contact Number</label>
                         <input type="text" id="contactnumber" name="contactnumber" class="form-control">
                     </div>
+
                     <div class="mb-3">
                         <label for="contactemail" class="form-label">Contact Email</label>
                         <input type="email" id="contactemail" name="contactemail" class="form-control">
                     </div>
+
+                    <!-- Club Secretary Section -->
                     <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" id="password" name="password" class="form-control">
+                        <h5>Club Secretary</h5>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="clubsecretaryname" class="form-label">Name</label>
+                                <input type="text" id="clubsecretaryname" name="clubsecretaryname" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="clubsecretarynumber" class="form-label">Phone</label>
+                                <input type="text" id="clubsecretarynumber" name="clubsecretarynumber" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="clubsecretaryemail" class="form-label">Email</label>
+                                <input type="text" id="clubsecretaryemail" name="clubsecretaryemail" class="form-control">
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- Match Secretary Section -->
+                    <div class="mb-3">
+                        <h5>Match Secretary</h5>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="matchsecretaryname" class="form-label">Name</label>
+                                <input type="text" id="matchsecretaryname" name="matchsecretaryname" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="matchsecretarynumber" class="form-label">Phone</label>
+                                <input type="text" id="matchsecretarynumber" name="matchsecretarynumber" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="matchsecretaryemail" class="form-label">Email</label>
+                                <input type="text" id="matchsecretaryemail" name="matchsecretaryemail" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Junior/Senior -->
                     <div class="mb-3">
                         <input type="checkbox" id="junior" name="junior" value="Junior">
                         <label for="junior"> Junior</label>
                     </div>
+
                     <div class="mb-3">
                         <input type="checkbox" id="senior" name="senior" value="Senior">
                         <label for="senior"> Senior</label>
                     </div>
+
+                    <!-- Clubnight -->
                     <div class="mb-3">
                         <label for="clubnight" class="form-label">Clubnight(s) and Times</label>
                         <input type="text" id="clubnight" name="clubnight" class="form-control">
                     </div>
+
+                    <!-- Matchnight -->
+                    <div class="mb-3">
+                        <label for="matchnight" class="form-label">Match Night(s) and Times</label>
+                        <input type="text" id="matchnight" name="matchnight" class="form-control">
+                    </div>
+
+                    <!-- Online Presence Section -->
+                    <div class="mb-3">
+                        <h5>Online Presence</h5>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="website" class="form-label">Website</label>
+                                <input type="text" id="website" name="website" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="instagram" class="form-label">Instagram</label>
+                                <input type="text" id="instagram" name="instagram" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="facebook" class="form-label">Facebook</label>
+                                <input type="text" id="facebook" name="facebook" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" name="password" class="form-control">
+                    </div>
+
                     <button type="submit" class="btn btn-primary">Add Club</button>
                 </form>
+
             </div>
 
             <!-- Dock Points Tab -->

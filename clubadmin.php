@@ -25,7 +25,7 @@
             
             $id=$_SESSION['clubid'];
             include_once("navbar.php");
-            #echo("admin");
+            echo("admin");
         } else {
             // Query parameters are provided
             #echo("not");
@@ -69,46 +69,122 @@ $club = $stmt->fetch(PDO::FETCH_ASSOC);
         <div class="tab-content mt-3" id="myTabContent">
             <!-- Update Club Details Tab -->
             <div class="tab-pane fade show active" id="update-club" role="tabpanel" aria-labelledby="update-club-tab">
-                <form action="updateclubdetails.php" method="POST">
-                    <input type="hidden" name="id" value="<?php echo htmlspecialchars($club['ClubID']); ?>">
-                    <div class="mb-3">
-                        <label for="clubname" class="form-label">Club Name</label>
+            <form action="updateclubdetails.php" method="POST">
+                <input type="hidden" name="id" value="<?php echo htmlspecialchars($club['ClubID']); ?>">
+
+                <div class="mb-3">
+                    <label for="clubname" class="form-label">Club Name</label>
+                    <?php if ($_SESSION["adloggedin"] == 1): ?>
                         <input type="text" id="clubname" name="clubname" class="form-control" value="<?php echo htmlspecialchars($club['Clubname']); ?>">
+                    <?php else: ?>
+                        <input type="text" id="clubname" name="clubname" class="form-control" value="<?php echo htmlspecialchars($club['Clubname']); ?>" readonly>
+                    <?php endif; ?>
+                </div>
+
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" id="location" name="location" class="form-control" value="<?php echo htmlspecialchars($club['Location']); ?>">
+                </div>
+
+                <!-- Contact Person -->
+                <div class="mb-3">
+                    <label for="contactname" class="form-label">Contact Name</label>
+                    <input type="text" id="contactname" name="contactname" class="form-control" value="<?php echo htmlspecialchars($club['Contactname']); ?>">
+                </div>
+
+                <div class="mb-3">
+                    <label for="contactnumber" class="form-label">Contact Number</label>
+                    <input type="text" id="contactnumber" name="contactnumber" class="form-control" value="<?php echo htmlspecialchars($club['Contactnumber']); ?>">
+                </div>
+
+                <div class="mb-3">
+                    <label for="contactemail" class="form-label">Contact Email</label>
+                    <input type="text" id="contactemail" name="contactemail" class="form-control" value="<?php echo htmlspecialchars($club['Contactemail']); ?>">
+                </div>
+
+                <!-- Club Secretary Section -->
+                <div class="mb-3">
+                    <h5>Club Secretary</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="clubsecretaryname" class="form-label">Name</label>
+                            <input type="text" id="clubsecretaryname" name="clubsecretaryname" class="form-control" value="<?php echo htmlspecialchars($club['Clubsecretaryname']); ?>">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="clubsecretarynumber" class="form-label">Phone</label>
+                            <input type="text" id="clubsecretarynumber" name="clubsecretarynumber" class="form-control" value="<?php echo htmlspecialchars($club['Clubsecretarynumber']); ?>">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="clubsecretaryemail" class="form-label">Email</label>
+                            <input type="text" id="clubsecretaryemail" name="clubsecretaryemail" class="form-control" value="<?php echo htmlspecialchars($club['Clubsecretaryemail']); ?>">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="location" class="form-label">Location</label>
-                        <input type="text" id="location" name="location" class="form-control" value="<?php echo htmlspecialchars($club['Location']); ?>">
+                </div>
+
+                <!-- Match Secretary Section -->
+                <div class="mb-3">
+                    <h5>Match Secretary</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="matchsecretaryname" class="form-label">Name</label>
+                            <input type="text" id="matchsecretaryname" name="matchsecretaryname" class="form-control" value="<?php echo htmlspecialchars($club['Matchsecretaryname']); ?>">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="matchsecretarynumber" class="form-label">Phone</label>
+                            <input type="text" id="matchsecretarynumber" name="matchsecretarynumber" class="form-control" value="<?php echo htmlspecialchars($club['Matchsecretarynumber']); ?>">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="matchsecretaryemail" class="form-label">Email</label>
+                            <input type="text" id="matchsecretaryemail" name="matchsecretaryemail" class="form-control" value="<?php echo htmlspecialchars($club['Matchsecretaryemail']); ?>">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="website" class="form-label">Website</label>
-                        <input type="text" id="website" name="website" class="form-control" value="<?php echo htmlspecialchars($club['Website']); ?>">
+                </div>
+
+                <!-- Junior/Senior -->
+                <div class="mb-3">
+                    <input type="checkbox" id="junior" name="junior" value="Junior" <?php if ($club['Junior'] == 1) echo 'checked'; ?>>
+                    <label for="junior"> Junior</label>
+                </div>
+
+                <div class="mb-3">
+                    <input type="checkbox" id="senior" name="senior" value="Senior" <?php if ($club['Junior'] != 1) echo 'checked'; ?>>
+                    <label for="senior"> Senior</label>
+                </div>
+
+                <!-- Clubnight -->
+                <div class="mb-3">
+                    <label for="clubnight" class="form-label">Clubnight(s) and Times</label>
+                    <textarea id="clubnight" name="clubnight" class="form-control" rows="3"><?php echo htmlspecialchars($club['Clubnight']); ?></textarea>
+                </div>
+
+                <!-- Matchnight -->
+                <div class="mb-3">
+                    <label for="matchnight" class="form-label">Match Night(s) and Times</label>
+                    <textarea id="matchnight" name="matchnight" class="form-control" rows="3"><?php echo htmlspecialchars($club['Matchnight']); ?></textarea>
+                </div>
+
+                <!-- Social Media Section -->
+                <div class="mb-3">
+                    <h5>Online Presence</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="website" class="form-label">Website</label>
+                            <input type="text" id="website" name="website" class="form-control" value="<?php echo htmlspecialchars($club['Website']); ?>">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="instagram" class="form-label">Instagram</label>
+                            <input type="text" id="instagram" name="instagram" class="form-control" value="<?php echo htmlspecialchars($club['Instagram']); ?>">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="facebook" class="form-label">Facebook</label>
+                            <input type="text" id="facebook" name="facebook" class="form-control" value="<?php echo htmlspecialchars($club['Facebook']); ?>">
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="contactname" class="form-label">Contact Name</label>
-                        <input type="text" id="contactname" name="contactname" class="form-control" value="<?php echo htmlspecialchars($club['Contactname']); ?>">
-                    </div>
-                    <div class="mb-3">
-                        <label for="contactnumber" class="form-label">Contact Number</label>
-                        <input type="text" id="contactnumber" name="contactnumber" class="form-control" value="<?php echo htmlspecialchars($club['Contactnumber']); ?>">
-                    </div>
-                    <div class="mb-3">
-                        <label for="contactemail" class="form-label">Contact Email</label>
-                        <input type="text" id="contactemail" name="contactemail" class="form-control" value="<?php echo htmlspecialchars($club['Contactemail']); ?>">
-                    </div>
-                    <div class="mb-3">
-                        <input type="checkbox" id="junior" name="junior" value="Junior" <?php if ($club['Junior'] == 1) echo 'checked'; ?>>
-                        <label for="junior"> Junior</label>
-                    </div>
-                    <div class="mb-3">
-                        <input type="checkbox" id="senior" name="senior" value="Senior" <?php if ($club['Junior'] != 1) echo 'checked'; ?>>
-                        <label for="senior"> Senior</label>
-                    </div>
-                    <div class="mb-3">
-                        <label for="clubnight" class="form-label">Clubnight(s) and Times</label>
-                        <textarea id="clubnight" name="clubnight" class="form-control" rows="4"><?php echo htmlspecialchars($club['Clubnight']); ?></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Update Details</button>
-                </form>
+                </div>
+
+    <button type="submit" class="btn btn-primary">Update Details</button>
+</form>
+
             </div>
 
             <!-- Add Player Tab -->
