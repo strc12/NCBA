@@ -23,7 +23,8 @@ try {
     
     $stmt5 = $conn->prepare("INSERT INTO TblSeason(Season,current)VALUES 
     (2223,0),
-    (2324,1)
+    (2324,0),
+    (2425,1)
     ");
     $stmt5->execute();
     $stmt5->closeCursor();
@@ -53,8 +54,15 @@ try {
     Facebook VARCHAR (500),
     Contactname VARCHAR(200) NOT NULL,
     Contactnumber VARCHAR(200),
-    Clubnight LONGTEXT NOT NULL,
     Contactemail VARCHAR(200),
+    Clubsecretaryname VARCHAR(200),
+    Clubsecretarynumber VARCHAR(200),
+    Clubsecretaryemail VARCHAR(200),
+    Matchsecretaryname VARCHAR(200),
+    Matchsecretarynumber VARCHAR(200),
+    Matchsecretaryemail VARCHAR(200),
+    Clubnight LONGTEXT,
+    Matchnight LONGTEXT,
     Password VARCHAR(200),
     Junior INT(1))");#0 - adult only, 1 junior 2, both
     
@@ -62,11 +70,24 @@ try {
     $stmt1->closeCursor();
     
     $hashed_password = password_hash("password", PASSWORD_DEFAULT);
-    $stmt5 = $conn->prepare("INSERT INTO TblClub(ClubID,Clubname,location,Instagram, Facebook,Website,Contactname,Contactnumber,Clubnight,Contactemail,password,junior)VALUES 
-    (NULL,'Apollo BC','Moulton School, Moulton','www.apollo.co.uk','@ApolloBC','https://www.facebook.com/people/Mereway-Badminton-Club-Northampton/100057474728458/ ','Bob','0798989899','Wednesday 3:70-9:30pm','x@y.com',:pw,0),
-    (NULL,'Bugbrooke BC','Campion School & Language College, Kislingbury Rd, Bugbrooke, NN7 3QG',NULL,NULL,'www.apollo.co.uk','Bob','0798989899','Thursday - 7.30 - 9.30pm','x@y.com',:pw,1),
-    (NULL,'Wellingborough BC','Monday Venue is Manor School in Raunds, Mountbatten Way, NN9 6PA, Wednesday Venue is Sharnbrook Academy, School Approach, Odell Road, Sharnbrook, MK44 1JL',NULL,NULL,'www.wellingboroughbc.co.uk','Rachael Maywood','07709470567','Jnrs Monday 6-8pm,Snrs Monday 8-10pm, Snrs Wednesday 7.30-9.30pm','info@wellingboroughbc.co.uk',:pw,2)
-    ");
+    $stmt5 = $conn->prepare("INSERT INTO TblClub(ClubID,Clubname, Location, Website, Instagram, Facebook, 
+    Contactname, Contactnumber, Contactemail, Clubsecretaryname, Clubsecretarynumber, Clubsecretaryemail, Matchsecretaryname, Matchsecretarynumber, Matchsecretaryemail,
+    Clubnight, Matchnight, Password, Junior)VALUES 
+    (NULL,'All Stars','Sharnbrook Academy, School Approach, Odell Road, Sharnbrook, MK44 1JL.',NULL,NULL,NULL,
+    'Christina Stimpson','07752127750','c.stimpson@btinternet.com',NULL,NULL,NULL,NULL,NULL,NULL,
+    NULL, NULL,:pw,0),
+    (NULL,'Apollo BC','Moulton School, Moulton, NN3 7SD','www.apollobadmintonclub.co.uk',NULL,NULL,
+    'Billy Eyles','07522 833042','billyeyles0@gmail.com','Billy Eyles','07522 833042','billyeyles0@gmail.com','Ian Miles','07579067607','ianm1884@gmail.com',
+    'Wednesday 7.30 - 9.30pm', 'Wednesday - 7.30 - 9.30pm 2 pairs prompt please',:pw,0),
+    (NULL,'Bugbrooke BC','Campion School & Language College, Kislingbury Rd, Bugbrooke, NN7 3QG.',NULL,NULL,NULL,
+    'James Conway','07720 080380','jconway2@googlemail.com','Neil Setterfield',NULL,'csamids@btinternet.com','James Conway','07720 080380','jconway2@googlemail.com',
+    'Thursday - 7.30 - 9.30pm', 'Thursday 7.30 - 9.30pm 2 pairs prompt',:pw,0),
+    (NULL,'Central BC','Hindu Community Centre, 148 Highfield Rd, Wellingborough, NN8 1PL.','www.centralbadmintonclub.co.uk',NULL,NULL,
+    'Steven Mayes',NULL,'s.maysie@hotmail.co.uk','Steven Mayes',NULL,'s.maysie@hotmail.co.uk','Bob Smith','07891413890','bob_smithseb@yahoo.com',
+    'Wednesday 7.30', 'Friday 7.30pm  2 pairs prompt',:pw,0),
+    (NULL,'DKWAY','NHS, Hardingstone, Northampton, Northamptonshire, NN4 6UU',NULL,NULL,NULL,
+    'Stephen Willis','07900 247439','steve@thebadmintoncoach.com',,NULL,NULL,NULL,NULL,NULL,NULL,
+    NULL,NULL,:pw,1)");
     $stmt5->bindParam(':pw', $hashed_password);
     $stmt5->execute();
     $stmt5->closeCursor();
@@ -223,6 +244,7 @@ try {
     (DivisionID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(50) NOT NULL,
     LeagueID INT(4) NOT NULL,
+    Divisionrank INT(1) NOT NULL)");
     Divisionrank INT(1) NOT NULL)");
     $stmt1->execute();
     $stmt1->closeCursor();

@@ -61,7 +61,7 @@ if ($_SESSION["curleague"]==4){
     awc.CLubname as AWC, hc.Clubname as HC,
     awt.Name as AWT, ht.Name as HT
 
-    FROM tblMatches 
+    FROM TblMatches 
     INNER JOIN  TblPlayers as P1 on HomeP1ID = P1.PlayerID
     INNER JOIN  TblPlayers as P2 on HomeP2ID = P2.PlayerID
     INNER JOIN  TblPlayers as P3 on HomeP3ID = P3.PlayerID
