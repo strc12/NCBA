@@ -120,10 +120,11 @@ foreach ($leagues as $league) {
                 INNER JOIN TblClubhasteam as awt ON (TblMatches.AwayID = awt.ClubhasteamID) 
                 INNER JOIN TblClub as awc ON awt.ClubID = awc.ClubID 
                 INNER JOIN TblClub as hc ON ht.ClubID = hc.ClubID 
-                WHERE (TblMatches.HomeID = :id OR TblMatches.AwayID = :id) AND resultsentered = 1
+                WHERE (TblMatches.HomeID = :id OR TblMatches.AwayID = :id) AND (resultsentered = 1) AND (TblMatches.Season=:curseas)
             ");
-
+            $_SESSION["Season"]=2425;
             $stmt->bindParam(':id', $tid);
+            $stmt->bindParam(':curseas', $_SESSION["Season"]);
             $stmt->execute();
 
             $totpts = 0;

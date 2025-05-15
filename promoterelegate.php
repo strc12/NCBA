@@ -56,7 +56,17 @@ WHERE TblClubhasteam.ClubhasteamID = :team;");
    {
     #echo("MinDR for " . htmlspecialchars($row["CN"]) . " " . htmlspecialchars($row["FN"]) . " is " . $row["MinDR"] . "current div is ".$row["DR"]."<br>");
         if ($row["DR"]-1>=$row["MinDR"]){
-            echo("Promoting ".$row["CN"].$row["FN"]." to Division ".($row["DR"]-1)."<br>");
+            echo("Promoting ".$row["CID"].$row["CN"].$row["FN"]." to Division ".($row["DR"]-1)."<br>");
+            $sql = "UPDATE TblClubhasteam SET DivisionID = :DivID
+            WHERE ClubhasteamID = :id";
+           $stmt = $conn->prepare($sql);
+           $params=[
+               ':DivID' => $row["DR"]-1, 
+               ':id'=>$row ["CID"]
+           ];
+           #print_r($params);
+           $stmt->execute($params);
+          
         } else{
             echo($row["CN"].$row["FN"]." is already in the top Division <br>");
         }
