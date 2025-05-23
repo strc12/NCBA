@@ -22,14 +22,15 @@
     } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
         if (empty($_GET)) {
             // No query parameters are provided
-            
+            #print_R($_GET);
             $id=$_SESSION['clubid'];
             include_once("navbar.php");
-            echo("admin");
+            #echo("admin");
         } else {
             // Query parameters are provided
             #echo("not");
             $id=intval($_GET['q']);
+            #sets $id to currently selected club if Admin
         }
         // The request is using the GET method
     }
@@ -45,6 +46,7 @@ $stmt = $conn->prepare("SELECT * FROM TblClub WHERE ClubID = :id");
 $stmt->bindParam(':id', $id);
 $stmt->execute();
 $club = $stmt->fetch(PDO::FETCH_ASSOC);
+
 ?>
 <div class="container mt-5">
         <h2 class="text-center mb-4">Club Admin</h2>
@@ -60,9 +62,11 @@ $club = $stmt->fetch(PDO::FETCH_ASSOC);
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="edit-players-tab" data-bs-toggle="tab" href="#edit-players" role="tab" aria-controls="edit-players" aria-selected="false">Edit Players</a>
             </li>
+            <?php if (isset($_SESSION['adloggedin']) && $_SESSION['adloggedin'] == 1): ?>
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="edit-teams-tab" data-bs-toggle="tab" href="#edit-teams" role="tab" aria-controls="edit-teams" aria-selected="false">Manage teams</a>
             </li>
+            <?php endif; ?>
         </ul>
 
         <!-- Tabs Content -->
@@ -74,7 +78,7 @@ $club = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 <div class="mb-3">
                     <label for="clubname" class="form-label">Club Name</label>
-                    <?php if ($_SESSION["adloggedin"] == 1): ?>
+                    <?php if (isset($_SESSION['adloggedin']) && $_SESSION['adloggedin'] == 1): ?>
                         <input type="text" id="clubname" name="clubname" class="form-control" value="<?php echo htmlspecialchars($club['Clubname']); ?>">
                     <?php else: ?>
                         <input type="text" id="clubname" name="clubname" class="form-control" value="<?php echo htmlspecialchars($club['Clubname']); ?>" readonly>
@@ -255,12 +259,12 @@ $club = $stmt->fetch(PDO::FETCH_ASSOC);
                 ?>
             </div>
             <!-- Manage teams Tab -->
-            <div class="tab-pane fade" id="edit-teams" role="tabpanel" aria-labelledby="edit-teams-tab">
-                <h3 class="my-4">Edit teams</h3>
-                                <?php
+            <?php if (isset($_SESSION['adloggedin']) && $_SESSION['adloggedin'] == 1): ?>
+                <div class="tab-pane fade" id="edit-teams" role="tabpanel" aria-labelledby="edit-teams-tab">
+                    <h3 class="my-4">Edit teams</h3>
+                    <?php
                     echo '<div class="table-responsive">
-                        <h4 class="mb-4">Current teams</h4>
-                        <h5>Note Admin will need to OK any team changes before they become final</h5>
+                        <h4 class="mb-4">Teams</h4>
                         <table class="table table-striped table-hover">
                             <thead class="table-dark">
                                 <tr>
@@ -272,33 +276,60 @@ $club = $stmt->fetch(PDO::FETCH_ASSOC);
                             </thead>
                             <tbody>';
                     include_once('connection.php');
-                    $stmt = $conn->prepare("SELECT 
-                    TblClubhasteam.name as TN, TblDivision.Divisionrank as DR, 
-                    TblLeague.name as LN , TblClub.Clubname as CN, TblClubhasteam.current as current
-                    FROM TblClubhasteam 
-                    INNER JOIN TblDivision on (TblDivision.DivisionID=TblClubhasteam.DivisionID)
-                    INNER JOIN TblLeague on (TblLeague.LeagueID = TblDivision.LeagueID)
-                    INNER JOIN TblClub on (TblCLub.ClubID = TblClubhasteam.ClubID)
-                    WHERE TblClubhasteam.ClubID=:cid ");
+                    $stmt = $conn->prepare("SELECT TblClubhasteam.ClubhasteamID as CHTID,
+                        TblClubhasteam.name as TN, TblDivision.Divisionrank as DR, 
+                        TblLeague.name as LN , TblClub.Clubname as CN, TblClubhasteam.current as current
+                        FROM TblClubhasteam 
+                        INNER JOIN TblDivision on (TblDivision.DivisionID=TblClubhasteam.DivisionID)
+                        INNER JOIN TblLeague on (TblLeague.LeagueID = TblDivision.LeagueID)
+                        INNER JOIN TblClub on (TblCLub.ClubID = TblClubhasteam.ClubID)
+                        WHERE TblClubhasteam.ClubID=:cid ");
                     $stmt->bindParam(':cid', $id);
                     $stmt->execute();
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                        #print_r($row);
+                        // Determine button style and label
+                        $isActive = $row['current'] == 0;
+                        $buttonClass = $isActive ? 'btn-primary' : 'btn-danger';
+                        $buttonText = $isActive ? 'Inactive' : 'Active';
+                    
                         echo '<tr>
-                            <td>'.$row["CN"].' '.$row["TN"].'</td>
-                            <td>'.$row["LN"].'</td>
-                            <td>'.$row["DR"].'</td>
+                            <td>' . $row["CN"] . ' ' . $row["TN"] . '</td>
+                            <td>' . $row["LN"] . '</td>
+                            <td>' . $row["DR"] . '</td>
                             <td>
-                                <form action="editplayer.php" method="post">
-                                    <input type="hidden" name="clubid" value="'.$id.'">
-                                    <button type="submit" class="btn '.($row['current'] == 1 ? 'btn-primary' : 'btn-danger').'">Edit</button>
+                                <form action="editteam.php" method="post">
+                                    <input type="hidden" name="clubname" value="' . htmlspecialchars($club["Clubname"]) . '">
+                                    <input type="hidden" name="Club_id" value="' . htmlspecialchars($id) . '">
+                                    <input type="hidden" name="clubteamid" value="' . htmlspecialchars($row["CHTID"]) . '">
+                                    <input type="hidden" name="current" value="' . htmlspecialchars($row["current"]) . '">
+                                    <button type="submit" class="btn ' . $buttonClass . '">' . $buttonText . '</button>
                                 </form>
                             </td>
                         </tr>';
                     }
                     echo '</tbody></table></div>';
-                ?>
-            </div>
+                    ?>
+                    <form action="enterteam.php" method="POST">
+                        <div class="mb-3">
+                            <label for="typeofleague" class="form-label">Select League to Add Division To</label>
+                            <select id="typeofleague" name="typeofleague" class="form-select">
+                                <?php
+                                include_once('connection.php');
+                                $stmt = $conn->prepare("SELECT tblLeague.Name as LN, Details as DT, TBLD.Name as DN, TBLD.DivisionID as DID  FROM TblLeague
+                                INNER JOIN TblDivision as TBLD ON TBLD.LeagueID = TblLeague.LeagueID");
+                                $stmt->execute();
+                                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                    echo "<option value='".$row["DID"]."'>".$row["LN"]." ".$row["DN"]."</option>";
+                                }
+                                ?>
+                            </select> 
+                        </div>
+                        <input type="hidden" name="clubname" value="<?php echo htmlspecialchars($club["Clubname"]); ?>">
+                        <input type="hidden" name="Club_id" value="<?php echo htmlspecialchars($id); ?>">
+                        <button type="submit" class="btn btn-primary">Add team</button>
+                    </form>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 

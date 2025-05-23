@@ -121,6 +121,38 @@
             </div>
             <!-- Add Division Tab -->
             <div class="tab-pane fade" id="add-division" role="tabpanel" aria-labelledby="add-division-tab">
+            <h3 class="my-4">Current Divisions</h3>
+                                <?php
+                    echo '<div class="table-responsive">
+                          <table class="table table-striped table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    
+                                    <th scope="col">League</th>
+                                    <th scope="col">Division</th>
+                                    <th scope="col">Rank</th>
+                                </tr>
+                            </thead>
+                            <tbody>';
+                    include_once('connection.php');
+                    $stmt = $conn->prepare("SELECT 
+                    TblDivision.Divisionrank as DR, 
+                    TblDivision.name as DN,
+                    TblLeague.name as LN
+                    FROM TblDivision 
+                    INNER JOIN TblLeague on (TblLeague.LeagueID = TblDivision.LeagueID)");
+                    $stmt->execute();
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                        #print_r($row);
+                        echo '<tr>
+                            
+                            <td>'.$row["LN"].'</td>
+                            <td>'.$row["DN"].'</td>
+                            <td>'.$row["DN"].'</td>
+                        </tr>';
+                    }
+                    echo '</tbody></table></div>';
+                    ?>
                 <h2 class="my-4">Add Division</h2>
                 <form action="addDivision.php" method="POST">
                     <div class="mb-3">
@@ -139,6 +171,10 @@
                     <div class="mb-3">
                         <label for="Divisionname" class="form-label">New Division Name</label>
                         <input type="text" id="Divisionname" name="Divisionname" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Rank" class="form-label">Division Rank</label>
+                        <input type="number" id="Rank" name="Rank" min="1" max="10" step="1" value="1" class="form-control">
                     </div>
                     <button type="submit" class="btn btn-primary">Add Division to League</button>
                 </form>

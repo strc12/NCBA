@@ -22,8 +22,6 @@ try {
     $stmt1->closeCursor();
     
     $stmt5 = $conn->prepare("INSERT INTO TblSeason(Season,current)VALUES 
-    (2223,0),
-    (2324,0),
     (2425,1)
     ");
     $stmt5->execute();
@@ -86,7 +84,7 @@ try {
     'Steven Mayes',NULL,'s.maysie@hotmail.co.uk','Steven Mayes',NULL,'s.maysie@hotmail.co.uk','Bob Smith','07891413890','bob_smithseb@yahoo.com',
     'Wednesday 7.30', 'Friday 7.30pm  2 pairs prompt',:pw,0),
     (NULL,'DKWAY','NHS, Hardingstone, Northampton, Northamptonshire, NN4 6UU',NULL,NULL,NULL,
-    'Stephen Willis','07900 247439','steve@thebadmintoncoach.com',,NULL,NULL,NULL,NULL,NULL,NULL,
+    'Stephen Willis','07900 247439','steve@thebadmintoncoach.com',NULL,NULL,NULL,NULL,NULL,NULL,
     NULL,NULL,:pw,1)");
     $stmt5->bindParam(':pw', $hashed_password);
     $stmt5->execute();
@@ -113,14 +111,14 @@ try {
     $stmt1->execute();
     $stmt1->closeCursor();
     #current 1 - current, 0 is archived
-    $stmt5 = $conn->prepare("INSERT INTO TblImages(ImageID,filename,dateadded,description,type,current)VALUES 
-    (NULL,'1.jpg', '24-05-22','Christmas elf','Square',1),
-    (NULL,'3.jpg', '24-05-22','','Square',1),
-    (NULL,'7.jpg', '24-05-22','U19 Restricted winners 2024','Portrait',0)
+    // $stmt5 = $conn->prepare("INSERT INTO TblImages(ImageID,filename,dateadded,description,type,current)VALUES 
+    // (NULL,'1.jpg', '24-05-22','Christmas elf','Square',1),
+    // (NULL,'3.jpg', '24-05-22','','Square',1),
+    // (NULL,'7.jpg', '24-05-22','U19 Restricted winners 2024','Portrait',0)
    
-    ");
-    $stmt5->execute();
-    $stmt5->closeCursor();
+    // ");
+    // $stmt5->execute();
+    // $stmt5->closeCursor();
 
     $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblDocs;
     CREATE TABLE TblDocs 
@@ -131,11 +129,11 @@ try {
     type VARCHAR(200))");
     $stmt1->execute();
     $stmt1->closeCursor();
-    $stmt5 = $conn->prepare("INSERT INTO TblDocs(DocID,title,filename,dateadded,type)VALUES 
-    (NULL,'16th November 2023','16thNovember2023.pdf', NULL,'Minutes')
-    ");
-    $stmt5->execute();
-    $stmt5->closeCursor();
+    #$stmt5 = $conn->prepare("INSERT INTO TblDocs(DocID,title,filename,dateadded,type)VALUES 
+    #(NULL,'16th November 2023','16thNovember2023.pdf', NULL,'Minutes')
+   # ");
+    #$stmt5->execute();
+    #$stmt5->closeCursor();
     $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblCommittee;
     CREATE TABLE TblCommittee 
     (CommitteeID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -144,11 +142,11 @@ try {
     Pic VARCHAR(200))");
     $stmt1->execute();
     $stmt1->closeCursor();
-    $stmt5 = $conn->prepare("INSERT INTO TblCommittee(CommitteeID,Name,Post,Pic)VALUES 
-    (NULL,'Rob Cunniffe','Schools representative','Rob.jpg')
-    ");
-    $stmt5->execute();
-    $stmt5->closeCursor();
+    // $stmt5 = $conn->prepare("INSERT INTO TblCommittee(CommitteeID,Name,Post,Pic)VALUES 
+    // (NULL,'Rob Cunniffe','Schools representative','Rob.jpg')
+    // ");
+    // $stmt5->execute();
+    // $stmt5->closeCursor();
 
     # tables for league scoring
     #already have club
@@ -160,34 +158,35 @@ try {
     ClubID INT(4) NOT NULL,
     DivisionID VARCHAR(50) NOT NULL,
     Name VARCHAR(200) NOT NULL,
-    current INT(1) DEFAULT 1,
+    current INT(1) DEFAULT 0,
     dock INT(1) DEFAULT 0)");
+    #
     $stmt1->execute();
     $stmt1->closeCursor();
     
-    $stmt5 = $conn->prepare("INSERT INTO TblClubhasteam(ClubhasteamID,ClubID,DivisionID,Name,current)VALUES 
-    (NULL,1,1,'AA',1),
-    (NULL,1,1,'AB',1),
-    (NULL,2,1,'BA',1),
-    (NULL,2,2,'BB',0),
-    (NULL,1,2,'AC',1),
-    (NULL,2,1,'BC',1),
-    (NULL,3,2,'WA',1),
-    (NULL,2,3,'BDA',1),
-    (NULL,2,4,'BMX1',1),
-    (NULL,1,3,'ADA',1),
-    (NULL,1,4,'AMX1',1),
-    (NULL,3,4,'WMX1',1),
-    (NULL,2,3,'BDB',1),
-    (NULL,1,5,'BMX2',1),
-    (NULL,1,5,'BMX3',1),
-    (NULL,3,5,'WMX2',1),
-    (NULL,2,5,'BMX2',1),
-    (NULL,1,6,'AL1',1),
-    (NULL,2,6,'BL1',1)
-    ");
-    $stmt5->execute();
-    $stmt5->closeCursor();
+    // $stmt5 = $conn->prepare("INSERT INTO TblClubhasteam(ClubhasteamID,ClubID,DivisionID,Name,current)VALUES 
+    // (NULL,1,1,'AA',1),
+    // (NULL,1,1,'AB',1),
+    // (NULL,2,1,'BA',1),
+    // (NULL,2,2,'BB',0),
+    // (NULL,1,2,'AC',1),
+    // (NULL,2,1,'BC',1),
+    // (NULL,3,2,'WA',1),
+    // (NULL,2,3,'BDA',1),
+    // (NULL,2,4,'BMX1',1),
+    // (NULL,1,3,'ADA',1),
+    // (NULL,1,4,'AMX1',1),
+    // (NULL,3,4,'WMX1',1),
+    // (NULL,2,3,'BDB',1),
+    // (NULL,1,5,'BMX2',1),
+    // (NULL,1,5,'BMX3',1),
+    // (NULL,3,5,'WMX2',1),
+    // (NULL,2,5,'BMX2',1),
+    // (NULL,1,6,'AL1',1),
+    // (NULL,2,6,'BL1',1)
+    // ");
+    // $stmt5->execute();
+    // $stmt5->closeCursor();
 
     #player - name gender
     $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblPlayers;
@@ -203,23 +202,23 @@ try {
     $stmt1->execute();
     $stmt1->closeCursor();
     #player belongs to club for club has team?? 
-    $stmt5 = $conn->prepare("INSERT INTO TblPlayers(PlayerID,Gender,Forename,Surname,DOB,ClubID,active)VALUES 
-    (NULL,'M','Fred','Smith','24-05-02',1,1),
-    (NULL,'M','Fred1','Smith1','24-05-02',1,1),
-    (NULL,'M','Fred2','Smith2','24-05-02',1,1),
-    (NULL,'F','Freda','Smith','24-05-02',1,1),
-    (NULL,'F','Freda1','Smith','24-05-02',1,1),
-    (NULL,'F','Freda2','Smith','24-05-02',1,1),
-    (NULL,'M','Freddy','Smith','24-05-02',2,1),
-    (NULL,'M','Freddy1','Smith','24-05-02',2,1),
-    (NULL,'M','Freddy2','Smith','24-05-02',2,1),
-    (NULL,'F','Frederica','Smith','24-05-02',2,1),
-    (NULL,'F','Frederica1','Smith','24-05-02',2,1),
-    (NULL,'F','Frederica2','Smith','24-05-02',2,1),
-    (NULL,'F','Fred','Smith','24-05-02',3,1)
-    ");
-    $stmt5->execute();
-    $stmt5->closeCursor();
+    // $stmt5 = $conn->prepare("INSERT INTO TblPlayers(PlayerID,Gender,Forename,Surname,DOB,ClubID,active)VALUES 
+    // (NULL,'M','Fred','Smith','24-05-02',1,1),
+    // (NULL,'M','Fred1','Smith1','24-05-02',1,1),
+    // (NULL,'M','Fred2','Smith2','24-05-02',1,1),
+    // (NULL,'F','Freda','Smith','24-05-02',1,1),
+    // (NULL,'F','Freda1','Smith','24-05-02',1,1),
+    // (NULL,'F','Freda2','Smith','24-05-02',1,1),
+    // (NULL,'M','Freddy','Smith','24-05-02',2,1),
+    // (NULL,'M','Freddy1','Smith','24-05-02',2,1),
+    // (NULL,'M','Freddy2','Smith','24-05-02',2,1),
+    // (NULL,'F','Frederica','Smith','24-05-02',2,1),
+    // (NULL,'F','Frederica1','Smith','24-05-02',2,1),
+    // (NULL,'F','Frederica2','Smith','24-05-02',2,1),
+    // (NULL,'F','Fred','Smith','24-05-02',3,1)
+    // ");
+    // $stmt5->execute();
+    // $stmt5->closeCursor();
    
     #league - e.g. open or ladies or doubles
     $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblLeague;
@@ -231,9 +230,9 @@ try {
     $stmt1->execute();
     $stmt1->closeCursor();
     $stmt5 = $conn->prepare("INSERT INTO TblLeague(LeagueID,Name,Details)VALUES 
-    (NULL,'Open','open doubles'),
+    (NULL,'Open','Open doubles'),
     (NULL,'Mixed','Mixed doubles'),
-    (NULL,'Doubles','Doubles league - mixed diff format'),
+    (NULL,'Doubles','Doubles league - Mixed, Ladies and Mens'),
     (NULL,'Ladies','Ladies league - 4 players - six games')
     ");
     $stmt5->execute();
@@ -245,22 +244,22 @@ try {
     Name VARCHAR(50) NOT NULL,
     LeagueID INT(4) NOT NULL,
     Divisionrank INT(1) NOT NULL)");
-    Divisionrank INT(1) NOT NULL)");
+    
     $stmt1->execute();
     $stmt1->closeCursor();
 
-    $stmt5 = $conn->prepare("INSERT INTO TblDivision(DivisionID,Name,LeagueID,Divisionrank)VALUES 
-    (NULL,'1st',1,1),
-    (NULL,'2nd',1,2),
-    (NULL,'1st',3,1),
-    (NULL,'1st',2,1),
-    (NULL,'2nd',2,2),
-    (NULL,'1st',4,1)
+    // $stmt5 = $conn->prepare("INSERT INTO TblDivision(DivisionID,Name,LeagueID,Divisionrank)VALUES 
+    // (NULL,'1st',1,1),
+    // (NULL,'2nd',1,2),
+    // (NULL,'1st',3,1),
+    // (NULL,'1st',2,1),
+    // (NULL,'2nd',2,2),
+    // (NULL,'1st',4,1)
     
 
-    ");#type picked from tblleague 
-    $stmt5->execute();
-    $stmt5->closeCursor();
+    // ");#type picked from tblleague 
+    // $stmt5->execute();
+    // $stmt5->closeCursor();
     
 
     #matches - link team (H and A) with league and division
