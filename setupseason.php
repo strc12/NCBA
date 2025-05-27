@@ -30,11 +30,13 @@ $stmt = $conn->prepare("
         TblClub.ClubID AS ClubID, 
         TblClub.Clubname AS ClubName, 
         TblClubhasteam.ClubhasteamID AS TeamID,
-        TblClubhasteam.Name AS TeamName
+        TblClubhasteam.Name AS TeamName,
+        TblDivision.Divisionrank as Rank
     FROM TblLeague
     LEFT JOIN TblDivision ON TblLeague.LeagueID = TblDivision.LeagueID
     LEFT JOIN TblClubhasteam ON TblDivision.DivisionID = TblClubhasteam.DivisionID
     LEFT JOIN TblClub ON TblClubhasteam.ClubID = TblClub.ClubID
+    ORDER BY LeagueID ASC, Rank ASC
 ");
 $stmt->execute();
 $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -313,14 +315,14 @@ foreach ($leagues as $league) {
         
         echo "</tbody>"; // End the body of the table
         echo "</table><br>";
-        echo('<input type="submit" class="btn btn-primary" value="Promote/relegate division">');
-        echo("</form>");
+        
        
     }   
     
 
 }
-
+echo('<input type="submit" class="btn btn-primary" value="Promote/relegate ALL divisions">');
+        echo("</form>");
 
 //callback function for usort- declared outside loop to prevent recalling
 function cmp($a, $b){

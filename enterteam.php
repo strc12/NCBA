@@ -2,27 +2,26 @@
     if(session_status() !== PHP_SESSION_ACTIVE) {
         session_start();
     }
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // The request is using the POST method
-        
-        $id=$_SESSION['clubid'];
-    } elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        if (empty($_GET)) {
-            // No query parameters are provided
-            
-            $id=$_SESSION['clubid'];
-            
-          
-        } else {
-            // Query parameters are provided
-            #echo("not");
-            $id=intval($_GET['q']);
-        }
-        // The request is using the GET method
+
+    if (isset($_SESSION['adloggedin'])){
+        $id = $_POST['id'];
+        $Clubname = $_POST['clubname'];
+        $redirect="Leagueadmin.php";
+       # echo("bob");
     }
-    #print_r($_SESSION);
-    echo($id);
+    elseif (isset($_SESSION["clubid"])){
+        $id =$_SESSION["clubid"];
+        $Clubname = $_POST['clubname'];
+        $redirect="clubadmin.php";
+        #echo("dave");
+    }else{
+        $id = $_POST['id'];
+        $Clubname = $_POST['clubname'];
+        $redirect="Leagueadmin.php";#from league admin page need to check when admin login set
+        #echo("SFD");
+    }
     
+    echo($redirect);
 include_once ("connection.php");
 array_map("htmlspecialchars", $_POST);    
 $bob="bob";
@@ -36,4 +35,8 @@ $bob="bob";
     $stmt->bindParam(':tname', $_POST["clubname"]); 
     $stmt->execute();
     $stmt->closeCursor();
+     echo("<script>
+        alert('Details Updated');
+        window.location.href='$redirect'; 
+    </script>"); #alert followed by redirect
 ?>

@@ -21,16 +21,16 @@ include_once ("connection.php");
     print_r($params);
     $stmt->execute($params);
     // Determine the redirect URL based on the session variable
-    $redirectUrl = 'clubadmin.php';  // Default redirect URL
+    $redirect = 'clubadmin.php';  // Default redirect URL
     print_r($_SESSION);
     if (isset($_SESSION['adloggedin'])) {
         // Use the value from the session variable if it is set
-        $redirectUrl = $_SESSION['editclub'];
+         $redirect = "Leagueadmin.php";
         echo("£");
     }
     echo("<script>
-        alert('Player Details Updated'.$redirectUrl);
-        window.location.href='$redirectUrl';
-    </script>");#alert followed by redirect
+        alert('Details Updated');
+        window.location.href='$redirect'; 
+    </script>"); #alert followed by redirect
       
       ?>

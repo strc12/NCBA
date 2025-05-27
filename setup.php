@@ -45,7 +45,7 @@ try {
     $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblClub;
     CREATE TABLE TblClub 
     (ClubID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    Clubname VARCHAR(20) NOT NULL,
+    Clubname VARCHAR(40) NOT NULL,
     Location LONGTEXT NOT NULL,
     Website VARCHAR(200),
     Instagram VARCHAR(200),

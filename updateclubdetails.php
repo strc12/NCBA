@@ -49,9 +49,9 @@ include_once ("connection.php");
         $Junior=0;#default to senior f none selected
     }
     echo("£");
-    $sql = "UPDATE tblclub SET clubname = :name, location = :Location, Website = :Website, Contactname =:Contactname, 
+    $sql = "UPDATE TblClub SET Clubname = :name, location = :Location, Website = :Website, Contactname =:Contactname, 
     Contactemail = :Contactemail, Clubnight = :Clubnight,
-    Contactnumber = :Contactnumber, Junior = :Junior WHERE clubID = :id";
+    Contactnumber = :Contactnumber, Junior = :Junior WHERE ClubID = :id";
     $stmt = $conn->prepare($sql);
     $stmt->execute([':name' => $Clubname, ':Location' => $Location, ':id' => $id,
      ':Website' => $Website, ':Contactname' => $Contactname, ':Contactemail' => $Contactemail, ':Clubnight' => $Clubnight,

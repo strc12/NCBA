@@ -282,7 +282,7 @@ $club = $stmt->fetch(PDO::FETCH_ASSOC);
                         FROM TblClubhasteam 
                         INNER JOIN TblDivision on (TblDivision.DivisionID=TblClubhasteam.DivisionID)
                         INNER JOIN TblLeague on (TblLeague.LeagueID = TblDivision.LeagueID)
-                        INNER JOIN TblClub on (TblCLub.ClubID = TblClubhasteam.ClubID)
+                        INNER JOIN TblClub on (TblClub.ClubID = TblClubhasteam.ClubID)
                         WHERE TblClubhasteam.ClubID=:cid ");
                     $stmt->bindParam(':cid', $id);
                     $stmt->execute();
@@ -315,7 +315,7 @@ $club = $stmt->fetch(PDO::FETCH_ASSOC);
                             <select id="typeofleague" name="typeofleague" class="form-select">
                                 <?php
                                 include_once('connection.php');
-                                $stmt = $conn->prepare("SELECT tblLeague.Name as LN, Details as DT, TBLD.Name as DN, TBLD.DivisionID as DID  FROM TblLeague
+                                $stmt = $conn->prepare("SELECT TblLeague.Name as LN, Details as DT, TBLD.Name as DN, TBLD.DivisionID as DID  FROM TblLeague
                                 INNER JOIN TblDivision as TBLD ON TBLD.LeagueID = TblLeague.LeagueID");
                                 $stmt->execute();
                                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
