@@ -6,12 +6,18 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 
 try {
     include "setseason.php";
-    print_r($_SESSION);
+    #print_r($_SESSION);
     $season=$_SESSION["Season"];
+    $newseason = (intval(substr($season, 0, $h = intdiv(strlen($season), 2))) + 1) . (intval(substr($season, $h)) + 1);
+
     include_once ("connection.php");
-    // Database connection
-    
-    // Get all divisions
+    #update current season
+    $updateQuery = "UPDATE TblSeason SET current = 0 WHERE current = 1";
+    $conn->exec($updateQuery);
+    # add in new season
+    $insertQuery = "INSERT INTO TblSeason (Season, current) VALUES (?, 1)";
+    $stmt = $conn->prepare($insertQuery);
+    $stmt->execute([$newseason]);
     // Get all divisions
     $divisionStmt = $conn->query("SELECT DivisionID, Name FROM TblDivision");
     $divisions = $divisionStmt->fetchAll(PDO::FETCH_ASSOC);
@@ -20,9 +26,9 @@ try {
         $divisionID = $division['DivisionID'];
         $divisionName = $division['Name'];
 
-        echo "============================\n";
-        echo "Division: $divisionName (ID: $divisionID)\n";
-        echo "============================\n";
+        #echo "============================\n";
+        #echo "Division: $divisionName (ID: $divisionID)\n";
+       # echo "============================\n";
 
         // Get teams in this division
         $teamStmt = $conn->prepare("
@@ -55,18 +61,18 @@ try {
                         SELECT COUNT(*) FROM TblMatches 
                         WHERE HomeID = ? AND AwayID = ? AND DivisionID = ? AND Season = ?
                     ");
-                    $checkStmt->execute([$homeTeamID, $awayTeamID, $divisionID, $season]);
+                    $checkStmt->execute([$homeTeamID, $awayTeamID, $divisionID, $newseason]);
                     $exists = $checkStmt->fetchColumn();
 
                     if ($exists == 0) {
-                        $insertStmt->execute([$homeTeamID, $awayTeamID, $divisionID, $season]);
+                        $insertStmt->execute([$homeTeamID, $awayTeamID, $divisionID, $newseason]);
                     }
                 }
             }
         }
 
         // Retrieve and print matches for this division
-        $matchStmt = $conn->prepare("
+        /* $matchStmt = $conn->prepare("
             SELECT 
                 m.HomeID, m.AwayID,
                 hc.ClubName AS HomeTeamName,
@@ -85,13 +91,19 @@ try {
 
         foreach ($matches as $match) {
             echo "{$match['HomeTeamName']} vs {$match['AwayTeamName']}<br>";
-        }
+        } */
 
-        echo "<br>";
+        #echo "<br>";
     }
 
-    echo "Fixtures created and displayed successfully.\n";
+    #echo "Fixtures created and displayed successfully.\n";
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
+echo("<script>
+        alert('Fixtures Created');
+        window.location.href='Leagueadmin.php'; 
+    </script>"); #alert followed by redirect
+      
+$_SESSION["promrel"]=0;
 ?>

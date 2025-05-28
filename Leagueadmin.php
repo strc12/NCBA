@@ -37,6 +37,9 @@
 <!--Navigation bar-->
 <div id="result">
     <?php
+    if(session_status() !== PHP_SESSION_ACTIVE) {
+  session_start();
+}
     include_once("navbar.php");
     ?>
 
@@ -69,6 +72,12 @@
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="setupseason-tab" data-bs-toggle="tab" href="#setupseason" role="tab" aria-controls="setupseason" aria-selected="false">Setup Season</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="viewfixtures-tab" data-bs-toggle="tab" href="#viewfixtures" role="tab" aria-controls="viewfixtures" aria-selected="false">View Fixtures</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="editfixtures-tab" data-bs-toggle="tab" href="#editfixtures" role="tab" aria-controls="editfixtures" aria-selected="false">Edit Fixtures</a>
             </li>
            
         </ul>
@@ -352,17 +361,220 @@
                     <button type="submit" class="btn btn-primary">Dock Point</button>
                 </form>
             </div>
+            <!-- Setup new season Tab -->
             <div class="tab-pane fade" id="setupseason" role="tabpanel" aria-labelledby="setupseason-tab">
                 <h2 class="my-4">Setup season</h2>
+                <?php
+                echo ("<h3>Current season - ".substr($_SESSION['Season'],0,2)."-".substr($_SESSION['Season'],2,4)."</h3>");
+                #if ($_SESSION["promrel"]==0) {
+                    echo('
                 <form action="setupseason.php" method="POST">
                     <div class="mb-3">
-                        <p>This will archive the old data, perform the promotions/relegations and then create all the fixtures ready to be populated by dates</p>
+                        <p>Perform the promotions/relegations</p>
                                 
                     </div>
                     <button type="submit" class="btn btn-primary">Go to relegations and promotions page</button>
-                </form>
+                </form>');
+                #}
+                ?>
+                <?php
+                if (isset ($_SESSION["promrel"]) && $_SESSION["promrel"]==1){
+                    echo('
+                <form action="generatefixtures.php" method="POST">
+                    <div class="mb-3">
+                        <p>Create all the fixtures ready to be populated by dates</p>
+                                
+                    </div>
+                    <button type="submit" class="btn btn-primary">Generate Fixtures</button>
+                </form>');
+                }
+                ?>
             </div>
+            <!-- View Fixtures Tab -->
+            <div class="tab-pane fade" id="viewfixtures" role="tabpanel" aria-labelledby="viewfixtures-tab">
+                <h2 class="my-4">View Fixtures</h2>
+                
+                    <div class="mb-3">
+                <?php   
 
+                $stmt = $conn->query("
+                    SELECT 
+                        l.Name as LN,
+                        d.Name as DN,
+                        D.Divisionrank as RK,
+                        m.FixtureDate,
+                        hc.Clubname AS HomeTeam,
+                        ac.Clubname AS AwayTeam
+                    FROM TblMatches m
+                    JOIN TblDivision d ON m.DivisionID = d.DivisionID
+                    JOIN TblLeague l ON d.LeagueID = l.LeagueID
+                    JOIN TblClubhasteam hcht ON m.HomeID = hcht.ClubhasteamID
+                    JOIN TblClub hc ON hcht.ClubID = hc.ClubID
+                    JOIN TblClubhasteam acht ON m.AwayID = acht.ClubhasteamID
+                    JOIN TblClub ac ON acht.ClubID = ac.ClubID
+                    ORDER BY LN DESC, RK, (m.FixtureDate IS NULL OR m.FixtureDate = '0000-00-00'), m.FixtureDate
+                ");
+
+                $fixtures = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                ?>
+
+                    
+
+                    <?php
+                    $currentLeague = '';
+                    $currentDivision = '';
+                    $divisionOpen = false;
+
+                    foreach ($fixtures as $fixture) {
+                        // League changed
+                        if ($fixture['LN'] !== $currentLeague) {
+                            // Close previous division div if open
+                            if ($divisionOpen) {
+                                echo "</div>"; 
+                                $divisionOpen = false;
+                            }
+                            $currentLeague = $fixture['LN'];
+                            echo "<h2 class='mt-4'>{$currentLeague}</h2>";
+                            // Reset division on league change
+                            $currentDivision = '';
+                        }
+
+                        // Division changed
+                        if ($fixture['DN'] !== $currentDivision) {
+                            // Close previous division div if open
+                            if ($divisionOpen) {
+                                echo "</div>";
+                            }
+                            $currentDivision = $fixture['DN'];
+                            echo "<h4 class='mt-3 ms-3 text-primary'>{$currentDivision}</h4>";
+                            echo "<div class='ms-4'>";
+                            $divisionOpen = true;
+                        }
+
+                        // Format date or red "No Date"
+                        $dateRaw = $fixture['FixtureDate'];
+
+                        // Validate date properly
+                        if (!empty($dateRaw) && $dateRaw !== '0000-00-00' && strtotime($dateRaw) !== false) {
+                            $date = date("d M Y", strtotime($dateRaw));
+                        } else {
+                            $date = "<span class='text-danger'>No Date</span>";
+                        }
+                        #$date = $fixture['FixtureDate'] ? date("d M Y", strtotime($fixture['FixtureDate'])) : "<span class='text-danger'>No Date</span>";
+
+                        // Print fixture
+                        echo "<p class='ms-4'>{$fixture['HomeTeam']} vs {$fixture['AwayTeam']} — {$date}</p>";
+                    }
+
+                    // Close the last division div if open
+                    if ($divisionOpen) {
+                        echo "</div>";
+                    }
+                    ?>
+                    </div>
+
+
+
+
+
+            </div>
+             <!-- edit Fixtures Tab -->
+            <div class="tab-pane fade" id="editfixtures" role="tabpanel" aria-labelledby="editfixtures-tab">
+                <h2 class="my-4">Edit Fixtures</h2>
+                
+                    <div class="mb-3">
+                    <form action="updatefixtures.php" method="POST">
+                    <br>
+                    <p>Date not added in Red</p>
+                    <?php
+                
+                    include_once ("connection.php");
+                    if (!isset($_SESSION["adloggedin"])){
+                    $stmt = $conn->prepare("SELECT MatchID,HomeID, AwayID, Season, Fixturedate, TblMatches.DivisionID as DID, 
+                    leag.name as LN, awt.Clubname as AWC, ht.Clubname as HC, home.DivisionID as hd, away.Name as AWN, home.Name as HN, 
+                    away.DivisionID as ad , DIVIS.Name as DIVN , leag.Name as LN FROM TblMatches 
+                    INNER JOIN TblClubhasteam as home ON (TblMatches.HomeID = home.ClubhasteamID) 
+                    INNER JOIN TblClubhasteam as away ON (TblMatches.AwayID=away.ClubhasteamID) 
+                    INNER JOIN TblDivision as DIVIS ON (TblMatches.DivisionID = DIVIS.DivisionID) 
+                    INNER JOIN TblLeague as leag ON (DIVIS.LeagueID = leag.LeagueID) 
+                    INNER JOIN TblClub as awt ON away.ClubID=awt.ClubID 
+                    INNER JOIN TblClub as ht ON home.ClubID=ht.ClubID 
+                    WHERE Season=:SEAS  AND awt.ClubID=:club OR ht.ClubID=:club ORDER BY ad ASC,HN ASC,Fixturedate ASC " );
+                
+                    $stmt->bindParam(':club', $_SESSION["clubid"]);
+                    $stmt->bindParam(':SEAS', $_SESSION["Season"]);
+                    }else{
+                        $stmt = $conn->prepare("SELECT MatchID,HomeID, AwayID, Season, Fixturedate, TblMatches.DivisionID as DID, 
+                        leag.name as LN, awt.Clubname as AWC, ht.Clubname as HC, home.DivisionID as hd, away.Name as AWN, home.Name as HN, 
+                        away.DivisionID as ad , DIVIS.Name as DIVN , leag.Name as LN FROM TblMatches 
+                        INNER JOIN TblClubhasteam as home ON (TblMatches.HomeID = home.ClubhasteamID) 
+                        INNER JOIN TblClubhasteam as away ON (TblMatches.AwayID=away.ClubhasteamID) 
+                        INNER JOIN TblDivision as DIVIS ON (TblMatches.DivisionID = DIVIS.DivisionID) 
+                        INNER JOIN TblLeague as leag ON (DIVIS.LeagueID = leag.LeagueID) 
+                        INNER JOIN TblClub as awt ON away.ClubID=awt.ClubID 
+                        INNER JOIN TblClub as ht ON home.ClubID=ht.ClubID 
+                        WHERE Season=:SEAS   ORDER BY ad ASC, HN asc,Fixturedate ASC " );
+                
+                    $stmt->bindParam(':SEAS', $_SESSION["Season"]);
+                
+                    }
+                    
+                    $stmt->execute();
+                    
+                $currentLeague = "";
+                $currentDivision = "";
+                echo "<div class='table-responsive' style='max-width:90vw; margin:auto;'>";
+                echo "<table class='table'>";
+                echo "<tbody>";
+
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {  
+
+                    // Check if league changed
+                    if ($row['LN'] !== $currentLeague) {
+                        $currentLeague = $row['LN'];
+                        // Print league header row
+                        echo "<tr><th colspan='2' style='background:#007bff; color:white;'>League: " . htmlspecialchars($currentLeague) . "</th></tr>";
+                        // Reset current division when league changes
+                        $currentDivision = "";
+                    }
+
+                    // Check if division changed
+                    if ($row['DIVN'] !== $currentDivision) {
+                        $currentDivision = $row['DIVN'];
+                        // Print division header row
+                        echo "<tr><th colspan='2' style='background:#6c757d; color:white;'>Division: " . htmlspecialchars($currentDivision) . "</th></tr>";
+                    }
+
+                    echo("<tr>");
+                    if (empty($row["Fixturedate"]) || $row["Fixturedate"] == "0000-00-00") {
+                    echo("<td style='color:#FF0000'>".$row['LN']." ".$row['DIVN']." - ".$row['HC']." ".$row['HN']." v ".$row['AWC']." ".$row['AWN']."</td>
+                        <td><input class='form-control' type='date' name='".$row['MatchID']."' size='9' value=''></td>");
+                } else if (isset($_SESSION["adloggedin"])) {
+                    echo("<td>".$row['LN']." ".$row['DIVN']." - ".$row['HC']." ".$row['HN']." v ".$row['AWC']." ".$row['AWN']."</td>
+                        <td><input class='form-control' type='date' name='".$row['MatchID']."' size='9' value='".$row["Fixturedate"]."'></td>");
+                } else if ($row["AWC"] == $_SESSION["clubname"] || $row["HC"] == $_SESSION["clubname"]) {
+                    echo("<td>".$row['LN']." ".$row['DIVN']." - ".$row['HC']." ".$row['HN']." v ".$row['AWC']." ".$row['AWN']."</td>
+                        <td><input class='form-control' type='date' name='".$row['MatchID']."' size='9' value='".$row["Fixturedate"]."'></td>");
+                } else {
+                    echo("<td style='color:#C0C0C0'>".$row['LN']." ".$row['DIVN']." - ".$row['HC']." ".$row['HN']." v ".$row['AWC']." ".$row['AWN']."</td>
+                        <td><input disabled class='form-control' type='date' name='".$row['MatchID']."' size='9' value='".$row["Fixturedate"]."'></td>");   
+                }
+                    echo("</tr>");
+                }
+
+                echo "</tbody></table></div>";
+                ?>
+                    <div class="text-center">
+                <input class="btn btn-primary mb-2" type="submit" value="Update fixtures">
+                </div>
+
+
+
+
+            </div>
+                    
+                
+            </div>
         </div>
     </div>
 </body>

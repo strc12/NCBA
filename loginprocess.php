@@ -42,7 +42,7 @@ if (!$adminFound) {
             // Regular user login successful
             $_SESSION['clubid'] = $row["ClubID"];
             $_SESSION['clubname'] = $row["Clubname"];
-            
+            $_SESSION['promrel']=0;
             header('Location: index.php');
             $userFound = true;
             break; // Exit the loop once a match is found

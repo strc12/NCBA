@@ -9,6 +9,16 @@ foreach($keys as $fixt){
     $stmt->bindParam(':fixtdate', $_POST[$fixt]);    
     $stmt->execute();
 }
+$redirect = 'fixturedates.php';  // Default redirect URL
+    
+    if (isset($_SESSION['adloggedin'])) {
+        // Use the value from the session variable if it is set
+         $redirect = "Leagueadmin.php";
+    }
+echo("<script>
+        alert('Fixture Dates Updated');
+        window.location.href='$redirect'; 
+    </script>"); #alert followed by redirect
+      
 
-header("Location:fixturedates.php");
 ?>

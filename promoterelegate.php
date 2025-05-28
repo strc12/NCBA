@@ -22,6 +22,9 @@
 
 #print_r($_POST);
 echo("<br>");
+if(session_status() !== PHP_SESSION_ACTIVE) {
+  session_start();
+}
 if (isset($_POST["promote_team"])){
     $up=$_POST["promote_team"];
     foreach ($up as $team) {
