@@ -28,7 +28,11 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
     <br>
     <h3>Current Fixtures</h3>
     <p>Date not added in Red</p>
+    <br>
+    <br>
+    <hr>
     <?php
+    #print_r($_SESSION);
    
     include_once ("connection.php");
     if (!isset($_SESSION["adloggedin"])){
@@ -41,7 +45,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
      INNER JOIN TblLeague as leag ON (DIVIS.LeagueID = leag.LeagueID) 
      INNER JOIN TblClub as awt ON away.ClubID=awt.ClubID 
      INNER JOIN TblClub as ht ON home.ClubID=ht.ClubID 
-     WHERE Season=:SEAS  AND awt.ClubID=:club OR ht.ClubID=:club ORDER BY  , ad ASC,HN ASC,Fixturedate ASC " );
+     WHERE Season=:SEAS  AND awt.ClubID=:club OR ht.ClubID=:club ORDER BY  ad ASC,HN ASC,Fixturedate ASC " );
  
      $stmt->bindParam(':club', $_SESSION["clubid"]);
      $stmt->bindParam(':SEAS', $_SESSION["Season"]);
@@ -55,7 +59,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
          INNER JOIN TblLeague as leag ON (DIVIS.LeagueID = leag.LeagueID) 
          INNER JOIN TblClub as awt ON away.ClubID=awt.ClubID 
          INNER JOIN TblClub as ht ON home.ClubID=ht.ClubID 
-         WHERE Season=:SEAS   ORDER BY   ad ASC, HN ASC,Fixturedate ASC " );
+         WHERE Season=:SEAS ORDER BY ad ASC, HN ASC, Fixturedate ASC" );
  
      $stmt->bindParam(':SEAS', $_SESSION["Season"]);
   

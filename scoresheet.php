@@ -4,6 +4,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
       }
 
 //print_r($_SESSION);
+print_r($_POST);
 
 include_once ("connection.php");
 // Check if the form is submitted to update the item
@@ -422,7 +423,11 @@ for ($k = 1;$k<=$nomatches; $k++){
     let hr=0;
     let ar=0;
     for (k = 0;k<=points[0].length; k++){
-        if(sessionStorage.getItem(points[0][k])>sessionStorage.getItem(points[1][k]) && sessionStorage.getItem(points[1][k])!=''&& sessionStorage.getItem(points[0][k])>=21 && sessionStorage.getItem(points[0][k])<=30){
+        let homePoints = parseInt(sessionStorage.getItem(points[0][k]));
+        let awayPoints = parseInt(sessionStorage.getItem(points[1][k]));
+        console.log(sessionStorage.getItem(points[0][k]),sessionStorage.getItem(points[1][k]));
+        if(homePoints > awayPoints && !isNaN(awayPoints) && homePoints >= 21 && homePoints <= 30){
+            console.log("hw");
             hr=1;
             ar=0;
             let homeRubbers = document.getElementById(rubbers[0][k]);
@@ -435,8 +440,9 @@ for ($k = 1;$k<=$nomatches; $k++){
             }
             sessionStorage.setItem(rubbers[0][k], hr);
             sessionStorage.setItem(rubbers[1][k], ar);
-            
-        }else if(sessionStorage.getItem(points[0][k])<sessionStorage.getItem(points[1][k]) && sessionStorage.getItem(points[0][k])!='' && sessionStorage.getItem(points[1][k])>=21 && sessionStorage.getItem(points[1][k])<=30){
+           
+        } else if(homePoints < awayPoints && !isNaN(homePoints) && awayPoints >= 21 && awayPoints <= 30){
+            console.log("aw");
             hr=0;
             ar=1;
             let homeRubbers = document.getElementById(rubbers[0][k]);
@@ -445,7 +451,10 @@ for ($k = 1;$k<=$nomatches; $k++){
             awayRubbers.innerText = ar;
             sessionStorage.setItem(rubbers[0][k], hr);
             sessionStorage.setItem(rubbers[1][k], ar);
-        }else if (sessionStorage.getItem(points[1][k])!='' || sessionStorage.getItem(points[0][k])!=''){
+            
+        
+        } else if (!isNaN(homePoints) || !isNaN(awayPoints)){
+            console.log("nr");
             let homeRubbers = document.getElementById(rubbers[0][k]);
             if(homeRubbers){
                 homeRubbers.innerText = '';
@@ -457,7 +466,7 @@ for ($k = 1;$k<=$nomatches; $k++){
             }
             sessionStorage.removeItem(rubbers[0][k]);
             sessionStorage.removeItem(rubbers[1][k]);
-            
+           
         }
         
     }

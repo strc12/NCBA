@@ -401,8 +401,8 @@
                     SELECT 
                         l.Name as LN,
                         d.Name as DN,
-                        D.Divisionrank as RK,
-                        m.FixtureDate,
+                        d.Divisionrank as RK,
+                        m.Fixturedate,
                         hc.Clubname AS HomeTeam,
                         ac.Clubname AS AwayTeam
                     FROM TblMatches m
@@ -412,7 +412,7 @@
                     JOIN TblClub hc ON hcht.ClubID = hc.ClubID
                     JOIN TblClubhasteam acht ON m.AwayID = acht.ClubhasteamID
                     JOIN TblClub ac ON acht.ClubID = ac.ClubID
-                    ORDER BY LN DESC, RK, (m.FixtureDate IS NULL OR m.FixtureDate = '0000-00-00'), m.FixtureDate
+                    ORDER BY LN DESC, RK, (m.Fixturedate IS NULL OR m.Fixturedate = '0000-00-00'), m.Fixturedate
                 ");
 
                 $fixtures = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -452,7 +452,7 @@
                         }
 
                         // Format date or red "No Date"
-                        $dateRaw = $fixture['FixtureDate'];
+                        $dateRaw = $fixture['Fixturedate'];
 
                         // Validate date properly
                         if (!empty($dateRaw) && $dateRaw !== '0000-00-00' && strtotime($dateRaw) !== false) {

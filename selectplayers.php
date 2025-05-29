@@ -48,7 +48,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
             $stmt->execute();  
             
         } 
-        echo "<option value='' selected disabled>Please select a Player...</option>";
+        echo "<option value='0' selected>Please select a Player...</option>";
     // GOING THROUGH THE DATA
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
          	if ($playerID == $row['PlayerID']) {
