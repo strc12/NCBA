@@ -6,7 +6,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 include_once ("connection.php");
 // Check if the form is submitted to update the item
 
-   print_r($_POST);
+   #print_r($_POST);
  
     $sql = "INSERT INTO TblPlayers(PlayerID,Gender,Forename,Surname,DOB,ClubID,active)VALUES 
     (NULL,:gender,:forename,:surname,:dob,:cid,1)";
@@ -26,7 +26,7 @@ include_once ("connection.php");
     if (isset($_SESSION['adloggedin'])) {
         // Use the value from the session variable if it is set
          $redirect = "Leagueadmin.php";
-        echo("£");
+       # echo("£");
     }
     echo("<script>
         alert('Details Updated');

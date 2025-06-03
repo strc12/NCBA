@@ -99,5 +99,9 @@ $params=[
     ':id'=> $_SESSION["curmatch"]
 ];
 $stmt->execute($params);
+if (isset($_SESSION["adloggedin"]) && $_SESSION["adloggedin"] == 1) {
+    header('Location: index.php');
+}else{}
 header('Location: index.php');
+}
 ?>
