@@ -1,4 +1,3 @@
-
 <?php
 if(session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
@@ -6,7 +5,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 include_once ("connection.php");
 // Check if the form is submitted to update the item
 
-   print_r($_POST);
+   #print_r($_POST);
    if (!isset($_POST["member"])){
     $act=0;
    }else {
@@ -27,17 +26,17 @@ include_once ("connection.php");
     ];
     #print_r($params);
     $stmt->execute($params);
-    $stmt->execute($params);
     // Determine the redirect URL based on the session variable
     $redirectUrl = 'clubadmin.php';  // Default redirect URL
-    print_r($_SESSION);
+    #print_r($_SESSION);
     if (isset($_SESSION['adloggedin'])) {
         // Use the value from the session variable if it is set
-        $redirectUrl = $_SESSION['editclub'];
+        $redirectUrl = "Leagueadmin.php";
     }
+    #print_r($redirectUrl);
     echo("<script>
         alert('Player Details Updated');
         window.location.href='$redirectUrl';
     </script>");#alert followed by redirect
       
-      ?>
+?>

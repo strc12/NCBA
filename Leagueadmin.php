@@ -532,16 +532,22 @@
                                 INNER JOIN TblLeague as leag ON (DIVIS.LeagueID = leag.LeagueID) 
                                 INNER JOIN TblClub as awt ON away.ClubID=awt.ClubID 
                                 INNER JOIN TblClub as ht ON home.ClubID=ht.ClubID 
-                                WHERE Season=:SEAS and resultsentered is Null  ORDER BY LN ASC,rk ASC, Fixturedate DESC " );
+                                WHERE Season=:SEAS   ORDER BY resultsentered ASC, LN ASC,rk ASC, Fixturedate DESC " );
                                 
                                 $stmt->bindParam(':SEAS', $_SESSION["Season"]); 
-                                echo("£WE");
+                                
                             
                                 $stmt->execute();
                                 
                                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
                                 {
-                                    echo("<option value=".$row["MatchID"].'>'.$row["LN"]." ".$row["DIVN"]." - ".$row["HN"]." v ".$row["AWN"]." - ".date("d M y",(strtotime($row["Fixturedate"])))."</option><br>");
+                                    
+                                    echo '<option value="'.$row["MatchID"].'"'
+                                    . ($row["resultsentered"] == 1 ? ' style="color:red;"' : '')
+                                    . '>'
+                                    . $row["LN"]." ".$row["DIVN"]." - ".$row["HN"]." v ".$row["AWN"]." - "
+                                    . date("d M y", strtotime($row["Fixturedate"]))
+                                    . '</option>';
                                 }
                             $conn=null;
                             ?>

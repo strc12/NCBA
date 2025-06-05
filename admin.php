@@ -32,6 +32,9 @@
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="committee-tab" data-bs-toggle="tab" href="#committee" role="tab" aria-controls="committee" aria-selected="false">Committee</a>
             </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="News-tab" data-bs-toggle="tab" href="#news" role="tab" aria-controls="news" aria-selected="false">News</a>
+            </li>
         </ul>
 
         <!-- Tabs Content -->
@@ -122,6 +125,29 @@
                         <input type="file" id="comm" name="comm" class="form-control" accept=".jpg, .jpeg">
                     </div>
                     <button type="submit" class="btn btn-primary">Add Committee Member</button>
+                </form>
+            </div>
+            <!-- News Tab -->
+            <div class="tab-pane fade" id="news" role="tabpanel" aria-labelledby="news-tab">
+                NOTE THIS WILL SHOW ON THE FRONT PAGE OF THE SITE AND ONLY THE MOST RECENT ONE
+                <form action="addnews.php" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="heading" class="form-label">Title</label>
+                        <input type="text" id="heading" name="heading" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="details" class="form-label">Details</label>
+                        <input type="text" id="details" name="details" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="link" class="form-label">Link URL</label>
+                        <input type="text" id="link" name="link" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="linktext" class="form-label">Link text</label>
+                        <input type="text" id="linktext" name="linktext" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add News item</button>
                 </form>
             </div>
         </div>

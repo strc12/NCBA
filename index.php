@@ -17,6 +17,9 @@
 
 </div>
 <br>
+<div class="container mt-3 p-5 bg-light text-dark rounded">
+  news items here
+</div>
 <div class="container mt-3">
   <div class="row">
     <div class="col-sm-4 mt-4">

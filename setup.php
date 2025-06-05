@@ -346,7 +346,17 @@ try {
 
     #mixed, levels and doubles need different formats?? - all have same number of games??? Ladies team of 4...
     #might need different scorecards for each league
-
+    $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblNews;
+    CREATE TABLE TblNews 
+    (NewsID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    Heading VARCHAR(250) NOT NULL,
+    Details VARCHAR(500) NOT NULL,
+    Dateadded DATE DEFAULT (current_timestamp()),
+    Link VARCHAR(200),
+    Linktext VARCHAR(200)");
+    
+    $stmt1->execute();
+    $stmt1->closeCursor();
 } 
     catch(PDOException $e)
 
