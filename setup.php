@@ -353,7 +353,9 @@ try {
     Details VARCHAR(500) NOT NULL,
     Dateadded DATE DEFAULT (current_timestamp()),
     Link VARCHAR(200),
-    Linktext VARCHAR(200)");
+    Linktext VARCHAR(200),
+    Picture VARCHAR(300),
+    Active BOOLEAN DEFAULT True");
     
     $stmt1->execute();
     $stmt1->closeCursor();
