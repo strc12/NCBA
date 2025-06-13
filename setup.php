@@ -107,7 +107,7 @@ try {
     description VARCHAR (500) DEFAULT '',
     type VARCHAR(200),
     current INT(1) DEFAULT 1)");
-   
+   #test
     $stmt1->execute();
     $stmt1->closeCursor();
     #current 1 - current, 0 is archived
