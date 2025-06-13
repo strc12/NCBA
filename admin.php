@@ -2,8 +2,7 @@
   <title>NSCBA</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <link href="styles.css" rel="stylesheet">
   <link rel="icon" type="image/png" href="images/favicon.png">
@@ -32,6 +31,12 @@
             </li>
             <li class="nav-item" role="presentation">
                 <a class="nav-link" id="committee-tab" data-bs-toggle="tab" href="#committee" role="tab" aria-controls="committee" aria-selected="false">Committee</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="News-tab" data-bs-toggle="tab" href="#news" role="tab" aria-controls="news" aria-selected="false">News</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="editNews-tab" data-bs-toggle="tab" href="#editNews" role="tab" aria-controls="editNews" aria-selected="false">Edit News</a>
             </li>
         </ul>
 
@@ -125,7 +130,81 @@
                     <button type="submit" class="btn btn-primary">Add Committee Member</button>
                 </form>
             </div>
-        </div>
+            <!-- News Tab -->
+            <div class="tab-pane fade" id="news" role="tabpanel" aria-labelledby="news-tab">
+                NOTE THIS WILL SHOW ON THE FRONT PAGE OF THE SITE AND ONLY THE MOST RECENT ONE
+                <form action="addnews.php" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="heading" class="form-label">Title</label>
+                        <input type="text" id="heading" name="heading" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="details" class="form-label">Details</label>
+                        <input type="text" id="details" name="details" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="link" class="form-label">Link URL</label>
+                        <input type="text" id="link" name="link" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="linktext" class="form-label">Link text</label>
+                        <input type="text" id="linktext" name="linktext" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="imagey" class="form-label">Image</label>
+                        <input type="file" id="imagey" name="imagey" class="form-control" accept=".jpg, .jpeg, .jfif">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add News item</button>
+                </form>
+            </div>
+            <!-- EditNews Tab -->
+            <div class="tab-pane fade" id="editnews" role="tabpanel" aria-labelledby="editnews-tab">
+                <p>To make news active/inactive or edit (if recycling)</p>
+
+                <!-- Existing News Items -->
+                <h5>Edit Existing News</h5>
+                <?php
+                include_once('connection.php');
+                $stmt = $conn->prepare("SELECT * FROM TblNews ORDER BY Active DESC, Dateadded DESC");
+                $stmt->execute();
+                $newsItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($newsItems as $item) {
+                    echo '
+                    <form action="editnews.php" method="POST" enctype="multipart/form-data" class="border p-3 mb-3 rounded">
+                        <input type="hidden" name="id" value="' . htmlspecialchars($item['NewsID']) . '">
+                        <div class="mb-2">
+                            <label class="form-label">Title</label>
+                            <input type="text" name="heading" value="' . htmlspecialchars($item['Heading']) . '" class="form-control">
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Details</label>
+                            <input type="text" name="details" value="' . htmlspecialchars($item['Details']) . '" class="form-control">
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Link URL</label>
+                            <input type="text" name="link" value="' . htmlspecialchars($item['Link']) . '" class="form-control">
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Link Text</label>
+                            <input type="text" name="linktext" value="' . htmlspecialchars($item['Linktext']) . '" class="form-control">
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Current Image</label>
+                            <img src="./news/' . htmlspecialchars($item["Picture"]) . '" class="img-fluid rounded w-60" style="max-height: 200px;" alt="News image">
+
+
+                            <input type="file" name="imagey" class="form-control" accept=".jpg, .jpeg, .jfif">
+                            <small>Current: ' . htmlspecialchars($item['Picture']) . '</small>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" name="active" id="active' . $item['NewsID'] . '" ' . ($item['Active'] ? 'checked' : '') . '>
+                            <label class="form-check-label" for="active' . $item['NewsID'] . '">Active</label>
+                        </div>
+                        <button type="submit" class="btn btn-success">Save Changes</button>
+                    </form>';
+                }
+                ?>
+            </div>
 </div>
 </body>
 </html>
