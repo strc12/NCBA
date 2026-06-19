@@ -2,7 +2,7 @@
     // note this does not use connection.php as connection made at the time of creation
    $servername = 'localhost';
    $username = 'root';
-   $password= '';
+   $password= 'password';
 //note no Database mentioned here!!
 
 try {
@@ -94,7 +94,7 @@ try {
     CREATE TABLE TblMedia 
     (MediaID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     details LONGTEXT NOT NULL,
-    dateadded DATE DEFAULT current_timestamp(),
+    dateadded DATE DEFAULT (current_timestamp()),
     type VARCHAR(200))");
    
     $stmt1->execute();
@@ -344,8 +344,7 @@ try {
     $stmt1->execute();
     $stmt1->closeCursor();
 
-    #mixed, levels and doubles need different formats?? - all have same number of games??? Ladies team of 4...
-    #might need different scorecards for each league
+    #news - for news items on home page
     $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblNews;
     CREATE TABLE TblNews 
     (NewsID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -355,10 +354,13 @@ try {
     Link VARCHAR(200),
     Linktext VARCHAR(200),
     Picture VARCHAR(300),
-    Active BOOLEAN DEFAULT True");
+    Active BOOLEAN DEFAULT True)");
     
     $stmt1->execute();
     $stmt1->closeCursor();
+
+ 
+
 } 
     catch(PDOException $e)
 
