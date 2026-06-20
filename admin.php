@@ -11,7 +11,7 @@
 <!--Navigation bar-->
 <div id="result">
     <?php
-    include_once("navbar.php");
+    include_once(__DIR__ . "/navbar.php");
     ?>
 
 </div>

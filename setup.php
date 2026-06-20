@@ -36,7 +36,9 @@ try {
     $stmt1->closeCursor();
     $hashed_password = password_hash("password", PASSWORD_DEFAULT);
     $stmt5 = $conn->prepare("INSERT INTO TblAdmin(AdminID,Username,Password)VALUES 
-    (NULL,'Rob',:pw)");
+    (NULL,'Rob',:pw),
+    (NULL,'Mel',:pw),
+    (NULL,'Jermaine',:pw)");
     $stmt5->bindParam(':pw', $hashed_password);
     $stmt5->execute();
     $stmt5->closeCursor();

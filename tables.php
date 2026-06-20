@@ -10,7 +10,7 @@
 <body>
   <!-- Navigation bar -->
   <div id="result">
-    <?php include_once("navbar.php"); ?>
+    <?php include_once(__dir__ . "/navbar.php"); ?>
   </div>
 
   <div class="container-fluid">

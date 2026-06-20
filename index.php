@@ -1,3 +1,10 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,19 +14,26 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <link href="styles.css" rel="stylesheet">
   <link rel="icon" type="image/png" href="images/favicon.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
 <!--Navigation bar-->
 <div id="result">
     <?php
-    include_once("navbar.php");
+ 
+    include_once(__DIR__."/setseason.php");
+
+    include_once(__DIR__ . "/navbar.php");
+
+    
     ?>
 
 </div>
 <br>
 <div class="container mt-5">
   <?php
-  include_once('connection.php');
+  include_once(__DIR__ .'/connection.php');
 
   $stmt = $conn->prepare("SELECT * FROM TblNews WHERE Active= 1 ORDER BY dateadded DESC LIMIT 1");
   $stmt->execute();
@@ -59,13 +73,6 @@
   }
   ?>
 </div>
-
-
-
-
-
-
-
 </div>
 
 <div class="container mt-3">

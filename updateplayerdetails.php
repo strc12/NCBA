@@ -1,7 +1,8 @@
 <?php
-if(session_status() !== PHP_SESSION_ACTIVE) {
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
-  }
+}
+
 include_once ("connection.php");
 // Check if the form is submitted to update the item
 
