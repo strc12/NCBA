@@ -1,20 +1,23 @@
 <head>
   <title>NSCBA</title>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <link href="styles.css" rel="stylesheet" />
-  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <link href="styles.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
   <!-- Navigation bar -->
   <div id="result">
-    <?php include_once("navbar.php"); ?>
+    <?php include_once(__dir__ . "/navbar.php"); ?>
   </div>
 
   <div class="container-fluid">
     <?php
+    include_once "connection.php";
     // Fetch leagues, divisions, clubs, and teams with joins
     $stmt = $conn->prepare("
       SELECT 
@@ -26,15 +29,14 @@
       LEFT JOIN TblDivision ON TblLeague.LeagueID = TblDivision.LeagueID
       LEFT JOIN TblClubhasteam ON TblDivision.DivisionID = TblClubhasteam.DivisionID
       LEFT JOIN TblClub ON TblClubhasteam.ClubID = TblClub.ClubID
+      ORDER BY LeagueID asc, DivisionID ASC
     ");
     $stmt->execute();
-    $data1 = $stmt->fetchAll(PDO::FETCH_ASSOC);
-   echo '<pre>';
-print_r($data1);
-echo '</pre>';
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
     $leagues = [];
     // Organize data into nested array of leagues -> divisions -> teams
-    foreach ($data1 as $row) {
+    foreach ($data as $row) {
       $leagueID = $row['LeagueID'];
       $divisionID = $row['DivisionID'];
       $teamID = $row['TeamID'];
@@ -79,11 +81,11 @@ echo '</pre>';
       $pointDiffB = $b["pointsfor"] - $b["pointsagainst"];
       return $pointDiffB <=> $pointDiffA;
     }
-
     // Loop through each league
+    $count=0;
     foreach ($leagues as $league) {
       echo "<h2>" . htmlspecialchars($league['Name']) . "</h2>";
-
+      $count=$count+1;
       // Loop through each division within the league
       foreach ($league['Divisions'] as $division) {
         echo "<h4>" . htmlspecialchars($division['Name']) . "</h4>";
@@ -126,10 +128,14 @@ echo '</pre>';
           $pointsfor = 0;
           $pointsagainst = 0;
           $points = 0;
-          
+ 
           // Number of matches per fixture (varies by league)
-          $mat = ($data["LeagueID"] == 4) ? 18 : 27;
-            
+          
+          if ($count == "4") {
+              $mat = 18;
+          } else {
+              $mat = 27;
+          }
           // Process each match involving the team
           while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
               #print_r($row['Home']);
@@ -242,7 +248,7 @@ echo '</pre>';
 
           // Collect the calculated stats for this team
           $leagueA[] = [
-            'name' => $team["ClubName"] . " " . $team["TeamName"],
+            'name' => $team["TeamName"],
             'played' => $played,
             'matcheswon' => $matcheswon,
             'matcheslost' => $matcheslost,

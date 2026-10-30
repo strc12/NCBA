@@ -1,5 +1,8 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 
 include_once ("connection.php");
 array_map("htmlspecialchars", $_POST);
