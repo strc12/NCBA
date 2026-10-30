@@ -2,8 +2,6 @@
   <title>NSCBA</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <link href="styles.css" rel="stylesheet" />
   <link rel="icon" type="image/png" href="images/favicon.png" />
@@ -30,11 +28,13 @@
       LEFT JOIN TblClub ON TblClubhasteam.ClubID = TblClub.ClubID
     ");
     $stmt->execute();
-    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+    $data1 = $stmt->fetchAll(PDO::FETCH_ASSOC);
+   echo '<pre>';
+print_r($data1);
+echo '</pre>';
     $leagues = [];
     // Organize data into nested array of leagues -> divisions -> teams
-    foreach ($data as $row) {
+    foreach ($data1 as $row) {
       $leagueID = $row['LeagueID'];
       $divisionID = $row['DivisionID'];
       $teamID = $row['TeamID'];
@@ -114,7 +114,7 @@
           $stmt->bindParam(':id', $tid);
           $stmt->bindParam(':curseas', $_SESSION["Season"]);
           $stmt->execute();
-            echo($tid."<br>");
+           # echo($tid."<br>");
           // Initialize stats counters
           $played = 0;
           $matcheswon = 0;
@@ -126,10 +126,10 @@
           $pointsfor = 0;
           $pointsagainst = 0;
           $points = 0;
-
+          
           // Number of matches per fixture (varies by league)
           $mat = ($data["LeagueID"] == 4) ? 18 : 27;
-    
+            
           // Process each match involving the team
           while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
               #print_r($row['Home']);
@@ -161,7 +161,7 @@
               $awaytotal += $a;
 
               // Determine rubber win/loss depending on if team is home or away
-              echo($row["mid"]."sd<br>");
+              #echo($row["mid"]."sd<br>");
               if ($row['Home'] == $tid) {
                 if ($h > $a) $rubberWin++;
                 elseif ($a > $h) $rubberLose++;
@@ -184,7 +184,7 @@
                 $awayTemp = 0;
               }
             }
-            echo($homegames.$awaygames."bob<br>");
+            #echo($homegames.$awaygames."bob<br>");
             // Accumulate total points and games won/lost based on home or away team
             if ($row['Home'] == $tid) {
               $pointsfor += $hometotal;
@@ -224,7 +224,7 @@
 
             // Check match result to increment wins/losses and points
             
-            echo($matcheswon."-".$matcheslost."<br>");
+            #echo($matcheswon."-".$matcheslost."<br>");
           }
 
           // Check if the team is docked points (e.g. penalty)
