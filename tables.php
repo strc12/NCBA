@@ -33,9 +33,7 @@
     ");
     $stmt->execute();
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-   echo '<pre>';
-print_r($data1);
-echo '</pre>';
+
     $leagues = [];
     // Organize data into nested array of leagues -> divisions -> teams
     foreach ($data as $row) {

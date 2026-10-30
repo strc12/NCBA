@@ -3,7 +3,7 @@
     //c0ed1vt5u.mysql.service.one.com:3306
    $servername = 'localhost';
    $username = 'root';
-   $password= 'password';
+   $password= '';
 //note no Database mentioned here!!
 
 try {
@@ -37,9 +37,6 @@ try {
     $stmt1->closeCursor();
     $hashed_password = password_hash("password", PASSWORD_DEFAULT);
     $stmt5 = $conn->prepare("INSERT INTO TblAdmin(AdminID,Username,Password)VALUES 
-    (NULL,'Rob',:pw),
-    (NULL,'Mel',:pw),
-    (NULL,'Jermaine',:pw)");
     (NULL,'Rob',:pw),
     (NULL,'Mel',:pw),
     (NULL,'Jermaine',:pw)");
@@ -271,7 +268,6 @@ VALUES
     (MediaID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     details LONGTEXT NOT NULL,
     dateadded DATE DEFAULT (current_timestamp()),
-    dateadded DATE DEFAULT (current_timestamp()),
     type VARCHAR(200))");
    
     $stmt1->execute();
@@ -284,7 +280,6 @@ VALUES
     description VARCHAR (500) DEFAULT '',
     type VARCHAR(200),
     current INT(1) DEFAULT 1)");
-   #test
    #test
     $stmt1->execute();
     $stmt1->closeCursor();
@@ -561,22 +556,8 @@ VALUES
     $stmt1->execute();
     $stmt1->closeCursor();
 
-    #news - for news items on home page
-    $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblNews;
-    CREATE TABLE TblNews 
-    (NewsID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    Heading VARCHAR(250) NOT NULL,
-    Details VARCHAR(500) NOT NULL,
-    Dateadded DATE DEFAULT (current_timestamp()),
-    Link VARCHAR(200),
-    Linktext VARCHAR(200),
-    Picture VARCHAR(300),
-    Active BOOLEAN DEFAULT True)");
-    
-    $stmt1->execute();
-    $stmt1->closeCursor();
-
- 
+    #mixed, levels and doubles need different formats?? - all have same number of games??? Ladies team of 4...
+    #might need different scorecards for each league
     $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblNews;
     CREATE TABLE TblNews 
     (NewsID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
