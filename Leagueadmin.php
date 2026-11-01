@@ -51,6 +51,7 @@ if (!isset($_SESSION['adloggedin']) || $_SESSION['adloggedin'] != 1) {
   session_start();
 }
     include_once("navbar.php");
+    include_once("setseason.php");
     ?>
 
 </div>

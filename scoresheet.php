@@ -4,7 +4,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
       }
 
 //print_r($_SESSION);
-print_r($_POST);
+#print_r($_POST);
 
 include_once ("connection.php");
 // Check if the form is submitted to update the item

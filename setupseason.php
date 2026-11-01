@@ -19,7 +19,7 @@
 <div class="container-fluid">
 <?php
 
-
+include_once("connection.php");
 // Prepare the initial query with multiple joins
 $stmt = $conn->prepare("
     SELECT 

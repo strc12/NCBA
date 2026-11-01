@@ -101,7 +101,7 @@ $params=[
 $stmt->execute($params);
 if (isset($_SESSION["adloggedin"]) && $_SESSION["adloggedin"] == 1) {
     header('Location: index.php');
-}else{}
+}else{
 header('Location: index.php');
 }
 ?>

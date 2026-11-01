@@ -36,7 +36,7 @@
     INNER JOIN TblLeague as leag ON (DIVIS.LeagueID = leag.LeagueID) 
     INNER JOIN TblClub as awt ON away.ClubID=awt.ClubID 
     INNER JOIN TblClub as ht ON home.ClubID=ht.ClubID 
-    WHERE Season=:SEAS  and resultsentered is Null AND (awt.ClubID=:club OR ht.Clubid=:club) ORDER BY LN ASC,rk ASC, Fixturedate DESC " );
+    WHERE Season=:SEAS  and resultsentered is Null AND Fixturedate <> '0000-00-00' AND (awt.ClubID=:club OR ht.Clubid=:club) ORDER BY LN ASC,rk ASC, Fixturedate DESC " );
 
     $stmt->bindParam(':club', $_SESSION["clubid"]);
     $stmt->bindParam(':SEAS', $_SESSION["Season"]);
