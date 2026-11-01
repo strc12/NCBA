@@ -147,8 +147,11 @@ if (!in_array($activeTab, $allowedTabs, true)) {
                         <label for="typeofdoc" class="form-label">Type of Document</label>
                         <select id="typeofdoc" name="typeofdoc" class="form-select">
                             <option value="Minutes">Minutes</option>
-                            <option value="Agenda">Agenda</option>
-                            <option value="Other">Other</option>
+                            <option value="Adopted Policies">Adopted Policies</option>
+                            <option value="Seniors">Seniors</option>
+                            <option value="Juniors">Juniors</option>
+                            <option value="Archive Seniors">Archive Seniors</option>
+                            <option value="Archive Juniors">Archive Juniors</option>
                         </select>
                     </div>
                     <div class="mb-3">

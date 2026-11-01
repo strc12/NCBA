@@ -1,8 +1,6 @@
-
 <?php
 require_once(__DIR__ . '/sessions.php');
-
-print_r($_SESSION);
+#print_r($_SESSION);
 if (!isset($_SESSION['adloggedin']))
 {
     header("Location:index.php");
@@ -13,14 +11,14 @@ try{
 	include_once('connection.php');
 	array_map("htmlspecialchars", $_POST);
 	//create order if not already created
-   print_r($_FILES["comm"]); 
+   #print_r($_FILES["comm"]); 
    $string = str_replace(' ', '', $_POST["name"]);
-if ($_FILES["comm"]["name"]==""){
-  $name="genericicon.jpg";
-}else{
-	$name=$string.".jpg";
-}
-print($name);
+    if ($_FILES["comm"]["name"]==""){
+      $name="genericicon.jpg";
+    }else{
+    	$name=$string.".jpg";
+    }
+    echo("<br>".$name."<br>");
 	$stmt = $conn->prepare("INSERT INTO TblCommittee(CommitteeID,Name,Post,Email, Pic)
     VALUES (NULL,:name,:post,:email,:pic)");
     $stmt->bindParam(':name', $_POST["name"]);
@@ -35,14 +33,17 @@ print($name);
     #$uploadOk = 1;
     
 
-    echo("<img src-".$_FILES["comm"]["name"]."><br>");
-    echo("<img src-".$_FILES["comm"]["name"]."><br>");  
+    echo("<br>".$_FILES["comm"]["name"]."sdfg<br>");
+
     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-    if (move_uploaded_file($_FILES["comm"]["tmp_name"], $target_file)) {
-        echo "The file ". htmlspecialchars( basename( $_FILES["comm"]["name"])). " has been uploaded.";
-      } else {
+
+    if ($target_file == "comm/genericicon.jpg") {
+        // Do nothing
+    } elseif (move_uploaded_file($_FILES["comm"]["tmp_name"], $target_file)) {
+        echo "The file " . htmlspecialchars(basename($_FILES["comm"]["name"])) . " has been uploaded.";
+    } else {
         echo "Sorry, there was an error uploading your file.";
-      }
+    }
     #thumbnail creator
     // load your source image
     $bigim="./comm/".$name;
