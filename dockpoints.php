@@ -1,4 +1,6 @@
 <?php
+require_once(__DIR__ . '/sessions.php');
+
 include_once ("connection.php");
 // Check if the form is submitted to update the item
 

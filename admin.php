@@ -1,3 +1,22 @@
+<?php
+require_once(__DIR__ . '/sessions.php');
+$allowedTabs = [
+    'images',
+    'social-media',
+    'documents',
+    'committee',
+    'news',
+    'editnews'
+];
+
+$activeTab = $_GET['tab'] ?? 'images';
+
+if (!in_array($activeTab, $allowedTabs, true)) {
+    $activeTab = 'images';
+}
+?>
+<!DOCTYPE html>
+<html>
 <head>
   <title>NSCBA</title>
   <meta charset="utf-8">
@@ -21,30 +40,61 @@
         
         <!-- Tabs Navigation -->
         <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <a class="nav-link active" id="images-tab" data-bs-toggle="tab" href="#images" role="tab" aria-controls="images" aria-selected="true">Images</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="social-media-tab" data-bs-toggle="tab" href="#social-media" role="tab" aria-controls="social-media" aria-selected="false">Social Media Feed</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="documents-tab" data-bs-toggle="tab" href="#documents" role="tab" aria-controls="documents" aria-selected="false">Documents</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="committee-tab" data-bs-toggle="tab" href="#committee" role="tab" aria-controls="committee" aria-selected="false">Committee</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="News-tab" data-bs-toggle="tab" href="#news" role="tab" aria-controls="news" aria-selected="false">News</a>
-            </li>
-            <li class="nav-item" role="presentation">
-                <a class="nav-link" id="editNews-tab" data-bs-toggle="tab" href="#editNews" role="tab" aria-controls="editNews" aria-selected="false">Edit News</a>
-            </li>
-        </ul>
+
+    <li class="nav-item" role="presentation">
+        <a class="nav-link <?= $activeTab == 'images' ? 'active' : '' ?>"
+           id="images-tab" data-bs-toggle="tab"
+           href="#images" role="tab">
+            Images
+        </a>
+    </li>
+
+    <li class="nav-item" role="presentation">
+        <a class="nav-link <?= $activeTab == 'social-media' ? 'active' : '' ?>"
+           id="social-media-tab" data-bs-toggle="tab"
+           href="#social-media" role="tab">
+            Social Media Feed
+        </a>
+    </li>
+
+    <li class="nav-item" role="presentation">
+        <a class="nav-link <?= $activeTab == 'documents' ? 'active' : '' ?>"
+           id="documents-tab" data-bs-toggle="tab"
+           href="#documents" role="tab">
+            Documents
+        </a>
+    </li>
+
+    <li class="nav-item" role="presentation">
+        <a class="nav-link <?= $activeTab == 'committee' ? 'active' : '' ?>"
+           id="committee-tab" data-bs-toggle="tab"
+           href="#committee" role="tab">
+            Committee
+        </a>
+    </li>
+
+    <li class="nav-item" role="presentation">
+        <a class="nav-link <?= $activeTab == 'news' ? 'active' : '' ?>"
+           id="news-tab" data-bs-toggle="tab"
+           href="#news" role="tab">
+            News
+        </a>
+    </li>
+
+    <li class="nav-item" role="presentation">
+        <a class="nav-link <?= $activeTab == 'editnews' ? 'active' : '' ?>"
+           id="editnews-tab" data-bs-toggle="tab"
+           href="#editnews" role="tab">
+            Edit News
+        </a>
+    </li>
+
+</ul>
 
         <!-- Tabs Content -->
         <div class="tab-content mt-3" id="myTabContent">
             <!-- Images Tab -->
-            <div class="tab-pane fade show active" id="images" role="tabpanel" aria-labelledby="images-tab">
+            <div class="tab-pane fade <?= $activeTab == 'images' ? 'show active' : '' ?>" id="images" role="tabpanel" aria-labelledby="images-tab">
                 <form action="addimages.php" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="typeofdoc" class="form-label">Type of Image</label>
@@ -72,7 +122,7 @@
             </div>
 
             <!-- Social Media Feed Tab -->
-            <div class="tab-pane fade" id="social-media" role="tabpanel" aria-labelledby="social-media-tab">
+            <div class="tab-pane fade <?= $activeTab == 'social-media' ? 'show active' : '' ?>" id="social-media" role="tabpanel" aria-labelledby="social-media-tab">
                 <form action="addmedia.php" method="POST">
                     <div class="mb-3">
                         <label for="embedcode" class="form-label">Embed Code</label>
@@ -87,7 +137,7 @@
             </div>
 
             <!-- Documents Tab -->
-            <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
+            <div class="tab-pane fade <?= $activeTab == 'documents' ? 'show active' : '' ?>" id="documents" role="tabpanel" aria-labelledby="documents-tab">
                 <form action="adddocument.php" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="title" class="form-label">Title of Document</label>
@@ -114,7 +164,7 @@
             </div>
 
             <!-- Committee Tab -->
-            <div class="tab-pane fade" id="committee" role="tabpanel" aria-labelledby="committee-tab">
+            <div class="tab-pane fade <?= $activeTab == 'committee' ? 'show active' : '' ?>" id="committee" role="tabpanel" aria-labelledby="committee-tab" >
                 <form action="addcommittee.php" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
@@ -124,6 +174,10 @@
                         <label for="post" class="form-label">Post</label>
                         <input type="text" id="post" name="post" class="form-control">
                     </div>
+                     <div class="mb-3">
+                        <label for="post" class="form-label">Email address</label>
+                        <input type="text" id="email" name="email" class="form-control">
+                    </div>
                     <div class="mb-3">
                         <label for="comm" class="form-label">Image</label>
                         <input type="file" id="comm" name="comm" class="form-control" accept=".jpg, .jpeg">
@@ -132,7 +186,7 @@
                 </form>
             </div>
             <!-- News Tab -->
-            <div class="tab-pane fade" id="news" role="tabpanel" aria-labelledby="news-tab">
+            <div class="tab-pane fade <?= $activeTab == 'news' ? 'show active' : '' ?>" id="news" role="tabpanel" aria-labelledby="news-tab">
                 NOTE THIS WILL SHOW ON THE FRONT PAGE OF THE SITE AND ONLY THE MOST RECENT ONE
                 <form action="addnews.php" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
@@ -159,7 +213,7 @@
                 </form>
             </div>
             <!-- EditNews Tab -->
-            <div class="tab-pane fade" id="editnews" role="tabpanel" aria-labelledby="editnews-tab">
+            <div class="tab-pane fade <?= $activeTab == 'editnews' ? 'show active' : '' ?>" id="editnews" role="tabpanel" aria-labelledby="editnews-tab">
                 <p>To make news active/inactive or edit (if recycling)</p>
 
                 <!-- Existing News Items -->

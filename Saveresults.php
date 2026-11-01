@@ -2,12 +2,12 @@
     sessionStorage.clear(); 
 </script>
 <?php
-if(session_status() !== PHP_SESSION_ACTIVE) {
-        session_start();
-      }
-print_r($_POST);
-echo("<br>");
-print_r($_SESSION);
+
+require_once(__DIR__ . '/sessions.php');
+
+#print_r($_POST);
+#echo("<br>");
+#print_r($_SESSION);
 
 include_once ("connection.php");
 $sql = "UPDATE TblMatches SET 

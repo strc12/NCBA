@@ -1,8 +1,7 @@
 
 <?php
-if(session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-  }
+require_once(__DIR__ . '/sessions.php');
+
 include_once ("connection.php");
 // Check if the form is submitted to update the item
 

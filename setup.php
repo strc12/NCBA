@@ -312,6 +312,7 @@ VALUES
     (CommitteeID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(50) NOT NULL,
     Post VARCHAR(50) NOT NULL,
+    Email VARCHAR(200),
     Pic VARCHAR(200))");
     $stmt1->execute();
     $stmt1->closeCursor();

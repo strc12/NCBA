@@ -1,5 +1,7 @@
 <?php
-session_start(); // Start the session
+
+require_once(__DIR__ . '/sessions.php');
+// Start the session
 
 // Check if 'adloggedin' is not set or not equal to 1
 if (!isset($_SESSION['adloggedin']) || $_SESSION['adloggedin'] != 1) {
@@ -8,6 +10,7 @@ if (!isset($_SESSION['adloggedin']) || $_SESSION['adloggedin'] != 1) {
     exit;
 }
 ?>
+<!DOCTYPE html>
 <html>
 <head>
   <title>NSCBA</title>

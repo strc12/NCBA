@@ -1,14 +1,13 @@
 
 <?php
-if(session_status() !== PHP_SESSION_ACTIVE) {
-  session_start();
-}
+require_once(__DIR__ . '/sessions.php');
+
 print_r($_SESSION);
 if (!isset($_SESSION['adloggedin']))
 {
     header("Location:index.php");
 }
-header("Location:admin.php");
+header("Location:admin.php?tab=committee");
 print_r($_POST);
 try{
 	include_once('connection.php');
@@ -22,10 +21,11 @@ if ($_FILES["comm"]["name"]==""){
 	$name=$string.".jpg";
 }
 print($name);
-	$stmt = $conn->prepare("INSERT INTO TblCommittee(CommitteeID,Name,Post, Pic)
-    VALUES (NULL,:name,:post,:pic)");
+	$stmt = $conn->prepare("INSERT INTO TblCommittee(CommitteeID,Name,Post,Email, Pic)
+    VALUES (NULL,:name,:post,:email,:pic)");
     $stmt->bindParam(':name', $_POST["name"]);
     $stmt->bindParam(':post', $_POST["post"]);
+    $stmt->bindParam(':email', $_POST["email"]);
     $stmt->bindParam(':pic', $name);
     $stmt->execute();
     $target_dir = "comm/";

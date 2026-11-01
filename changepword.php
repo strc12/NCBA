@@ -1,7 +1,6 @@
 <?php
-if(session_status() !== PHP_SESSION_ACTIVE) {
-        session_start();
-      }
+require_once(__DIR__ . '/sessions.php');
+
 include_once 'connection.php'; // Make sure this file contains your PDO connection setup
 
 // Check if the user is logged in

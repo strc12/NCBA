@@ -1,6 +1,6 @@
 <?php
-session_start();
-print_r($_POST);
+require_once(__DIR__ . '/sessions.php');
+
 include_once ("connection.php");
 array_map("htmlspecialchars", $_POST);    
 if ($_POST["current"]==1){

@@ -1,3 +1,6 @@
+<?php
+require_once(__DIR__ . '/sessions.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

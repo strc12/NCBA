@@ -1,12 +1,3 @@
-<?php
-
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-?>
-
-
 <nav class="navbar navbar-expand-sm bg-light navbar-light fixed-top" style="z-index: 1050;">
   <div class="container-fluid">
     <a class="navbar-brand" href="index.php">
