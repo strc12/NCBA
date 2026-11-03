@@ -192,7 +192,7 @@ require_once(__DIR__ . '/sessions.php');
 
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-                            $path = "/documents/" . $row["filename"];
+                            $path = "../documents/" . $row["filename"];
 
                             echo '<a href="' . htmlspecialchars($path) . '" target="_blank"><h4>' .
                                 htmlspecialchars($row["title"]) .
@@ -215,7 +215,7 @@ require_once(__DIR__ . '/sessions.php');
 
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-                            $path = "/documents/" . $row["filename"];
+                            $path = "../documents/" . $row["filename"];
 
                             echo '<a href="' . htmlspecialchars($path) . '" target="_blank"><h4>' .
                                 htmlspecialchars($row["title"]) .
@@ -255,7 +255,7 @@ require_once(__DIR__ . '/sessions.php');
 
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-                            $path = "/documents/" . $row["filename"];
+                            $path = "../documents/" . $row["filename"];
 
                             echo '<a href="' . htmlspecialchars($path) . '" target="_blank"><h4>' .
                                 htmlspecialchars($row["title"]) .
@@ -272,7 +272,7 @@ require_once(__DIR__ . '/sessions.php');
 
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-                            $path = "/documents/" . $row["filename"];
+                            $path = "../documents/" . $row["filename"];
 
                             echo '<a href="' . htmlspecialchars($path) . '" target="_blank"><h4>' .
                                 htmlspecialchars($row["title"]) .
