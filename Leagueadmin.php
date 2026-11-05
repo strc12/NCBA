@@ -50,11 +50,10 @@ if (!isset($_SESSION['adloggedin']) || $_SESSION['adloggedin'] != 1) {
 <!--Navigation bar-->
 <div id="result">
     <?php
-    if(session_status() !== PHP_SESSION_ACTIVE) {
-  session_start();
-}
+
     include_once("navbar.php");
     include_once("setseason.php");
+    print_r($_SESSION);
     ?>
 
 </div>
@@ -417,7 +416,7 @@ if (!isset($_SESSION['adloggedin']) || $_SESSION['adloggedin'] != 1) {
                     SELECT 
                         l.Name as LN,
                         d.Name as DN,
-                        D.Divisionrank as RK,
+                        d.Divisionrank as RK,
                         m.FixtureDate,
                         hc.Clubname AS HomeTeam,
                         ac.Clubname AS AwayTeam
