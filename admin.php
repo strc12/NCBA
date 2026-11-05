@@ -1,6 +1,7 @@
 <?php
 require_once(__DIR__ . '/sessions.php');
 $allowedTabs = [
+    'album',
     'images',
     'social-media',
     'documents',
@@ -9,10 +10,10 @@ $allowedTabs = [
     'editnews'
 ];
 
-$activeTab = $_GET['tab'] ?? 'images';
+$activeTab = $_GET['tab'] ?? 'album';
 
 if (!in_array($activeTab, $allowedTabs, true)) {
-    $activeTab = 'images';
+    $activeTab = 'album';
 }
 ?>
 <!DOCTYPE html>
@@ -39,8 +40,14 @@ if (!in_array($activeTab, $allowedTabs, true)) {
         <h1 class="text-center mb-4">Admin Page for Adding to Website</h1>
         
         <!-- Tabs Navigation -->
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a class="nav-link <?= $activeTab == 'album' ? 'active' : '' ?>"
+           id="album-tab" data-bs-toggle="tab"
+           href="#album" role="tab">
+            Album
+        </a>
+    </li>
     <li class="nav-item" role="presentation">
         <a class="nav-link <?= $activeTab == 'images' ? 'active' : '' ?>"
            id="images-tab" data-bs-toggle="tab"
@@ -48,6 +55,7 @@ if (!in_array($activeTab, $allowedTabs, true)) {
             Images
         </a>
     </li>
+ 
 
     <li class="nav-item" role="presentation">
         <a class="nav-link <?= $activeTab == 'social-media' ? 'active' : '' ?>"
@@ -92,6 +100,17 @@ if (!in_array($activeTab, $allowedTabs, true)) {
 </ul>
 
         <!-- Tabs Content -->
+         <div class="tab-content mt-3" id="myTabContent">
+            <!-- Album Tab -->
+            <div class="tab-pane fade <?= $activeTab == 'album' ? 'show active' : '' ?>" id="album" role="tabpanel" aria-labelledby="album-tab">
+                <form action="addgallery.php" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="Album name" class="form-label">Photo gallery Name</label>
+                        <input type="text" id="Album name" name="Album name" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Photo Gallery</button>
+                </form>
+            </div>
         <div class="tab-content mt-3" id="myTabContent">
             <!-- Images Tab -->
             <div class="tab-pane fade <?= $activeTab == 'images' ? 'show active' : '' ?>" id="images" role="tabpanel" aria-labelledby="images-tab">
@@ -116,6 +135,20 @@ if (!in_array($activeTab, $allowedTabs, true)) {
                     <div class="mb-3">
                         <label for="imagey" class="form-label">Image</label>
                         <input type="file" id="imagey" name="imagey" class="form-control" accept=".jpg, .jpeg, .jfif">
+                    </div>  
+                    <div class="mb-3">
+                        <label for="gallery" class="form-label">Select Gallery</label>
+                        <select id="gallery" name="gallery" class="form-select">
+                            <?php
+                            include_once('connection.php');
+                            $stmt = $conn->prepare("SELECT * FROM TblGallery");
+                            $stmt->execute();
+                            $galleries = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            foreach ($galleries as $gallery) {
+                                echo '<option value="' . htmlspecialchars($gallery['GalleryID']) . '">' . htmlspecialchars($gallery['galleryname']) . '</option>';
+                            }
+                            ?>
+                        </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Add Gallery Image</button>
                 </form>
@@ -198,7 +231,7 @@ if (!in_array($activeTab, $allowedTabs, true)) {
                     </div>
                     <div class="mb-3">
                         <label for="details" class="form-label">Details</label>
-                        <input type="text" id="details" name="details" class="form-control">
+                        <textarea id="details" name="details" class="form-control" rows="6"></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="link" class="form-label">Link URL</label>
@@ -210,7 +243,7 @@ if (!in_array($activeTab, $allowedTabs, true)) {
                     </div>
                     <div class="mb-3">
                         <label for="imagey" class="form-label">Image</label>
-                        <input type="file" id="imagey" name="imagey" class="form-control" accept=".jpg, .jpeg, .jfif">
+                        <input type="file" id="imagey" name="imagey" class="form-control" accept=".jpg, .jpeg, .jfif, .png">
                     </div>
                     <button type="submit" class="btn btn-primary">Add News item</button>
                 </form>
@@ -236,7 +269,7 @@ if (!in_array($activeTab, $allowedTabs, true)) {
                         </div>
                         <div class="mb-2">
                             <label class="form-label">Details</label>
-                            <input type="text" name="details" value="' . htmlspecialchars($item['Details']) . '" class="form-control">
+                            <textarea id="details" name="details" class="form-control" rows="6">' . htmlspecialchars($item['Details']) . '</textarea>
                         </div>
                         <div class="mb-2">
                             <label class="form-label">Link URL</label>

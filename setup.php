@@ -272,6 +272,15 @@ VALUES
    
     $stmt1->execute();
     $stmt1->closeCursor();
+    //add gallery
+     $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblGallery;
+    CREATE TABLE TblGallery 
+    (galleryID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    galleryname VARCHAR(200) NOT NULL
+   )");
+    $stmt1->execute();
+    $stmt1->closeCursor();
+//agg images - image belongs to gallery
     $stmt1 = $conn->prepare("DROP TABLE IF EXISTS TblImages;
     CREATE TABLE TblImages 
     (ImageID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -279,7 +288,8 @@ VALUES
     dateadded DATE DEFAULT (current_timestamp()),
     description VARCHAR (500) DEFAULT '',
     type VARCHAR(200),
-    current INT(1) DEFAULT 1)");
+    current INT(1) DEFAULT 1,
+    galleryID INT(4) NOT NULL)");
    #test
     $stmt1->execute();
     $stmt1->closeCursor();

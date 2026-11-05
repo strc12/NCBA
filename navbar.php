@@ -32,6 +32,9 @@
         <li class="nav-item">
           <a class="nav-link" href="gallery.php">Photo Gallery</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="oldnews.php">News Archive</a>
+        </li>
       </ul>
       <ul class="navbar-nav ms-auto">
         <?php

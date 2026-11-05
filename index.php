@@ -40,7 +40,7 @@ require_once(__DIR__ . '/sessions.php');
     echo '
     <div class="card shadow-sm">
       <div class="row g-0 d-flex align-items-stretch">
-        <div class="col-md-8 d-flex flex-column h-100">
+        <div class="col-md-6 d-flex flex-column">
           <div class="card-body d-flex flex-column h-100 justify-content-between">
             <div>
               <h1 class="text-danger fw-bold">News</h1>
@@ -59,8 +59,11 @@ require_once(__DIR__ . '/sessions.php');
 
     if (!empty($news["Picture"])) {
       echo '
-        <div class="col-md-4 d-flex align-items-end p-5">
-          <img src="./news/' . htmlspecialchars($news["Picture"]) . '" class="img-fluid rounded w-80" alt="News image">
+        <div class="col-md-5 d-flex align-items-center justify-content-center p-2">
+          <img src="./news/' . htmlspecialchars($news["Picture"]) . '" 
+               class="img-fluid rounded w-100"
+               style="height: 100%; object-fit: contain;"
+               alt="News image">
         </div>';
     }
 

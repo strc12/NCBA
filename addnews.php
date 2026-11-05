@@ -2,11 +2,11 @@
 require_once(__DIR__ . '/sessions.php');
 
 print_r($_SESSION);
-/* if (!isset($_SESSION['adloggedin']))
+ if (!isset($_SESSION['adloggedin']))
 {
     header("Location:index.php");
 }
-header("Location:admin.php"); */
+header("Location:admin.php");
 
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();

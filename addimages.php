@@ -19,16 +19,18 @@ try {
     
     // Insert record with temporary filename (can be blank or original name)
     if ($_POST['dateofupload'] != "") {
-        $stmt = $conn->prepare("INSERT INTO TblImages(ImageID, filename, dateadded, description, type, current) VALUES (NULL, :fn, :dateadded, :desc, :type, DEFAULT)");
+        $stmt = $conn->prepare("INSERT INTO TblImages(ImageID, filename, dateadded, description, type, current,galleryID) VALUES (NULL, :fn, :dateadded, :desc, :type, DEFAULT, :gid)");
         $stmt->bindParam(':fn', $_FILES["imagey"]["name"]); // temporary name
         $stmt->bindParam(':dateadded', $_POST["dateofupload"]);
         $stmt->bindParam(':desc', $_POST["desc"]);
         $stmt->bindParam(':type', $_POST["typeofdoc"]);
+        $stmt->bindParam(':gid', $_POST["galleryID"]);
     } else {
-        $stmt = $conn->prepare("INSERT INTO TblImages(ImageID, filename, dateadded, description, type, current) VALUES (NULL, :fn, DEFAULT, :desc, :type, DEFAULT)");
+        $stmt = $conn->prepare("INSERT INTO TblImages(ImageID, filename, dateadded, description, type, current,galleryID) VALUES (NULL, :fn, DEFAULT, :desc, :type, DEFAULT, :gid)");
         $stmt->bindParam(':fn', $_FILES["imagey"]["name"]);
         $stmt->bindParam(':desc', $_POST["desc"]);
         $stmt->bindParam(':type', $_POST["typeofdoc"]);
+        $stmt->bindParam(':gid', $_POST["galleryID"]);
     }
 
     $stmt->execute();
